@@ -1,0 +1,1710 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>中二數學：因式分解互動練習與小測驗 | F.2 Mathematics: Factorization</title>
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --primary-light: #eff6ff;
+      --accent: #0f766e;
+      --accent-light: #f0fdfa;
+      --quiz: #7c3aed;
+      --quiz-dark: #5b21b6;
+      --quiz-light: #f5f3ff;
+      --success: #15803d;
+      --success-bg: #dcfce7;
+      --success-border: #86efac;
+      --danger: #b91c1c;
+      --danger-bg: #fee2e2;
+      --danger-border: #fca5a5;
+      --warning: #b45309;
+      --warning-bg: #fef3c7;
+      --warning-border: #fcd34d;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #cbd5e1;
+      --shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
+      --radius: 14px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang HK", "Microsoft JhengHei", "Noto Sans TC", Roboto, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+      color: #ffffff;
+      padding: 1.25rem 1.5rem;
+      box-shadow: 0 2px 12px rgba(30, 58, 138, 0.2);
+    }
+
+    .header-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .brand h1 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+    }
+
+    .brand p {
+      font-size: 0.9rem;
+      color: #dbeafe;
+      margin-top: 0.15rem;
+    }
+
+    .home-btn {
+      background: rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .home-btn:hover {
+      background: rgba(255, 255, 255, 0.28);
+    }
+
+    /* Main Container */
+    main {
+      max-width: 1040px;
+      width: 100%;
+      margin: 1.75rem auto;
+      padding: 0 1.25rem;
+      flex: 1;
+    }
+
+    /* Navigation Tabs */
+    .mode-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 0.65rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .mode-tab {
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 0.75rem 0.85rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.18s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .mode-tab:hover {
+      border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .mode-tab.active {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      box-shadow: 0 2px 10px rgba(29, 78, 216, 0.12);
+    }
+
+    .mode-tab.quiz-tab {
+      border-color: #c4b5fd;
+      background: linear-gradient(135deg, #ffffff 0%, var(--quiz-light) 100%);
+    }
+
+    .mode-tab.quiz-tab:hover,
+    .mode-tab.quiz-tab.active {
+      border-color: var(--quiz);
+      background: var(--quiz-light);
+      box-shadow: 0 2px 12px rgba(124, 58, 237, 0.18);
+    }
+
+    .tab-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--primary);
+      letter-spacing: 0.03em;
+    }
+
+    .quiz-tab .tab-badge {
+      color: var(--quiz);
+    }
+
+    .tab-title-zh {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .tab-title-en {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      line-height: 1.25;
+    }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.75rem;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* Home / Welcome Grid */
+    .welcome-banner {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .welcome-banner h2 {
+      font-size: 1.35rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.35rem;
+    }
+
+    .welcome-banner p {
+      color: var(--text-muted);
+      font-size: 0.96rem;
+    }
+
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .chapter-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.25rem;
+      background: #ffffff;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 0.75rem;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 6px 18px rgba(29, 78, 216, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .chapter-card.quiz-card {
+      border-color: #ddd6fe;
+      background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 100%);
+    }
+
+    .chapter-card.quiz-card:hover {
+      border-color: var(--quiz);
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.16);
+    }
+
+    .chapter-num {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      margin-bottom: 0.4rem;
+    }
+
+    .quiz-card .chapter-num {
+      background: #ede9fe;
+      color: var(--quiz);
+    }
+
+    .chapter-card h3 {
+      font-size: 1.15rem;
+      color: var(--text);
+    }
+
+    .chapter-card .en-sub {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 0.4rem;
+    }
+
+    .chapter-card .desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    .chapter-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.6rem;
+      border-top: 1px dashed #e2e8f0;
+      font-size: 0.84rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .quiz-card .chapter-footer {
+      color: var(--quiz);
+    }
+
+    /* Practice & Quiz Top Status Bar */
+    .status-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding-bottom: 1rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .chapter-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--primary-light);
+      color: var(--primary-dark);
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .quiz-mode .chapter-pill {
+      background: var(--quiz-light);
+      color: var(--quiz-dark);
+    }
+
+    .stats-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .stat-chip {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 0.38rem 0.8rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .timer-chip {
+      background: var(--quiz-light);
+      border: 1px solid #c4b5fd;
+      color: var(--quiz-dark);
+      font-variant-numeric: tabular-nums;
+      font-size: 0.96rem;
+      font-weight: 700;
+      padding: 0.4rem 0.9rem;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .timer-chip.warning {
+      background: var(--warning-bg);
+      border-color: var(--warning-border);
+      color: var(--warning);
+    }
+
+    .timer-chip.danger {
+      background: var(--danger-bg);
+      border-color: var(--danger-border);
+      color: var(--danger);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.65; }
+    }
+
+    /* Progress Bar */
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 1.35rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--quiz), #9333ea);
+      transition: width 0.3s ease;
+    }
+
+    /* Question Box */
+    .question-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .q-number {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .attempts-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.88rem;
+      font-weight: 700;
+      padding: 0.28rem 0.75rem;
+      border-radius: 999px;
+      background: #fef2f2;
+      color: #dc2626;
+      border: 1px solid #fecaca;
+    }
+
+    .attempts-badge.one-left {
+      background: var(--warning-bg);
+      color: var(--warning);
+      border-color: var(--warning-border);
+    }
+
+    .prompt-bilingual {
+      background: #f8fafc;
+      border-left: 4px solid var(--primary);
+      padding: 0.9rem 1.15rem;
+      border-radius: 0 10px 10px 0;
+      margin-bottom: 1.25rem;
+    }
+
+    .quiz-mode .prompt-bilingual {
+      border-left-color: var(--quiz);
+    }
+
+    .prompt-zh {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .prompt-en {
+      font-size: 0.94rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    /* Mathematical Expression Styling */
+    .math-display {
+      text-align: center;
+      background: #ffffff;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.4rem 1rem;
+      margin-bottom: 1.4rem;
+      font-family: "Times New Roman", "Cambria Math", Georgia, serif;
+      font-size: 1.85rem;
+      letter-spacing: 0.03em;
+      color: #0f172a;
+      box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.04);
+      overflow-x: auto;
+    }
+
+    .math-display i,
+    .option-math i,
+    .solution-box i,
+    .review-math i {
+      font-style: italic;
+      font-family: "Times New Roman", "Cambria Math", Georgia, serif;
+    }
+
+    .math-display sup,
+    .option-math sup,
+    .solution-box sup,
+    .review-math sup {
+      font-size: 0.68em;
+      line-height: 0;
+      position: relative;
+      vertical-align: baseline;
+      top: -0.48em;
+    }
+
+    /* MCQ Options Grid */
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+      margin-bottom: 1.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .options-grid {
+        grid-template-columns: 1fr;
+      }
+      .math-display {
+        font-size: 1.55rem;
+      }
+    }
+
+    .option-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 0.9rem 1.1rem;
+      text-align: left;
+      cursor: pointer;
+      transition: all 0.16s ease;
+      position: relative;
+    }
+
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--primary);
+      background: var(--primary-light);
+      transform: translateY(-1px);
+    }
+
+    .quiz-mode .option-btn:hover:not(:disabled) {
+      border-color: var(--quiz);
+      background: var(--quiz-light);
+    }
+
+    .option-btn:disabled {
+      cursor: default;
+    }
+
+    .option-letter {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #f1f5f9;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.16s;
+    }
+
+    .option-btn:hover:not(:disabled) .option-letter {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .quiz-mode .option-btn:hover:not(:disabled) .option-letter {
+      background: var(--quiz);
+      color: #ffffff;
+    }
+
+    .option-math {
+      font-family: "Times New Roman", "Cambria Math", Georgia, serif;
+      font-size: 1.3rem;
+      color: var(--text);
+      letter-spacing: 0.02em;
+    }
+
+    /* Option States */
+    .option-btn.correct {
+      border-color: var(--success);
+      background: var(--success-bg);
+    }
+
+    .option-btn.correct .option-letter {
+      background: var(--success);
+      color: #ffffff;
+    }
+
+    .option-btn.wrong {
+      border-color: var(--danger);
+      background: var(--danger-bg);
+      opacity: 0.88;
+    }
+
+    .option-btn.wrong .option-letter {
+      background: var(--danger);
+      color: #ffffff;
+    }
+
+    /* Feedback Banner */
+    .feedback-banner {
+      padding: 0.9rem 1.15rem;
+      border-radius: 10px;
+      margin-bottom: 1.15rem;
+      font-weight: 600;
+      font-size: 0.96rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .feedback-banner.success {
+      background: var(--success-bg);
+      border: 1px solid var(--success-border);
+      color: var(--success);
+    }
+
+    .feedback-banner.warning {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-border);
+      color: var(--warning);
+    }
+
+    .feedback-banner.danger {
+      background: var(--danger-bg);
+      border: 1px solid var(--danger-border);
+      color: var(--danger);
+    }
+
+    /* Step-by-step Solution Box */
+    .solution-box {
+      background: #f8fafc;
+      border: 2px solid #93c5fd;
+      border-radius: 12px;
+      padding: 1.25rem 1.35rem;
+      margin-bottom: 1.35rem;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .solution-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.6rem;
+      border-bottom: 1px solid #dbeafe;
+    }
+
+    .solution-title {
+      font-size: 1.02rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .method-tag {
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: #dbeafe;
+      color: var(--primary-dark);
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .solution-steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .solution-steps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.96rem;
+      color: var(--text);
+    }
+
+    .step-num {
+      background: var(--primary);
+      color: #ffffff;
+      font-size: 0.76rem;
+      font-weight: 700;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.2rem;
+    }
+
+    /* Action Buttons */
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.78rem 1.5rem;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-quiz {
+      background: var(--quiz);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.82rem 1.65rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .btn-quiz:hover {
+      background: var(--quiz-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #f1f5f9;
+      color: var(--text);
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.94rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.18s;
+    }
+
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    /* Quiz Intro Box */
+    .quiz-intro {
+      max-width: 680px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .quiz-intro h2 {
+      font-size: 1.5rem;
+      color: var(--quiz-dark);
+      margin-bottom: 0.4rem;
+    }
+
+    .quiz-intro .sub {
+      color: var(--text-muted);
+      margin-bottom: 1.4rem;
+    }
+
+    .rules-list {
+      text-align: left;
+      background: var(--quiz-light);
+      border: 1px solid #ddd6fe;
+      border-radius: 12px;
+      padding: 1.25rem 1.4rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .rule-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.95rem;
+    }
+
+    .rule-icon {
+      font-size: 1.15rem;
+      line-height: 1.4;
+    }
+
+    /* Quiz Results Summary */
+    .result-hero {
+      text-align: center;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, var(--quiz-light) 0%, #eff6ff 100%);
+      border-radius: 14px;
+      border: 1px solid #ddd6fe;
+      margin-bottom: 1.5rem;
+    }
+
+    .score-circle {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 138px;
+      height: 138px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 6px solid var(--quiz);
+      box-shadow: 0 6px 18px rgba(124, 58, 237, 0.16);
+      margin: 0.85rem 0;
+    }
+
+    .score-big {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--quiz-dark);
+      line-height: 1.1;
+    }
+
+    .score-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .breakdown-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .breakdown-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+
+    .breakdown-card .b-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .breakdown-card .b-val {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-top: 0.2rem;
+    }
+
+    .review-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .review-item {
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      background: #ffffff;
+    }
+
+    .review-item.r-correct {
+      border-left: 5px solid var(--success);
+    }
+
+    .review-item.r-wrong {
+      border-left: 5px solid var(--danger);
+    }
+
+    .review-item.r-unanswered {
+      border-left: 5px solid #94a3b8;
+    }
+
+    .review-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.45rem;
+    }
+
+    .review-status {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.18rem 0.6rem;
+      border-radius: 6px;
+    }
+
+    .r-correct .review-status {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .r-wrong .review-status {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .r-unanswered .review-status {
+      background: #f1f5f9;
+      color: #475569;
+    }
+
+    .review-math {
+      font-family: "Times New Roman", "Cambria Math", Georgia, serif;
+      font-size: 1.15rem;
+      margin: 0.35rem 0;
+    }
+
+    .review-steps {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed #e2e8f0;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.25rem;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <div class="brand">
+        <h1>中二數學：因式分解互動練習與小測驗</h1>
+        <p>F.2 Mathematics: Interactive Factorization Practice &amp; Mini Quiz</p>
+      </div>
+      <button class="home-btn" onclick="goHome()">🏠 返回主頁 / Home</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 5 Chapters + Mini Quiz Navigation Bar -->
+    <nav class="mode-bar" aria-label="章節與測驗選擇">
+      <button class="mode-tab" id="tab-common" onclick="startPractice('common')">
+        <span class="tab-badge">章節 1 / Ch. 1</span>
+        <span class="tab-title-zh">提取公因式</span>
+        <span class="tab-title-en">Taking out the common factor</span>
+      </button>
+      <button class="mode-tab" id="tab-grouping" onclick="startPractice('grouping')">
+        <span class="tab-badge">章節 2 / Ch. 2</span>
+        <span class="tab-title-zh">併項法</span>
+        <span class="tab-title-en">Grouping terms</span>
+      </button>
+      <button class="mode-tab" id="tab-diff_squares" onclick="startPractice('diff_squares')">
+        <span class="tab-badge">章節 3 / Ch. 3</span>
+        <span class="tab-title-zh">平方差</span>
+        <span class="tab-title-en">Difference of two squares</span>
+      </button>
+      <button class="mode-tab" id="tab-perfect_square" onclick="startPractice('perfect_square')">
+        <span class="tab-badge">章節 4 / Ch. 4</span>
+        <span class="tab-title-zh">完全平方</span>
+        <span class="tab-title-en">Perfect square</span>
+      </button>
+      <button class="mode-tab" id="tab-mixed" onclick="startPractice('mixed')">
+        <span class="tab-badge">章節 5 / Ch. 5</span>
+        <span class="tab-title-zh">綜合題</span>
+        <span class="tab-title-en">Mixed / Comprehensive</span>
+      </button>
+      <button class="mode-tab quiz-tab" id="tab-quiz" onclick="showQuizIntro()">
+        <span class="tab-badge">限時挑戰 / Timed Test</span>
+        <span class="tab-title-zh">⏱️ 小測驗 (20題)</span>
+        <span class="tab-title-en">15 Mins · 2 Chances / Q</span>
+      </button>
+    </nav>
+
+    <!-- VIEW 1: HOME SCREEN -->
+    <section id="view-home" class="card">
+      <div class="welcome-banner">
+        <h2>歡迎來到中二級「因式分解」自主學習平台！</h2>
+        <p>Welcome to F.2 Factorization Self-Learning Platform! 請選擇以下五個練習章節鞏固基礎，或挑戰 15 分鐘「小測驗」檢視學習成果。</p>
+      </div>
+
+      <div class="chapter-grid">
+        <div class="chapter-card" onclick="startPractice('common')">
+          <div>
+            <span class="chapter-num">章節 1 · Chapter 1</span>
+            <h3>提取公因式</h3>
+            <div class="en-sub">Taking out the common factor</div>
+            <p class="desc">涵蓋基本公因式、負公因式及括號公因式（如 (<i>y</i> − <i>x</i>) = −(<i>x</i> − <i>y</i>) 變號技巧）。</p>
+          </div>
+          <div class="chapter-footer">
+            <span>即時顯示詳細題解</span>
+            <span>開始練習 →</span>
+          </div>
+        </div>
+
+        <div class="chapter-card" onclick="startPractice('grouping')">
+          <div>
+            <span class="chapter-num">章節 2 · Chapter 2</span>
+            <h3>併項法</h3>
+            <div class="en-sub">Grouping terms</div>
+            <p class="desc">學習將四項代數式兩兩分組、適當重排次序及處理括號前的正負號。</p>
+          </div>
+          <div class="chapter-footer">
+            <span>即時顯示詳細題解</span>
+            <span>開始練習 →</span>
+          </div>
+        </div>
+
+        <div class="chapter-card" onclick="startPractice('diff_squares')">
+          <div>
+            <span class="chapter-num">章節 3 · Chapter 3</span>
+            <h3>平方差</h3>
+            <div class="en-sub">Difference of two squares</div>
+            <p class="desc">運用恆等式 <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>)，包括先提取公因式再分解。</p>
+          </div>
+          <div class="chapter-footer">
+            <span>即時顯示詳細題解</span>
+            <span>開始練習 →</span>
+          </div>
+        </div>
+
+        <div class="chapter-card" onclick="startPractice('perfect_square')">
+          <div>
+            <span class="chapter-num">章節 4 · Chapter 4</span>
+            <h3>完全平方</h3>
+            <div class="en-sub">Perfect square</div>
+            <p class="desc">運用完全平方恆等式 <i>a</i><sup>2</sup> ± 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> ± <i>b</i>)<sup>2</sup>，包括提取公因式或負號。</p>
+          </div>
+          <div class="chapter-footer">
+            <span>即時顯示詳細題解</span>
+            <span>開始練習 →</span>
+          </div>
+        </div>
+
+        <div class="chapter-card" onclick="startPractice('mixed')">
+          <div>
+            <span class="chapter-num">章節 5 · Chapter 5</span>
+            <h3>綜合題</h3>
+            <div class="en-sub">Comprehensive Practice</div>
+            <p class="desc">隨機混合四種因式分解方法，訓練同學辨識題型及靈活選擇最合適的分解策略。</p>
+          </div>
+          <div class="chapter-footer">
+            <span>即時顯示詳細題解</span>
+            <span>開始練習 →</span>
+          </div>
+        </div>
+
+        <div class="chapter-card quiz-card" onclick="showQuizIntro()">
+          <div>
+            <span class="chapter-num">小測驗 · Mini Quiz</span>
+            <h3>⏱️ 20 題限時小測驗</h3>
+            <div class="en-sub">20 MCQs · 15 Minutes · 2 Attempts</div>
+            <p class="desc">綜合考核四種因式分解方法。限時 15 分鐘，每題 2 次作答機會，答對或用盡機會後顯示題解。</p>
+          </div>
+          <div class="chapter-footer">
+            <span>自動計時與成績結算</span>
+            <span>進入測驗 →</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 2: CHAPTER PRACTICE SCREEN -->
+    <section id="view-practice" class="card hidden">
+      <div class="status-header">
+        <div class="chapter-pill" id="practice-chapter-label">提取公因式 (Taking out the common factor)</div>
+        <div class="stats-group">
+          <div class="stat-chip">已練習 / Practiced: <span id="p-total">0</span></div>
+          <div class="stat-chip">答對 / Correct: <span id="p-correct">0</span> (<span id="p-rate">0%</span>)</div>
+        </div>
+      </div>
+
+      <div class="question-meta">
+        <span class="q-number" id="p-q-index">第 1 題 / Question 1</span>
+      </div>
+
+      <div class="prompt-bilingual">
+        <div class="prompt-zh">因式分解下列代數式。</div>
+        <div class="prompt-en">Factorize the following expression.</div>
+      </div>
+
+      <div class="math-display" id="p-expr"></div>
+
+      <div class="options-grid" id="p-options"></div>
+
+      <div id="p-feedback" class="feedback-banner hidden"></div>
+
+      <div id="p-solution" class="solution-box hidden">
+        <div class="solution-header">
+          <span class="solution-title">📝 詳細步驟題解 / Step-by-Step Solution</span>
+          <span class="method-tag" id="p-method-tag"></span>
+        </div>
+        <ol class="solution-steps" id="p-steps"></ol>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-secondary" onclick="goHome()">更換章節 / Change Chapter</button>
+        <button class="btn-primary hidden" id="p-next-btn" onclick="nextPracticeQuestion()">下一題 / Next Question →</button>
+      </div>
+    </section>
+
+    <!-- VIEW 3: MINI QUIZ INTRO SCREEN -->
+    <section id="view-quiz-intro" class="card hidden">
+      <div class="quiz-intro">
+        <h2>⏱️ 中二因式分解小測驗 (Mini Quiz)</h2>
+        <p class="sub">F.2 Factorization Assessment — All Four Methods</p>
+
+        <div class="rules-list">
+          <div class="rule-item">
+            <span class="rule-icon">📋</span>
+            <div><strong>測驗題數 (Questions)：</strong>共 <strong>20 題</strong>多項選擇題（A、B、C、D 四選一），題目隨機選自全部四種因式分解方法，並附中英對照。</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-icon">⏳</span>
+            <div><strong>作答時限 (Time Limit)：</strong><strong>15 分鐘 (15:00)</strong>。時間一到系統將自動停止作答並結算總答對題數。</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-icon">🎯</span>
+            <div><strong>作答機會 (Chances)：</strong>每題共有 <strong>2 次作答機會</strong>。若第一次答錯，可再嘗試一次；只有<strong>答對題目</strong>或<strong>用盡 2 次機會後仍然答錯</strong>，系統才會即時顯示詳細步驟題解。</div>
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: center; gap: 0.85rem; flex-wrap: wrap;">
+          <button class="btn-secondary" onclick="goHome()">返回主頁 / Back</button>
+          <button class="btn-quiz" onclick="startQuiz()">🚀 開始小測驗 / Start Mini Quiz</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VIEW 4: MINI QUIZ ACTIVE SCREEN -->
+    <section id="view-quiz-active" class="card quiz-mode hidden">
+      <div class="status-header">
+        <div class="chapter-pill">⏱️ 小測驗 / Mini Quiz</div>
+        <div class="stats-group">
+          <div class="stat-chip">題號 / Progress: <span id="q-progress-text">1 / 20</span></div>
+          <div class="stat-chip">目前答對 / Score: <span id="q-score-text">0</span></div>
+          <div class="timer-chip" id="q-timer">⏳ 15:00</div>
+        </div>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="q-progress-bar" style="width: 5%;"></div>
+      </div>
+
+      <div class="question-meta">
+        <span class="q-number" id="q-num-label">第 1 題（共 20 題） / Question 1 of 20</span>
+        <span class="attempts-badge" id="q-attempts-badge">❤️❤️ 剩餘機會 / Chances left: 2 / 2</span>
+      </div>
+
+      <div class="prompt-bilingual">
+        <div class="prompt-zh">因式分解下列代數式。</div>
+        <div class="prompt-en">Factorize the following expression.</div>
+      </div>
+
+      <div class="math-display" id="q-expr"></div>
+
+      <div class="options-grid" id="q-options"></div>
+
+      <div id="q-feedback" class="feedback-banner hidden"></div>
+
+      <div id="q-solution" class="solution-box hidden">
+        <div class="solution-header">
+          <span class="solution-title">📝 詳細步驟題解 / Step-by-Step Solution</span>
+          <span class="method-tag" id="q-method-tag"></span>
+        </div>
+        <ol class="solution-steps" id="q-steps"></ol>
+      </div>
+
+      <div class="action-row">
+        <button class="btn-quiz hidden" id="q-next-btn" onclick="nextQuizQuestion()">下一題 / Next Question →</button>
+      </div>
+    </section>
+
+    <!-- VIEW 5: MINI QUIZ RESULTS SCREEN -->
+    <section id="view-quiz-result" class="card hidden">
+      <div class="result-hero">
+        <div id="r-end-reason" style="font-weight: 700; color: var(--quiz-dark); font-size: 1.05rem;">🎉 測驗完成！ / Quiz Completed!</div>
+        <div class="score-circle">
+          <span class="score-big" id="r-score">0 / 20</span>
+          <span class="score-label">答對題數 / Correct</span>
+        </div>
+        <div id="r-percent" style="font-size: 1.15rem; font-weight: 700; color: var(--text);">得分率：0% · 用時：00:00</div>
+        <p id="r-comment" style="color: var(--text-muted); margin-top: 0.45rem; font-size: 0.96rem;"></p>
+      </div>
+
+      <h3 style="margin-bottom: 0.75rem; color: var(--primary-dark);">📊 各方法表現分析 / Performance by Method</h3>
+      <div class="breakdown-grid" id="r-breakdown"></div>
+
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; margin-top: 1.5rem; margin-bottom: 0.5rem;">
+        <h3 style="color: var(--primary-dark);">📖 全部 20 題作答紀錄與題解回顧 / Full Review</h3>
+        <div style="display: flex; gap: 0.65rem;">
+          <button class="btn-secondary" onclick="goHome()">返回章節練習 / Practice</button>
+          <button class="btn-quiz" onclick="startQuiz()">🔄 重新小測驗 / Retake Quiz</button>
+        </div>
+      </div>
+
+      <div class="review-list" id="r-review-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    香港中二級數學科 · Ch.2 恆等式與因式分解 (Identities and Factorization) 互動教學軟件
+  </footer>
+
+  <script>
+    // =========================================================================
+    // QUESTION BANK (80 Verified F.2 Questions from All 6 Worksheets)
+    // =========================================================================
+    const QUESTION_BANK = [{"id": "CF01", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "7<i>a</i> + 21<i>b</i>", "answer": "7(<i>a</i> + 3<i>b</i>)", "distractors": ["7(<i>a</i> + 21<i>b</i>)", "7(<i>a</i> − 3<i>b</i>)", "21(<i>a</i> + <i>b</i>)"], "steps": ["找出 7<i>a</i> 和 21<i>b</i> 的最大公因數 (H.C.F.)，即 7。 / Find the H.C.F. of 7<i>a</i> and 21<i>b</i>, which is 7.", "提取公因式 7：7<i>a</i> + 21<i>b</i> = 7(<i>a</i>) + 7(3<i>b</i>) / Take out the common factor 7.", "得出結果：7(<i>a</i> + 3<i>b</i>) / Final answer: 7(<i>a</i> + 3<i>b</i>)"]}, {"id": "CF02", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "−5<i>a</i> + 10", "answer": "−5(<i>a</i> − 2)", "distractors": ["−5(<i>a</i> + 2)", "−5(<i>a</i> − 10)", "5(<i>a</i> − 2)"], "steps": ["首項係數為負數，提取負公因式 −5。 / Since the leading term is negative, take out −5.", "注意括號內各項需變號：−5<i>a</i> + 10 = −5(<i>a</i>) − 5(−2) / Remember to change the signs inside the bracket.", "得出結果：−5(<i>a</i> − 2) / Final answer: −5(<i>a</i> − 2)"]}, {"id": "CF03", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "−12<i>b</i> − 36", "answer": "−12(<i>b</i> + 3)", "distractors": ["−12(<i>b</i> − 3)", "−12(<i>b</i> + 36)", "12(<i>b</i> + 3)"], "steps": ["兩項均為負數，提取公因式 −12。 / Both terms are negative; take out the common factor −12.", "−12<i>b</i> − 36 = −12(<i>b</i>) + (−12)(3) / Divide each term by −12.", "得出結果：−12(<i>b</i> + 3) / Final answer: −12(<i>b</i> + 3)"]}, {"id": "CF04", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "8<i>x</i> + 4<i>y</i> − 12", "answer": "4(2<i>x</i> + <i>y</i> − 3)", "distractors": ["4(2<i>x</i> + 4<i>y</i> − 3)", "4(2<i>x</i> + <i>y</i> + 3)", "2(4<i>x</i> + 2<i>y</i> − 6)"], "steps": ["找出三項 8<i>x</i>、4<i>y</i> 及 −12 的最大公因數，即 4。 / The H.C.F. of 8, 4 and 12 is 4.", "提取公因式 4：4(2<i>x</i>) + 4(<i>y</i>) − 4(3) / Take out the common factor 4.", "得出結果：4(2<i>x</i> + <i>y</i> − 3) / Final answer: 4(2<i>x</i> + <i>y</i> − 3)"]}, {"id": "CF05", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "−<i>ab</i> − <i>a</i>", "answer": "−<i>a</i>(<i>b</i> + 1)", "distractors": ["−<i>a</i>(<i>b</i> − 1)", "−<i>ab</i>", "<i>a</i>(−<i>b</i> + 1)"], "steps": ["提取負公因式 −<i>a</i>。 / Take out the common factor −<i>a</i>.", "注意第二項 −<i>a</i> ÷ (−<i>a</i>) = +1，切勿遺漏 1。 / Note that −<i>a</i> ÷ (−<i>a</i>) = +1; do not omit 1.", "得出結果：−<i>a</i>(<i>b</i> + 1) / Final answer: −<i>a</i>(<i>b</i> + 1)"]}, {"id": "CF06", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "6<i>e</i><sup>3</sup> + <i>e</i>", "answer": "<i>e</i>(6<i>e</i><sup>2</sup> + 1)", "distractors": ["<i>e</i>(6<i>e</i><sup>2</sup>)", "<i>e</i>(6<i>e</i><sup>3</sup> + 1)", "6<i>e</i>(<i>e</i><sup>2</sup> + 1)"], "steps": ["找出 6<i>e</i><sup>3</sup> 和 <i>e</i> 的公因式，即 <i>e</i>。 / The common factor of 6<i>e</i><sup>3</sup> and <i>e</i> is <i>e</i>.", "6<i>e</i><sup>3</sup> + <i>e</i> = <i>e</i>(6<i>e</i><sup>2</sup>) + <i>e</i>(1) / Divide each term by <i>e</i>.", "得出結果：<i>e</i>(6<i>e</i><sup>2</sup> + 1) / Final answer: <i>e</i>(6<i>e</i><sup>2</sup> + 1)"]}, {"id": "CF07", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "−12<i>ab</i> − 20<i>bc</i>", "answer": "−4<i>b</i>(3<i>a</i> + 5<i>c</i>)", "distractors": ["−4<i>b</i>(3<i>a</i> − 5<i>c</i>)", "−4(3<i>ab</i> + 5<i>bc</i>)", "4<i>b</i>(3<i>a</i> + 5<i>c</i>)"], "steps": ["係數 −12 和 −20 的公因數為 −4，變數公因式為 <i>b</i>，故最大公因式為 −4<i>b</i>。 / The H.C.F. is −4<i>b</i>.", "提取 −4<i>b</i> 後，括號內變為正號：−4<i>b</i>(3<i>a</i> + 5<i>c</i>) / Take out −4<i>b</i> and flip signs inside.", "得出結果：−4<i>b</i>(3<i>a</i> + 5<i>c</i>) / Final answer: −4<i>b</i>(3<i>a</i> + 5<i>c</i>)"]}, {"id": "CF08", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "4<i>ax</i> − 12<i>a</i><sup>2</sup><i>y</i>", "answer": "4<i>a</i>(<i>x</i> − 3<i>ay</i>)", "distractors": ["4<i>a</i>(<i>x</i> − 3<i>y</i>)", "4<i>a</i>(<i>x</i> + 3<i>ay</i>)", "4(<i>ax</i> − 3<i>a</i><sup>2</sup><i>y</i>)"], "steps": ["找出 4<i>ax</i> 和 12<i>a</i><sup>2</sup><i>y</i> 的最大公因式：數字部分為 4，變數部分為 <i>a</i>，即 4<i>a</i>。 / The H.C.F. is 4<i>a</i>.", "4<i>ax</i> − 12<i>a</i><sup>2</sup><i>y</i> = 4<i>a</i>(<i>x</i>) − 4<i>a</i>(3<i>ay</i>) / Divide each term by 4<i>a</i>.", "得出結果：4<i>a</i>(<i>x</i> − 3<i>ay</i>) / Final answer: 4<i>a</i>(<i>x</i> − 3<i>ay</i>)"]}, {"id": "CF09", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "7<i>a</i><sup>2</sup> + 14<i>a</i><sup>3</sup>", "answer": "7<i>a</i><sup>2</sup>(1 + 2<i>a</i>)", "distractors": ["7<i>a</i><sup>2</sup>(2<i>a</i>)", "7<i>a</i>(<i>a</i> + 2<i>a</i><sup>2</sup>)", "7<i>a</i><sup>2</sup>(1 + 2<i>a</i><sup>2</sup>)"], "steps": ["找出 7<i>a</i><sup>2</sup> 和 14<i>a</i><sup>3</sup> 的最大公因式，即 7<i>a</i><sup>2</sup>。 / The H.C.F. of 7<i>a</i><sup>2</sup> and 14<i>a</i><sup>3</sup> is 7<i>a</i><sup>2</sup>.", "提取 7<i>a</i><sup>2</sup>：7<i>a</i><sup>2</sup>(1) + 7<i>a</i><sup>2</sup>(2<i>a</i>) / Take out 7<i>a</i><sup>2</sup>.", "得出結果：7<i>a</i><sup>2</sup>(1 + 2<i>a</i>) / Final answer: 7<i>a</i><sup>2</sup>(1 + 2<i>a</i>)"]}, {"id": "CF10", "category": "common", "source": "Taking Out Common Factors (Class Ex)", "expr": "−<i>m</i><sup>2</sup><i>n</i><sup>3</sup> − <i>m</i><sup>3</sup><i>n</i><sup>2</sup>", "answer": "−<i>m</i><sup>2</sup><i>n</i><sup>2</sup>(<i>n</i> + <i>m</i>)", "distractors": ["−<i>m</i><sup>2</sup><i>n</i><sup>2</sup>(<i>n</i> − <i>m</i>)", "−<i>mn</i>(<i>mn</i><sup>2</sup> + <i>m</i><sup>2</sup><i>n</i>)", "<i>m</i><sup>2</sup><i>n</i><sup>2</sup>(<i>n</i> + <i>m</i>)"], "steps": ["找出 −<i>m</i><sup>2</sup><i>n</i><sup>3</sup> 和 −<i>m</i><sup>3</sup><i>n</i><sup>2</sup> 的最大公因式：取最低次冪並帶負號，即 −<i>m</i><sup>2</sup><i>n</i><sup>2</sup>。 / Take out the H.C.F. −<i>m</i><sup>2</sup><i>n</i><sup>2</sup>.", "−<i>m</i><sup>2</sup><i>n</i><sup>3</sup> − <i>m</i><sup>3</sup><i>n</i><sup>2</sup> = −<i>m</i><sup>2</sup><i>n</i><sup>2</sup>(<i>n</i>) − <i>m</i><sup>2</sup><i>n</i><sup>2</sup>(<i>m</i>) / Divide each term by −<i>m</i><sup>2</sup><i>n</i><sup>2</sup>.", "得出結果：−<i>m</i><sup>2</sup><i>n</i><sup>2</sup>(<i>n</i> + <i>m</i>) / Final answer: −<i>m</i><sup>2</sup><i>n</i><sup>2</sup>(<i>n</i> + <i>m</i>)"]}, {"id": "CF11", "category": "common", "source": "Taking Out Common Factors (Supp. Ex)", "expr": "18<i>ab</i><sup>2</sup> + 6<i>a</i><sup>2</sup><i>b</i>", "answer": "6<i>ab</i>(3<i>b</i> + <i>a</i>)", "distractors": ["6<i>ab</i>(3<i>a</i> + <i>b</i>)", "6<i>a</i><sup>2</sup><i>b</i><sup>2</sup>(3 + 1)", "3<i>ab</i>(6<i>b</i> + 2<i>a</i>)"], "steps": ["找出 18<i>ab</i><sup>2</sup> 和 6<i>a</i><sup>2</sup><i>b</i> 的最大公因式，即 6<i>ab</i>。 / The H.C.F. of 18<i>ab</i><sup>2</sup> and 6<i>a</i><sup>2</sup><i>b</i> is 6<i>ab</i>.", "提取 6<i>ab</i>：6<i>ab</i>(3<i>b</i>) + 6<i>ab</i>(<i>a</i>) / Take out 6<i>ab</i>.", "得出結果：6<i>ab</i>(3<i>b</i> + <i>a</i>) / Final answer: 6<i>ab</i>(3<i>b</i> + <i>a</i>)"]}, {"id": "CF12", "category": "common", "source": "Taking Out Common Factors (Supp. Ex)", "expr": "35<i>s</i><sup>2</sup><i>t</i> − 14<i>st</i>", "answer": "7<i>st</i>(5<i>s</i> − 2)", "distractors": ["7<i>st</i>(5<i>s</i> + 2)", "7<i>s</i>(5<i>st</i> − 2<i>t</i>)", "7<i>st</i>(5<i>s</i><sup>2</sup> − 2)"], "steps": ["找出 35<i>s</i><sup>2</sup><i>t</i> 和 14<i>st</i> 的最大公因式，即 7<i>st</i>。 / The H.C.F. of 35<i>s</i><sup>2</sup><i>t</i> and 14<i>st</i> is 7<i>st</i>.", "提取 7<i>st</i>：7<i>st</i>(5<i>s</i>) − 7<i>st</i>(2) / Take out 7<i>st</i>.", "得出結果：7<i>st</i>(5<i>s</i> − 2) / Final answer: 7<i>st</i>(5<i>s</i> − 2)"]}, {"id": "CF13", "category": "common", "source": "Taking Out Common Factors (Supp. Ex)", "expr": "−4<i>x</i><sup>2</sup> − 36<i>x</i>", "answer": "−4<i>x</i>(<i>x</i> + 9)", "distractors": ["−4<i>x</i>(<i>x</i> − 9)", "−4(<i>x</i><sup>2</sup> + 9<i>x</i>)", "4<i>x</i>(<i>x</i> + 9)"], "steps": ["兩項均有負號，最大公因式為 −4<i>x</i>。 / Both terms are negative; the H.C.F. is −4<i>x</i>.", "−4<i>x</i><sup>2</sup> − 36<i>x</i> = −4<i>x</i>(<i>x</i>) − 4<i>x</i>(9) / Take out −4<i>x</i>.", "得出結果：−4<i>x</i>(<i>x</i> + 9) / Final answer: −4<i>x</i>(<i>x</i> + 9)"]}, {"id": "CF14", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "<i>x</i>(<i>y</i> − 3) + (<i>y</i> − 3)", "answer": "(<i>y</i> − 3)(<i>x</i> + 1)", "distractors": ["(<i>y</i> − 3)<i>x</i>", "(<i>y</i> − 3)(<i>x</i> − 1)", "<i>x</i>(<i>y</i> − 3)<sup>2</sup>"], "steps": ["將 (<i>y</i> − 3) 視為公因式，第二項可寫成 + 1(<i>y</i> − 3)。 / Treat (<i>y</i> − 3) as the common factor; rewrite the second term as + 1(<i>y</i> − 3).", "提取公因式 (<i>y</i> − 3)：(<i>y</i> − 3)(<i>x</i> + 1) / Take out (<i>y</i> − 3).", "得出結果：(<i>y</i> − 3)(<i>x</i> + 1) / Final answer: (<i>y</i> − 3)(<i>x</i> + 1)"]}, {"id": "CF15", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "2<i>p</i>(<i>u</i> + 2) − (<i>u</i> + 2)", "answer": "(<i>u</i> + 2)(2<i>p</i> − 1)", "distractors": ["(<i>u</i> + 2)(2<i>p</i> + 1)", "2<i>p</i>(<i>u</i> + 2)", "(<i>u</i> + 2)(2<i>p</i> − 2)"], "steps": ["公因式為 (<i>u</i> + 2)，第二項 −(<i>u</i> + 2) 即 −1(<i>u</i> + 2)。 / The common factor is (<i>u</i> + 2), and −(<i>u</i> + 2) = −1(<i>u</i> + 2).", "提取公因式 (<i>u</i> + 2)：(<i>u</i> + 2)(2<i>p</i> − 1) / Take out (<i>u</i> + 2).", "得出結果：(<i>u</i> + 2)(2<i>p</i> − 1) / Final answer: (<i>u</i> + 2)(2<i>p</i> − 1)"]}, {"id": "CF16", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "<i>m</i>(<i>x</i> − <i>y</i>) + <i>n</i>(<i>y</i> − <i>x</i>)", "answer": "(<i>x</i> − <i>y</i>)(<i>m</i> − <i>n</i>)", "distractors": ["(<i>x</i> − <i>y</i>)(<i>m</i> + <i>n</i>)", "(<i>y</i> − <i>x</i>)(<i>m</i> − <i>n</i>)", "(<i>x</i> + <i>y</i>)(<i>m</i> − <i>n</i>)"], "steps": ["利用恆等式 (<i>y</i> − <i>x</i>) = −(<i>x</i> − <i>y</i>) 統一括號。 / Use (<i>y</i> − <i>x</i>) = −(<i>x</i> − <i>y</i>) to make the brackets identical.", "原式 = <i>m</i>(<i>x</i> − <i>y</i>) − <i>n</i>(<i>x</i> − <i>y</i>) / Rewrite the expression.", "提取公因式 (<i>x</i> − <i>y</i>)：(<i>x</i> − <i>y</i>)(<i>m</i> − <i>n</i>) / Final answer: (<i>x</i> − <i>y</i>)(<i>m</i> − <i>n</i>)"]}, {"id": "CF17", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "<i>m</i>(<i>x</i> − <i>y</i>) − <i>n</i>(<i>y</i> − <i>x</i>)", "answer": "(<i>x</i> − <i>y</i>)(<i>m</i> + <i>n</i>)", "distractors": ["(<i>x</i> − <i>y</i>)(<i>m</i> − <i>n</i>)", "(<i>y</i> − <i>x</i>)(<i>m</i> + <i>n</i>)", "−(<i>x</i> − <i>y</i>)(<i>m</i> + <i>n</i>)"], "steps": ["因為 (<i>y</i> − <i>x</i>) = −(<i>x</i> − <i>y</i>)，所以 −<i>n</i>(<i>y</i> − <i>x</i>) = +<i>n</i>(<i>x</i> − <i>y</i>)。 / Since (<i>y</i> − <i>x</i>) = −(<i>x</i> − <i>y</i>), −<i>n</i>(<i>y</i> − <i>x</i>) becomes +<i>n</i>(<i>x</i> − <i>y</i>).", "原式 = <i>m</i>(<i>x</i> − <i>y</i>) + <i>n</i>(<i>x</i> − <i>y</i>) / Rewrite with common bracket (<i>x</i> − <i>y</i>).", "提取公因式 (<i>x</i> − <i>y</i>)：(<i>x</i> − <i>y</i>)(<i>m</i> + <i>n</i>) / Final answer: (<i>x</i> − <i>y</i>)(<i>m</i> + <i>n</i>)"]}, {"id": "CF18", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "2<i>p</i>(3<i>x</i> − <i>y</i>) − <i>r</i>(<i>y</i> − 3<i>x</i>)", "answer": "(3<i>x</i> − <i>y</i>)(2<i>p</i> + <i>r</i>)", "distractors": ["(3<i>x</i> − <i>y</i>)(2<i>p</i> − <i>r</i>)", "(<i>y</i> − 3<i>x</i>)(2<i>p</i> + <i>r</i>)", "(3<i>x</i> + <i>y</i>)(2<i>p</i> − <i>r</i>)"], "steps": ["把 (<i>y</i> − 3<i>x</i>) 改寫為 −(3<i>x</i> − <i>y</i>)。 / Rewrite (<i>y</i> − 3<i>x</i>) as −(3<i>x</i> − <i>y</i>).", "原式 = 2<i>p</i>(3<i>x</i> − <i>y</i>) + <i>r</i>(3<i>x</i> − <i>y</i>) / Negative times negative becomes positive.", "提取公因式 (3<i>x</i> − <i>y</i>)：(3<i>x</i> − <i>y</i>)(2<i>p</i> + <i>r</i>) / Final answer: (3<i>x</i> − <i>y</i>)(2<i>p</i> + <i>r</i>)"]}, {"id": "CF19", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "2<i>a</i>(<i>x</i> − 6<i>y</i>) − (6<i>y</i> − <i>x</i>)", "answer": "(<i>x</i> − 6<i>y</i>)(2<i>a</i> + 1)", "distractors": ["(<i>x</i> − 6<i>y</i>)(2<i>a</i> − 1)", "2<i>a</i>(<i>x</i> − 6<i>y</i>)", "(6<i>y</i> − <i>x</i>)(2<i>a</i> + 1)"], "steps": ["利用 −(6<i>y</i> − <i>x</i>) = +(<i>x</i> − 6<i>y</i>) = +1(<i>x</i> − 6<i>y</i>)。 / Rewrite −(6<i>y</i> − <i>x</i>) as +1(<i>x</i> − 6<i>y</i>).", "原式 = 2<i>a</i>(<i>x</i> − 6<i>y</i>) + 1(<i>x</i> − 6<i>y</i>) / Both terms now share (<i>x</i> − 6<i>y</i>).", "提取公因式 (<i>x</i> − 6<i>y</i>)：(<i>x</i> − 6<i>y</i>)(2<i>a</i> + 1) / Final answer: (<i>x</i> − 6<i>y</i>)(2<i>a</i> + 1)"]}, {"id": "CF20", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "8<i>a</i>(5<i>x</i> − 3<i>y</i>) − 7<i>b</i>(3<i>y</i> − 5<i>x</i>)", "answer": "(5<i>x</i> − 3<i>y</i>)(8<i>a</i> + 7<i>b</i>)", "distractors": ["(5<i>x</i> − 3<i>y</i>)(8<i>a</i> − 7<i>b</i>)", "(3<i>y</i> − 5<i>x</i>)(8<i>a</i> + 7<i>b</i>)", "(5<i>x</i> + 3<i>y</i>)(8<i>a</i> − 7<i>b</i>)"], "steps": ["將 (3<i>y</i> − 5<i>x</i>) 變號為 −(5<i>x</i> − 3<i>y</i>)。 / Change (3<i>y</i> − 5<i>x</i>) to −(5<i>x</i> − 3<i>y</i>).", "原式 = 8<i>a</i>(5<i>x</i> − 3<i>y</i>) + 7<i>b</i>(5<i>x</i> − 3<i>y</i>) / Simplify the signs.", "提取公因式 (5<i>x</i> − 3<i>y</i>)：(5<i>x</i> − 3<i>y</i>)(8<i>a</i> + 7<i>b</i>) / Final answer: (5<i>x</i> − 3<i>y</i>)(8<i>a</i> + 7<i>b</i>)"]}, {"id": "CF21", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "2<i>a</i>(4<i>x</i> − 5<i>y</i>) + 3(5<i>y</i> − 4<i>x</i>)", "answer": "(4<i>x</i> − 5<i>y</i>)(2<i>a</i> − 3)", "distractors": ["(4<i>x</i> − 5<i>y</i>)(2<i>a</i> + 3)", "(5<i>y</i> − 4<i>x</i>)(2<i>a</i> − 3)", "(4<i>x</i> + 5<i>y</i>)(2<i>a</i> − 3)"], "steps": ["因為 (5<i>y</i> − 4<i>x</i>) = −(4<i>x</i> − 5<i>y</i>)，所以 +3(5<i>y</i> − 4<i>x</i>) = −3(4<i>x</i> − 5<i>y</i>)。 / Rewrite +3(5<i>y</i> − 4<i>x</i>) as −3(4<i>x</i> − 5<i>y</i>).", "原式 = 2<i>a</i>(4<i>x</i> − 5<i>y</i>) − 3(4<i>x</i> − 5<i>y</i>) / Both terms share (4<i>x</i> − 5<i>y</i>).", "提取公因式 (4<i>x</i> − 5<i>y</i>)：(4<i>x</i> − 5<i>y</i>)(2<i>a</i> − 3) / Final answer: (4<i>x</i> − 5<i>y</i>)(2<i>a</i> − 3)"]}, {"id": "CF22", "category": "common", "source": "Taking Out Common Factors (with brackets)", "expr": "(2<i>u</i> − 5) + <i>x</i>(5 − 2<i>u</i>)", "answer": "(2<i>u</i> − 5)(1 − <i>x</i>)", "distractors": ["(2<i>u</i> − 5)(1 + <i>x</i>)", "(2<i>u</i> − 5)(−<i>x</i>)", "(5 − 2<i>u</i>)(1 − <i>x</i>)"], "steps": ["把 (5 − 2<i>u</i>) 改寫為 −(2<i>u</i> − 5)，首項寫成 1(2<i>u</i> − 5)。 / Rewrite (5 − 2<i>u</i>) as −(2<i>u</i> − 5) and first term as 1(2<i>u</i> − 5).", "原式 = 1(2<i>u</i> − 5) − <i>x</i>(2<i>u</i> − 5) / Both terms now share (2<i>u</i> − 5).", "提取公因式 (2<i>u</i> − 5)：(2<i>u</i> − 5)(1 − <i>x</i>) / Final answer: (2<i>u</i> − 5)(1 − <i>x</i>)"]}, {"id": "GT01", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "<i>am</i> + <i>an</i> + <i>mp</i> + <i>np</i>", "answer": "(<i>m</i> + <i>n</i>)(<i>a</i> + <i>p</i>)", "distractors": ["(<i>m</i> − <i>n</i>)(<i>a</i> + <i>p</i>)", "(<i>m</i> + <i>p</i>)(<i>a</i> + <i>n</i>)", "(<i>a</i> + <i>m</i>)(<i>n</i> + <i>p</i>)"], "steps": ["將四項分為兩組：(<i>am</i> + <i>an</i>) + (<i>mp</i> + <i>np</i>) / Group the terms in pairs: (<i>am</i> + <i>an</i>) + (<i>mp</i> + <i>np</i>).", "每組各自提取公因式：<i>a</i>(<i>m</i> + <i>n</i>) + <i>p</i>(<i>m</i> + <i>n</i>) / Take out common factors from each group.", "提取公因式 (<i>m</i> + <i>n</i>)：(<i>m</i> + <i>n</i>)(<i>a</i> + <i>p</i>) / Final answer: (<i>m</i> + <i>n</i>)(<i>a</i> + <i>p</i>)"]}, {"id": "GT02", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "<i>pq</i> − 4<i>p</i> + 7<i>q</i> − 28", "answer": "(<i>q</i> − 4)(<i>p</i> + 7)", "distractors": ["(<i>q</i> + 4)(<i>p</i> − 7)", "(<i>q</i> − 4)(<i>p</i> − 7)", "(<i>p</i> − 4)(<i>q</i> + 7)"], "steps": ["首兩項為一組，後兩項為一組：(<i>pq</i> − 4<i>p</i>) + (7<i>q</i> − 28) / Group the first two and last two terms.", "分別提取公因式 <i>p</i> 和 7：<i>p</i>(<i>q</i> − 4) + 7(<i>q</i> − 4) / Take out <i>p</i> and 7 respectively.", "提取公因式 (<i>q</i> − 4)：(<i>q</i> − 4)(<i>p</i> + 7) / Final answer: (<i>q</i> − 4)(<i>p</i> + 7)"]}, {"id": "GT03", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "6<i>r</i> − 9<i>s</i> + 10<i>rq</i> − 15<i>sq</i>", "answer": "(2<i>r</i> − 3<i>s</i>)(3 + 5<i>q</i>)", "distractors": ["(2<i>r</i> + 3<i>s</i>)(3 − 5<i>q</i>)", "(2<i>r</i> − 3<i>s</i>)(3 − 5<i>q</i>)", "(3<i>r</i> − 2<i>s</i>)(2 + 5<i>q</i>)"], "steps": ["分為兩組：(6<i>r</i> − 9<i>s</i>) + (10<i>rq</i> − 15<i>sq</i>) / Group into two pairs.", "分別提取 3 和 5<i>q</i>：3(2<i>r</i> − 3<i>s</i>) + 5<i>q</i>(2<i>r</i> − 3<i>s</i>) / Take out 3 and 5<i>q</i>.", "提取公因式 (2<i>r</i> − 3<i>s</i>)：(2<i>r</i> − 3<i>s</i>)(3 + 5<i>q</i>) / Final answer: (2<i>r</i> − 3<i>s</i>)(3 + 5<i>q</i>)"]}, {"id": "GT04", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "5<i>x</i> + 10 − <i>wx</i> − 2<i>w</i>", "answer": "(<i>x</i> + 2)(5 − <i>w</i>)", "distractors": ["(<i>x</i> − 2)(5 − <i>w</i>)", "(<i>x</i> + 2)(5 + <i>w</i>)", "(<i>x</i> − 2)(5 + <i>w</i>)"], "steps": ["分為兩組：(5<i>x</i> + 10) − (<i>wx</i> + 2<i>w</i>)，注意後組括號前有負號需變號。 / Group into pairs; note the sign change in −(<i>wx</i> + 2<i>w</i>).", "分別提取 5 和 <i>w</i>：5(<i>x</i> + 2) − <i>w</i>(<i>x</i> + 2) / Take out 5 and <i>w</i>.", "提取公因式 (<i>x</i> + 2)：(<i>x</i> + 2)(5 − <i>w</i>) / Final answer: (<i>x</i> + 2)(5 − <i>w</i>)"]}, {"id": "GT05", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "<i>ax</i> − <i>ay</i> − <i>bx</i> + <i>by</i>", "answer": "(<i>x</i> − <i>y</i>)(<i>a</i> − <i>b</i>)", "distractors": ["(<i>x</i> − <i>y</i>)(<i>a</i> + <i>b</i>)", "(<i>x</i> + <i>y</i>)(<i>a</i> − <i>b</i>)", "(<i>x</i> + <i>y</i>)(<i>a</i> + <i>b</i>)"], "steps": ["分為兩組：(<i>ax</i> − <i>ay</i>) − (<i>bx</i> − <i>by</i>) / Group the terms into two pairs.", "第一組提取 <i>a</i>，第二組提取 −<i>b</i>：<i>a</i>(<i>x</i> − <i>y</i>) − <i>b</i>(<i>x</i> − <i>y</i>) / Take out <i>a</i> and −<i>b</i>.", "提取公因式 (<i>x</i> − <i>y</i>)：(<i>x</i> − <i>y</i>)(<i>a</i> − <i>b</i>) / Final answer: (<i>x</i> − <i>y</i>)(<i>a</i> − <i>b</i>)"]}, {"id": "GT06", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "5<i>p</i><sup>2</sup> − 5<i>px</i> + 3<i>p</i> − 3<i>x</i>", "answer": "(<i>p</i> − <i>x</i>)(5<i>p</i> + 3)", "distractors": ["(<i>p</i> + <i>x</i>)(5<i>p</i> − 3)", "(<i>p</i> − <i>x</i>)(5<i>p</i> − 3)", "(5<i>p</i> − <i>x</i>)(<i>p</i> + 3)"], "steps": ["分為兩組：(5<i>p</i><sup>2</sup> − 5<i>px</i>) + (3<i>p</i> − 3<i>x</i>) / Group the terms in pairs.", "分別提取 5<i>p</i> 和 3：5<i>p</i>(<i>p</i> − <i>x</i>) + 3(<i>p</i> − <i>x</i>) / Take out 5<i>p</i> and 3.", "提取公因式 (<i>p</i> − <i>x</i>)：(<i>p</i> − <i>x</i>)(5<i>p</i> + 3) / Final answer: (<i>p</i> − <i>x</i>)(5<i>p</i> + 3)"]}, {"id": "GT07", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "<i>ab</i> − 5<i>b</i> − 4<i>a</i> + 20", "answer": "(<i>a</i> − 5)(<i>b</i> − 4)", "distractors": ["(<i>a</i> − 5)(<i>b</i> + 4)", "(<i>a</i> + 5)(<i>b</i> − 4)", "(<i>a</i> + 5)(<i>b</i> + 4)"], "steps": ["分為兩組：(<i>ab</i> − 5<i>b</i>) − (4<i>a</i> − 20) / Group the first two and last two terms.", "第一組提取 <i>b</i>，第二組提取 −4：<i>b</i>(<i>a</i> − 5) − 4(<i>a</i> − 5) / Take out <i>b</i> and −4.", "提取公因式 (<i>a</i> − 5)：(<i>a</i> − 5)(<i>b</i> − 4) / Final answer: (<i>a</i> − 5)(<i>b</i> − 4)"]}, {"id": "GT08", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "3<i>ax</i> − 6<i>ay</i> − <i>bx</i> + 2<i>by</i>", "answer": "(<i>x</i> − 2<i>y</i>)(3<i>a</i> − <i>b</i>)", "distractors": ["(<i>x</i> − 2<i>y</i>)(3<i>a</i> + <i>b</i>)", "(<i>x</i> + 2<i>y</i>)(3<i>a</i> − <i>b</i>)", "(2<i>x</i> − <i>y</i>)(3<i>a</i> − <i>b</i>)"], "steps": ["分為兩組：(3<i>ax</i> − 6<i>ay</i>) − (<i>bx</i> − 2<i>by</i>) / Group the terms in pairs.", "分別提取 3<i>a</i> 和 −<i>b</i>：3<i>a</i>(<i>x</i> − 2<i>y</i>) − <i>b</i>(<i>x</i> − 2<i>y</i>) / Take out 3<i>a</i> and −<i>b</i>.", "提取公因式 (<i>x</i> − 2<i>y</i>)：(<i>x</i> − 2<i>y</i>)(3<i>a</i> − <i>b</i>) / Final answer: (<i>x</i> − 2<i>y</i>)(3<i>a</i> − <i>b</i>)"]}, {"id": "GT09", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "2<i>x</i><sup>2</sup> − 4<i>xy</i> − 3<i>x</i> + 6<i>y</i>", "answer": "(<i>x</i> − 2<i>y</i>)(2<i>x</i> − 3)", "distractors": ["(<i>x</i> − 2<i>y</i>)(2<i>x</i> + 3)", "(<i>x</i> + 2<i>y</i>)(2<i>x</i> − 3)", "(2<i>x</i> − <i>y</i>)(<i>x</i> − 6)"], "steps": ["分為兩組：(2<i>x</i><sup>2</sup> − 4<i>xy</i>) − (3<i>x</i> − 6<i>y</i>) / Group the terms into two pairs.", "分別提取 2<i>x</i> 和 −3：2<i>x</i>(<i>x</i> − 2<i>y</i>) − 3(<i>x</i> − 2<i>y</i>) / Take out 2<i>x</i> and −3.", "提取公因式 (<i>x</i> − 2<i>y</i>)：(<i>x</i> − 2<i>y</i>)(2<i>x</i> − 3) / Final answer: (<i>x</i> − 2<i>y</i>)(2<i>x</i> − 3)"]}, {"id": "GT10", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "<i>tu</i> + 6<i>v</i> − <i>tv</i> − 6<i>u</i>", "answer": "(<i>u</i> − <i>v</i>)(<i>t</i> − 6)", "distractors": ["(<i>u</i> + <i>v</i>)(<i>t</i> − 6)", "(<i>u</i> − <i>v</i>)(<i>t</i> + 6)", "(<i>v</i> − <i>u</i>)(<i>t</i> − 6)"], "steps": ["重新排列各項以便分組：(<i>tu</i> − <i>tv</i>) − (6<i>u</i> − 6<i>v</i>) / Rearrange the terms to group common factors.", "分別提取 <i>t</i> 和 −6：<i>t</i>(<i>u</i> − <i>v</i>) − 6(<i>u</i> − <i>v</i>) / Take out <i>t</i> and −6.", "提取公因式 (<i>u</i> − <i>v</i>)：(<i>u</i> − <i>v</i>)(<i>t</i> − 6) / Final answer: (<i>u</i> − <i>v</i>)(<i>t</i> − 6)"]}, {"id": "GT11", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "<i>a</i> − <i>b</i> + <i>ac</i> − <i>bc</i>", "answer": "(<i>a</i> − <i>b</i>)(1 + <i>c</i>)", "distractors": ["(<i>a</i> − <i>b</i>)<i>c</i>", "(<i>a</i> − <i>b</i>)(1 − <i>c</i>)", "(<i>a</i> + <i>b</i>)(1 − <i>c</i>)"], "steps": ["分為兩組：(<i>a</i> − <i>b</i>) + (<i>ac</i> − <i>bc</i>) / Group the terms in pairs.", "第一組寫成 1(<i>a</i> − <i>b</i>)，第二組提取 <i>c</i>：1(<i>a</i> − <i>b</i>) + <i>c</i>(<i>a</i> − <i>b</i>) / Rewrite first group as 1(<i>a</i> − <i>b</i>) and take out <i>c</i>.", "提取公因式 (<i>a</i> − <i>b</i>)：(<i>a</i> − <i>b</i>)(1 + <i>c</i>) / Final answer: (<i>a</i> − <i>b</i>)(1 + <i>c</i>)"]}, {"id": "GT12", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "7<i>ap</i> − 14<i>aq</i> − <i>p</i> + 2<i>q</i>", "answer": "(7<i>a</i> − 1)(<i>p</i> − 2<i>q</i>)", "distractors": ["(7<i>a</i> + 1)(<i>p</i> − 2<i>q</i>)", "7<i>a</i>(<i>p</i> − 2<i>q</i>)", "(7<i>a</i> − 1)(<i>p</i> + 2<i>q</i>)"], "steps": ["分為兩組：(7<i>ap</i> − 14<i>aq</i>) − (<i>p</i> − 2<i>q</i>) / Group into two pairs; note the sign change in −(<i>p</i> − 2<i>q</i>).", "第一組提取 7<i>a</i>，第二組寫成 −1(<i>p</i> − 2<i>q</i>)：7<i>a</i>(<i>p</i> − 2<i>q</i>) − 1(<i>p</i> − 2<i>q</i>) / Take out 7<i>a</i> and −1.", "提取公因式 (<i>p</i> − 2<i>q</i>)：(7<i>a</i> − 1)(<i>p</i> − 2<i>q</i>) / Final answer: (7<i>a</i> − 1)(<i>p</i> − 2<i>q</i>)"]}, {"id": "GT13", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "<i>ax</i> + 3<i>b</i> − <i>bx</i> − 3<i>a</i>", "answer": "(<i>a</i> − <i>b</i>)(<i>x</i> − 3)", "distractors": ["(<i>a</i> + <i>b</i>)(<i>x</i> − 3)", "(<i>a</i> − <i>b</i>)(<i>x</i> + 3)", "(<i>b</i> − <i>a</i>)(<i>x</i> − 3)"], "steps": ["重新排列各項：(<i>ax</i> − <i>bx</i>) − (3<i>a</i> − 3<i>b</i>) / Rearrange terms into (<i>ax</i> − <i>bx</i>) − (3<i>a</i> − 3<i>b</i>).", "分別提取 <i>x</i> 和 −3：<i>x</i>(<i>a</i> − <i>b</i>) − 3(<i>a</i> − <i>b</i>) / Take out <i>x</i> and −3.", "提取公因式 (<i>a</i> − <i>b</i>)：(<i>a</i> − <i>b</i>)(<i>x</i> − 3) / Final answer: (<i>a</i> − <i>b</i>)(<i>x</i> − 3)"]}, {"id": "GT14", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "<i>a</i><sup>2</sup> − <i>cd</i> + <i>ad</i> − <i>ac</i>", "answer": "(<i>a</i> + <i>d</i>)(<i>a</i> − <i>c</i>)", "distractors": ["(<i>a</i> − <i>d</i>)(<i>a</i> − <i>c</i>)", "(<i>a</i> + <i>d</i>)(<i>a</i> + <i>c</i>)", "(<i>a</i> − <i>d</i>)(<i>a</i> + <i>c</i>)"], "steps": ["重新排列各項：(<i>a</i><sup>2</sup> + <i>ad</i>) − (<i>ac</i> + <i>cd</i>) / Rearrange terms into (<i>a</i><sup>2</sup> + <i>ad</i>) − (<i>ac</i> + <i>cd</i>).", "分別提取 <i>a</i> 和 −<i>c</i>：<i>a</i>(<i>a</i> + <i>d</i>) − <i>c</i>(<i>a</i> + <i>d</i>) / Take out <i>a</i> and −<i>c</i>.", "提取公因式 (<i>a</i> + <i>d</i>)：(<i>a</i> + <i>d</i>)(<i>a</i> − <i>c</i>) / Final answer: (<i>a</i> + <i>d</i>)(<i>a</i> − <i>c</i>)"]}, {"id": "GT15", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "−<i>ax</i> − <i>cy</i> + <i>ay</i> + <i>cx</i>", "answer": "(<i>x</i> − <i>y</i>)(<i>c</i> − <i>a</i>)", "distractors": ["(<i>x</i> − <i>y</i>)(<i>a</i> + <i>c</i>)", "(<i>x</i> + <i>y</i>)(<i>c</i> − <i>a</i>)", "(<i>y</i> − <i>x</i>)(<i>c</i> − <i>a</i>)"], "steps": ["重新排列各項：(<i>cx</i> − <i>cy</i>) − (<i>ax</i> − <i>ay</i>) / Rearrange terms to group <i>c</i> and <i>a</i>.", "分別提取 <i>c</i> 和 −<i>a</i>：<i>c</i>(<i>x</i> − <i>y</i>) − <i>a</i>(<i>x</i> − <i>y</i>) / Take out <i>c</i> and −<i>a</i>.", "提取公因式 (<i>x</i> − <i>y</i>)：(<i>x</i> − <i>y</i>)(<i>c</i> − <i>a</i>) / Final answer: (<i>x</i> − <i>y</i>)(<i>c</i> − <i>a</i>)"]}, {"id": "GT16", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "−<i>ab</i> − 6 + 2<i>a</i> + 3<i>b</i>", "answer": "(<i>b</i> − 2)(3 − <i>a</i>)", "distractors": ["(<i>b</i> + 2)(3 − <i>a</i>)", "(<i>b</i> − 2)(<i>a</i> + 3)", "(2 − <i>b</i>)(3 − <i>a</i>)"], "steps": ["重新排列各項：(3<i>b</i> − 6) − (<i>ab</i> − 2<i>a</i>) / Rearrange terms into (3<i>b</i> − 6) − (<i>ab</i> − 2<i>a</i>).", "分別提取 3 和 −<i>a</i>：3(<i>b</i> − 2) − <i>a</i>(<i>b</i> − 2) / Take out 3 and −<i>a</i>.", "提取公因式 (<i>b</i> − 2)：(<i>b</i> − 2)(3 − <i>a</i>) / Final answer: (<i>b</i> − 2)(3 − <i>a</i>)"]}, {"id": "GT17", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "−6<i>x</i> + <i>y</i> − 3 + 2<i>xy</i>", "answer": "(1 + 2<i>x</i>)(<i>y</i> − 3)", "distractors": ["(1 − 2<i>x</i>)(<i>y</i> − 3)", "(1 + 2<i>x</i>)(<i>y</i> + 3)", "(2<i>x</i> − 1)(<i>y</i> − 3)"], "steps": ["重新排列各項：(<i>y</i> − 3) + (2<i>xy</i> − 6<i>x</i>) / Rearrange terms into (<i>y</i> − 3) + (2<i>xy</i> − 6<i>x</i>).", "第二組提取 2<i>x</i>：1(<i>y</i> − 3) + 2<i>x</i>(<i>y</i> − 3) / Take out 2<i>x</i> from the second group.", "提取公因式 (<i>y</i> − 3)：(1 + 2<i>x</i>)(<i>y</i> − 3) / Final answer: (1 + 2<i>x</i>)(<i>y</i> − 3)"]}, {"id": "GT18", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "−8<i>xy</i> + 3<i>x</i> + 4<i>y</i> − 6<i>x</i><sup>2</sup>", "answer": "(1 − 2<i>x</i>)(3<i>x</i> + 4<i>y</i>)", "distractors": ["(1 + 2<i>x</i>)(3<i>x</i> − 4<i>y</i>)", "(1 − 2<i>x</i>)(3<i>x</i> − 4<i>y</i>)", "(2<i>x</i> − 1)(3<i>x</i> + 4<i>y</i>)"], "steps": ["重新排列各項：(3<i>x</i> − 6<i>x</i><sup>2</sup>) + (4<i>y</i> − 8<i>xy</i>) / Rearrange terms into (3<i>x</i> − 6<i>x</i><sup>2</sup>) + (4<i>y</i> − 8<i>xy</i>).", "分別提取 3<i>x</i> 和 4<i>y</i>：3<i>x</i>(1 − 2<i>x</i>) + 4<i>y</i>(1 − 2<i>x</i>) / Take out 3<i>x</i> and 4<i>y</i>.", "提取公因式 (1 − 2<i>x</i>)：(1 − 2<i>x</i>)(3<i>x</i> + 4<i>y</i>) / Final answer: (1 − 2<i>x</i>)(3<i>x</i> + 4<i>y</i>)"]}, {"id": "GT19", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "−4<i>ad</i> + <i>bc</i> − 2<i>cd</i> + 2<i>ab</i>", "answer": "(2<i>a</i> + <i>c</i>)(<i>b</i> − 2<i>d</i>)", "distractors": ["(2<i>a</i> − <i>c</i>)(<i>b</i> − 2<i>d</i>)", "(2<i>a</i> + <i>c</i>)(<i>b</i> + 2<i>d</i>)", "(<i>a</i> + 2<i>c</i>)(<i>b</i> − 2<i>d</i>)"], "steps": ["重新排列各項：(2<i>ab</i> − 4<i>ad</i>) + (<i>bc</i> − 2<i>cd</i>) / Rearrange terms into (2<i>ab</i> − 4<i>ad</i>) + (<i>bc</i> − 2<i>cd</i>).", "分別提取 2<i>a</i> 和 <i>c</i>：2<i>a</i>(<i>b</i> − 2<i>d</i>) + <i>c</i>(<i>b</i> − 2<i>d</i>) / Take out 2<i>a</i> and <i>c</i>.", "提取公因式 (<i>b</i> − 2<i>d</i>)：(2<i>a</i> + <i>c</i>)(<i>b</i> − 2<i>d</i>) / Final answer: (2<i>a</i> + <i>c</i>)(<i>b</i> − 2<i>d</i>)"]}, {"id": "GT20", "category": "grouping", "source": "By Grouping Terms Method (Class Ex)", "expr": "−9<i>c</i><sup>2</sup> + 2<i>ad</i> − 6<i>ac</i> + 3<i>cd</i>", "answer": "(<i>d</i> − 3<i>c</i>)(2<i>a</i> + 3<i>c</i>)", "distractors": ["(<i>d</i> + 3<i>c</i>)(2<i>a</i> − 3<i>c</i>)", "(<i>d</i> − 3<i>c</i>)(2<i>a</i> − 3<i>c</i>)", "(3<i>c</i> − <i>d</i>)(2<i>a</i> + 3<i>c</i>)"], "steps": ["重新排列各項：(2<i>ad</i> − 6<i>ac</i>) + (3<i>cd</i> − 9<i>c</i><sup>2</sup>) / Rearrange terms into (2<i>ad</i> − 6<i>ac</i>) + (3<i>cd</i> − 9<i>c</i><sup>2</sup>).", "分別提取 2<i>a</i> 和 3<i>c</i>：2<i>a</i>(<i>d</i> − 3<i>c</i>) + 3<i>c</i>(<i>d</i> − 3<i>c</i>) / Take out 2<i>a</i> and 3<i>c</i>.", "提取公因式 (<i>d</i> − 3<i>c</i>)：(<i>d</i> − 3<i>c</i>)(2<i>a</i> + 3<i>c</i>) / Final answer: (<i>d</i> − 3<i>c</i>)(2<i>a</i> + 3<i>c</i>)"]}, {"id": "DS01", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "<i>x</i><sup>2</sup> − 4", "answer": "(<i>x</i> + 2)(<i>x</i> − 2)", "distractors": ["(<i>x</i> − 2)<sup>2</sup>", "(<i>x</i> + 4)(<i>x</i> − 4)", "(<i>x</i> + 2)<sup>2</sup>"], "steps": ["寫成兩數平方之差：<i>x</i><sup>2</sup> − 2<sup>2</sup> / Rewrite as a difference of two squares: <i>x</i><sup>2</sup> − 2<sup>2</sup>.", "運用恆等式 <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>) / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(<i>x</i> + 2)(<i>x</i> − 2) / Final answer: (<i>x</i> + 2)(<i>x</i> − 2)"]}, {"id": "DS02", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "16 − <i>y</i><sup>2</sup>", "answer": "(4 + <i>y</i>)(4 − <i>y</i>)", "distractors": ["(<i>y</i> + 4)(<i>y</i> − 4)", "(4 − <i>y</i>)<sup>2</sup>", "(8 + <i>y</i>)(8 − <i>y</i>)"], "steps": ["寫成兩數平方之差：4<sup>2</sup> − <i>y</i><sup>2</sup> / Rewrite as 4<sup>2</sup> − <i>y</i><sup>2</sup>.", "運用平方差恆等式 <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>)，注意前後次序 / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>), keeping the order.", "得出結果：(4 + <i>y</i>)(4 − <i>y</i>) / Final answer: (4 + <i>y</i>)(4 − <i>y</i>)"]}, {"id": "DS03", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "1 − 16<i>u</i><sup>2</sup>", "answer": "(1 + 4<i>u</i>)(1 − 4<i>u</i>)", "distractors": ["(1 − 4<i>u</i>)<sup>2</sup>", "(1 + 16<i>u</i>)(1 − 16<i>u</i>)", "(4<i>u</i> + 1)(4<i>u</i> − 1)"], "steps": ["寫成兩數平方之差：1<sup>2</sup> − (4<i>u</i>)<sup>2</sup> / Rewrite as 1<sup>2</sup> − (4<i>u</i>)<sup>2</sup>.", "運用平方差恆等式 <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>) / Apply the difference of two squares identity.", "得出結果：(1 + 4<i>u</i>)(1 − 4<i>u</i>) / Final answer: (1 + 4<i>u</i>)(1 − 4<i>u</i>)"]}, {"id": "DS04", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "16<i>a</i><sup>2</sup> − 9", "answer": "(4<i>a</i> + 3)(4<i>a</i> − 3)", "distractors": ["(4<i>a</i> − 3)<sup>2</sup>", "(16<i>a</i> + 9)(16<i>a</i> − 9)", "(8<i>a</i> + 3)(8<i>a</i> − 3)"], "steps": ["寫成兩數平方之差：(4<i>a</i>)<sup>2</sup> − 3<sup>2</sup> / Rewrite as (4<i>a</i>)<sup>2</sup> − 3<sup>2</sup>.", "運用平方差恆等式 <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>) / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(4<i>a</i> + 3)(4<i>a</i> − 3) / Final answer: (4<i>a</i> + 3)(4<i>a</i> − 3)"]}, {"id": "DS05", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "25<i>m</i><sup>2</sup> − 49", "answer": "(5<i>m</i> + 7)(5<i>m</i> − 7)", "distractors": ["(5<i>m</i> − 7)<sup>2</sup>", "(25<i>m</i> + 49)(25<i>m</i> − 49)", "(5<i>m</i> + 7)<sup>2</sup>"], "steps": ["寫成兩數平方之差：(5<i>m</i>)<sup>2</sup> − 7<sup>2</sup> / Rewrite as (5<i>m</i>)<sup>2</sup> − 7<sup>2</sup>.", "運用平方差恆等式 / Apply the difference of two squares identity.", "得出結果：(5<i>m</i> + 7)(5<i>m</i> − 7) / Final answer: (5<i>m</i> + 7)(5<i>m</i> − 7)"]}, {"id": "DS06", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "−<i>y</i><sup>2</sup> + 1", "answer": "(1 + <i>y</i>)(1 − <i>y</i>)", "distractors": ["(<i>y</i> + 1)(<i>y</i> − 1)", "−(<i>y</i> − 1)<sup>2</sup>", "−(1 + <i>y</i>)(1 − <i>y</i>)"], "steps": ["調換兩項位置成標準平方差形式：1 − <i>y</i><sup>2</sup> = 1<sup>2</sup> − <i>y</i><sup>2</sup> / Rearrange terms as 1<sup>2</sup> − <i>y</i><sup>2</sup>.", "運用平方差恆等式 / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(1 + <i>y</i>)(1 − <i>y</i>) / Final answer: (1 + <i>y</i>)(1 − <i>y</i>)"]}, {"id": "DS07", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "4<i>p</i><sup>2</sup> − 25<i>q</i><sup>2</sup>", "answer": "(2<i>p</i> + 5<i>q</i>)(2<i>p</i> − 5<i>q</i>)", "distractors": ["(2<i>p</i> − 5<i>q</i>)<sup>2</sup>", "(4<i>p</i> + 25<i>q</i>)(4<i>p</i> − 25<i>q</i>)", "(2<i>p</i> + 5<i>q</i>)<sup>2</sup>"], "steps": ["寫成兩數平方之差：(2<i>p</i>)<sup>2</sup> − (5<i>q</i>)<sup>2</sup> / Rewrite as (2<i>p</i>)<sup>2</sup> − (5<i>q</i>)<sup>2</sup>.", "運用平方差恆等式 <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>) / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(2<i>p</i> + 5<i>q</i>)(2<i>p</i> − 5<i>q</i>) / Final answer: (2<i>p</i> + 5<i>q</i>)(2<i>p</i> − 5<i>q</i>)"]}, {"id": "DS08", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "−81<i>x</i><sup>2</sup> + 25", "answer": "(5 + 9<i>x</i>)(5 − 9<i>x</i>)", "distractors": ["(9<i>x</i> + 5)(9<i>x</i> − 5)", "(5 − 9<i>x</i>)<sup>2</sup>", "−(5 + 9<i>x</i>)(5 − 9<i>x</i>)"], "steps": ["重新排列為平方差：25 − 81<i>x</i><sup>2</sup> = 5<sup>2</sup> − (9<i>x</i>)<sup>2</sup> / Rearrange as 5<sup>2</sup> − (9<i>x</i>)<sup>2</sup>.", "運用平方差恆等式 / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(5 + 9<i>x</i>)(5 − 9<i>x</i>) / Final answer: (5 + 9<i>x</i>)(5 − 9<i>x</i>)"]}, {"id": "DS09", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "16<i>p</i><sup>2</sup> − <i>q</i><sup>2</sup><i>r</i><sup>2</sup>", "answer": "(4<i>p</i> + <i>qr</i>)(4<i>p</i> − <i>qr</i>)", "distractors": ["(4<i>p</i> − <i>qr</i>)<sup>2</sup>", "(16<i>p</i> + <i>qr</i>)(16<i>p</i> − <i>qr</i>)", "(4<i>p</i> + <i>q</i>)(4<i>p</i> − <i>r</i>)"], "steps": ["寫成兩數平方之差：(4<i>p</i>)<sup>2</sup> − (<i>qr</i>)<sup>2</sup> / Rewrite as (4<i>p</i>)<sup>2</sup> − (<i>qr</i>)<sup>2</sup>.", "運用平方差恆等式 / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(4<i>p</i> + <i>qr</i>)(4<i>p</i> − <i>qr</i>) / Final answer: (4<i>p</i> + <i>qr</i>)(4<i>p</i> − <i>qr</i>)"]}, {"id": "DS10", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "−49 + <i>h</i><sup>2</sup><i>k</i><sup>2</sup>", "answer": "(<i>hk</i> + 7)(<i>hk</i> − 7)", "distractors": ["(7 + <i>hk</i>)(7 − <i>hk</i>)", "(<i>hk</i> − 7)<sup>2</sup>", "(<i>hk</i> + 49)(<i>hk</i> − 49)"], "steps": ["重新排列為平方差：<i>h</i><sup>2</sup><i>k</i><sup>2</sup> − 49 = (<i>hk</i>)<sup>2</sup> − 7<sup>2</sup> / Rearrange as (<i>hk</i>)<sup>2</sup> − 7<sup>2</sup>.", "運用平方差恆等式 / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(<i>hk</i> + 7)(<i>hk</i> − 7) / Final answer: (<i>hk</i> + 7)(<i>hk</i> − 7)"]}, {"id": "DS11", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "<i>m</i><sup>2</sup><i>x</i><sup>2</sup> − 64<i>y</i><sup>2</sup>", "answer": "(<i>mx</i> + 8<i>y</i>)(<i>mx</i> − 8<i>y</i>)", "distractors": ["(<i>mx</i> − 8<i>y</i>)<sup>2</sup>", "(<i>mx</i> + 64<i>y</i>)(<i>mx</i> − 64<i>y</i>)", "(<i>mx</i> + 8<i>y</i>)<sup>2</sup>"], "steps": ["寫成兩數平方之差：(<i>mx</i>)<sup>2</sup> − (8<i>y</i>)<sup>2</sup> / Rewrite as (<i>mx</i>)<sup>2</sup> − (8<i>y</i>)<sup>2</sup>.", "運用平方差恆等式 / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(<i>mx</i> + 8<i>y</i>)(<i>mx</i> − 8<i>y</i>) / Final answer: (<i>mx</i> + 8<i>y</i>)(<i>mx</i> − 8<i>y</i>)"]}, {"id": "DS12", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "<i>x</i><sup>2</sup> − 100<i>y</i><sup>2</sup><i>z</i><sup>2</sup>", "answer": "(<i>x</i> + 10<i>yz</i>)(<i>x</i> − 10<i>yz</i>)", "distractors": ["(<i>x</i> − 10<i>yz</i>)<sup>2</sup>", "(<i>x</i> + 50<i>yz</i>)(<i>x</i> − 50<i>yz</i>)", "(<i>x</i> + 100<i>yz</i>)(<i>x</i> − 100<i>yz</i>)"], "steps": ["寫成兩數平方之差：<i>x</i><sup>2</sup> − (10<i>yz</i>)<sup>2</sup> / Rewrite as <i>x</i><sup>2</sup> − (10<i>yz</i>)<sup>2</sup>.", "運用平方差恆等式 / Apply <i>a</i><sup>2</sup> − <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)(<i>a</i> − <i>b</i>).", "得出結果：(<i>x</i> + 10<i>yz</i>)(<i>x</i> − 10<i>yz</i>) / Final answer: (<i>x</i> + 10<i>yz</i>)(<i>x</i> − 10<i>yz</i>)"]}, {"id": "DS13", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "11<i>x</i><sup>2</sup> − 11", "answer": "11(<i>x</i> + 1)(<i>x</i> − 1)", "distractors": ["11(<i>x</i><sup>2</sup> − 1)", "11(<i>x</i> − 1)<sup>2</sup>", "(11<i>x</i> + 11)(<i>x</i> − 1)"], "steps": ["先提取公因式 11：11(<i>x</i><sup>2</sup> − 1) / First, take out the common factor 11: 11(<i>x</i><sup>2</sup> − 1).", "再對括號內的 (<i>x</i><sup>2</sup> − 1<sup>2</sup>) 運用平方差恆等式 / Then apply difference of two squares to <i>x</i><sup>2</sup> − 1<sup>2</sup>.", "得出結果：11(<i>x</i> + 1)(<i>x</i> − 1) / Final answer: 11(<i>x</i> + 1)(<i>x</i> − 1)"]}, {"id": "DS14", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "3 − 75<i>x</i><sup>2</sup>", "answer": "3(1 + 5<i>x</i>)(1 − 5<i>x</i>)", "distractors": ["3(1 − 25<i>x</i><sup>2</sup>)", "3(1 − 5<i>x</i>)<sup>2</sup>", "3(5<i>x</i> + 1)(5<i>x</i> − 1)"], "steps": ["先提取公因式 3：3(1 − 25<i>x</i><sup>2</sup>) / First, take out the common factor 3: 3(1 − 25<i>x</i><sup>2</sup>).", "將括號寫成 1<sup>2</sup> − (5<i>x</i>)<sup>2</sup> 並運用平方差恆等式 / Rewrite 1 − 25<i>x</i><sup>2</sup> as 1<sup>2</sup> − (5<i>x</i>)<sup>2</sup> and factorize.", "得出結果：3(1 + 5<i>x</i>)(1 − 5<i>x</i>) / Final answer: 3(1 + 5<i>x</i>)(1 − 5<i>x</i>)"]}, {"id": "DS15", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "18<i>c</i><sup>2</sup> − 72<i>d</i><sup>2</sup>", "answer": "18(<i>c</i> + 2<i>d</i>)(<i>c</i> − 2<i>d</i>)", "distractors": ["18(<i>c</i><sup>2</sup> − 4<i>d</i><sup>2</sup>)", "2(3<i>c</i> + 6<i>d</i>)(3<i>c</i> − 6<i>d</i>)", "18(<i>c</i> − 2<i>d</i>)<sup>2</sup>"], "steps": ["先提取最大公因數 18：18(<i>c</i><sup>2</sup> − 4<i>d</i><sup>2</sup>) / First, take out the H.C.F. 18: 18(<i>c</i><sup>2</sup> − 4<i>d</i><sup>2</sup>).", "將 <i>c</i><sup>2</sup> − (2<i>d</i>)<sup>2</sup> 運用平方差恆等式分解 / Factorize <i>c</i><sup>2</sup> − (2<i>d</i>)<sup>2</sup> using difference of two squares.", "得出結果：18(<i>c</i> + 2<i>d</i>)(<i>c</i> − 2<i>d</i>) / Final answer: 18(<i>c</i> + 2<i>d</i>)(<i>c</i> − 2<i>d</i>)"]}, {"id": "DS16", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "6<i>ab</i><sup>2</sup> − 24<i>ac</i><sup>2</sup>", "answer": "6<i>a</i>(<i>b</i> + 2<i>c</i>)(<i>b</i> − 2<i>c</i>)", "distractors": ["6<i>a</i>(<i>b</i><sup>2</sup> − 4<i>c</i><sup>2</sup>)", "6<i>a</i>(<i>b</i> − 2<i>c</i>)<sup>2</sup>", "6(<i>ab</i> + 2<i>ac</i>)(<i>b</i> − 2<i>c</i>)"], "steps": ["先提取公因式 6<i>a</i>：6<i>a</i>(<i>b</i><sup>2</sup> − 4<i>c</i><sup>2</sup>) / First, take out the common factor 6<i>a</i>.", "對 <i>b</i><sup>2</sup> − (2<i>c</i>)<sup>2</sup> 運用平方差恆等式 / Apply difference of two squares to <i>b</i><sup>2</sup> − (2<i>c</i>)<sup>2</sup>.", "得出結果：6<i>a</i>(<i>b</i> + 2<i>c</i>)(<i>b</i> − 2<i>c</i>) / Final answer: 6<i>a</i>(<i>b</i> + 2<i>c</i>)(<i>b</i> − 2<i>c</i>)"]}, {"id": "DS17", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "72<i>x</i><sup>2</sup> − 50<i>y</i><sup>2</sup>", "answer": "2(6<i>x</i> + 5<i>y</i>)(6<i>x</i> − 5<i>y</i>)", "distractors": ["2(36<i>x</i><sup>2</sup> − 25<i>y</i><sup>2</sup>)", "2(6<i>x</i> − 5<i>y</i>)<sup>2</sup>", "(12<i>x</i> + 10<i>y</i>)(6<i>x</i> − 5<i>y</i>)"], "steps": ["先提取公因數 2：2(36<i>x</i><sup>2</sup> − 25<i>y</i><sup>2</sup>) / First, take out the common factor 2.", "將括號寫成 (6<i>x</i>)<sup>2</sup> − (5<i>y</i>)<sup>2</sup> 並運用平方差恆等式 / Rewrite 36<i>x</i><sup>2</sup> − 25<i>y</i><sup>2</sup> as (6<i>x</i>)<sup>2</sup> − (5<i>y</i>)<sup>2</sup> and factorize.", "得出結果：2(6<i>x</i> + 5<i>y</i>)(6<i>x</i> − 5<i>y</i>) / Final answer: 2(6<i>x</i> + 5<i>y</i>)(6<i>x</i> − 5<i>y</i>)"]}, {"id": "DS18", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "−27<i>x</i><sup>2</sup> + 12<i>y</i><sup>2</sup>", "answer": "3(2<i>y</i> + 3<i>x</i>)(2<i>y</i> − 3<i>x</i>)", "distractors": ["3(3<i>x</i> + 2<i>y</i>)(3<i>x</i> − 2<i>y</i>)", "3(4<i>y</i><sup>2</sup> − 9<i>x</i><sup>2</sup>)", "3(2<i>y</i> − 3<i>x</i>)<sup>2</sup>"], "steps": ["先提取公因數 3 並調換正負項次序：3(4<i>y</i><sup>2</sup> − 9<i>x</i><sup>2</sup>) / Take out 3 and rearrange: 3(4<i>y</i><sup>2</sup> − 9<i>x</i><sup>2</sup>).", "寫成 3[(2<i>y</i>)<sup>2</sup> − (3<i>x</i>)<sup>2</sup>] 並運用平方差恆等式 / Apply difference of two squares to (2<i>y</i>)<sup>2</sup> − (3<i>x</i>)<sup>2</sup>.", "得出結果：3(2<i>y</i> + 3<i>x</i>)(2<i>y</i> − 3<i>x</i>) / Final answer: 3(2<i>y</i> + 3<i>x</i>)(2<i>y</i> − 3<i>x</i>)"]}, {"id": "DS19", "category": "diff_squares", "source": "Difference of Two Squares (Class Ex)", "expr": "−36<i>x</i><sup>2</sup> + 81<i>y</i><sup>2</sup>", "answer": "9(3<i>y</i> + 2<i>x</i>)(3<i>y</i> − 2<i>x</i>)", "distractors": ["9(2<i>x</i> + 3<i>y</i>)(2<i>x</i> − 3<i>y</i>)", "9(9<i>y</i><sup>2</sup> − 4<i>x</i><sup>2</sup>)", "(9<i>y</i> + 6<i>x</i>)(9<i>y</i> − 6<i>x</i>)"], "steps": ["先提取最大公因數 9 並重排：9(9<i>y</i><sup>2</sup> − 4<i>x</i><sup>2</sup>) / Take out the H.C.F. 9 and rearrange: 9(9<i>y</i><sup>2</sup> − 4<i>x</i><sup>2</sup>).", "將 9<i>y</i><sup>2</sup> − 4<i>x</i><sup>2</sup> 寫成 (3<i>y</i>)<sup>2</sup> − (2<i>x</i>)<sup>2</sup> 並運用平方差分解 / Factorize (3<i>y</i>)<sup>2</sup> − (2<i>x</i>)<sup>2</sup>.", "得出結果：9(3<i>y</i> + 2<i>x</i>)(3<i>y</i> − 2<i>x</i>) / Final answer: 9(3<i>y</i> + 2<i>x</i>)(3<i>y</i> − 2<i>x</i>)"]}, {"id": "PS01", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "<i>x</i><sup>2</sup> + 4<i>x</i> + 4", "answer": "(<i>x</i> + 2)<sup>2</sup>", "distractors": ["(<i>x</i> + 2)(<i>x</i> − 2)", "(<i>x</i> − 2)<sup>2</sup>", "(<i>x</i> + 4)<sup>2</sup>"], "steps": ["化為完全平方形式：<i>x</i><sup>2</sup> + 2(<i>x</i>)(2) + 2<sup>2</sup> / Rewrite in the form <i>a</i><sup>2</sup> + 2<i>ab</i> + <i>b</i><sup>2</sup>.", "運用完全平方恆等式 <i>a</i><sup>2</sup> + 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)<sup>2</sup> / Apply <i>a</i><sup>2</sup> + 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)<sup>2</sup>.", "得出結果：(<i>x</i> + 2)<sup>2</sup> / Final answer: (<i>x</i> + 2)<sup>2</sup>"]}, {"id": "PS02", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "<i>x</i><sup>2</sup> − 14<i>x</i> + 49", "answer": "(<i>x</i> − 7)<sup>2</sup>", "distractors": ["(<i>x</i> + 7)<sup>2</sup>", "(<i>x</i> + 7)(<i>x</i> − 7)", "(<i>x</i> − 49)<sup>2</sup>"], "steps": ["化為完全平方形式：<i>x</i><sup>2</sup> − 2(<i>x</i>)(7) + 7<sup>2</sup> / Rewrite as <i>x</i><sup>2</sup> − 2(<i>x</i>)(7) + 7<sup>2</sup>.", "運用完全平方恆等式 <i>a</i><sup>2</sup> − 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> − <i>b</i>)<sup>2</sup> / Apply <i>a</i><sup>2</sup> − 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> − <i>b</i>)<sup>2</sup>.", "得出結果：(<i>x</i> − 7)<sup>2</sup> / Final answer: (<i>x</i> − 7)<sup>2</sup>"]}, {"id": "PS03", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "49<i>c</i><sup>2</sup> + 14<i>c</i> + 1", "answer": "(7<i>c</i> + 1)<sup>2</sup>", "distractors": ["(7<i>c</i> − 1)<sup>2</sup>", "(7<i>c</i> + 1)(7<i>c</i> − 1)", "(49<i>c</i> + 1)<sup>2</sup>"], "steps": ["化為完全平方形式：(7<i>c</i>)<sup>2</sup> + 2(7<i>c</i>)(1) + 1<sup>2</sup> / Rewrite as (7<i>c</i>)<sup>2</sup> + 2(7<i>c</i>)(1) + 1<sup>2</sup>.", "運用完全平方恆等式 <i>a</i><sup>2</sup> + 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)<sup>2</sup> / Apply the perfect square identity.", "得出結果：(7<i>c</i> + 1)<sup>2</sup> / Final answer: (7<i>c</i> + 1)<sup>2</sup>"]}, {"id": "PS04", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "64<i>y</i><sup>2</sup> − 16<i>y</i> + 1", "answer": "(8<i>y</i> − 1)<sup>2</sup>", "distractors": ["(8<i>y</i> + 1)<sup>2</sup>", "(8<i>y</i> + 1)(8<i>y</i> − 1)", "(16<i>y</i> − 1)<sup>2</sup>"], "steps": ["化為完全平方形式：(8<i>y</i>)<sup>2</sup> − 2(8<i>y</i>)(1) + 1<sup>2</sup> / Rewrite as (8<i>y</i>)<sup>2</sup> − 2(8<i>y</i>)(1) + 1<sup>2</sup>.", "運用完全平方恆等式 <i>a</i><sup>2</sup> − 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> − <i>b</i>)<sup>2</sup> / Apply <i>a</i><sup>2</sup> − 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> − <i>b</i>)<sup>2</sup>.", "得出結果：(8<i>y</i> − 1)<sup>2</sup> / Final answer: (8<i>y</i> − 1)<sup>2</sup>"]}, {"id": "PS05", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "25<i>p</i><sup>2</sup> − 110<i>pq</i> + 121<i>q</i><sup>2</sup>", "answer": "(5<i>p</i> − 11<i>q</i>)<sup>2</sup>", "distractors": ["(5<i>p</i> + 11<i>q</i>)<sup>2</sup>", "(5<i>p</i> + 11<i>q</i>)(5<i>p</i> − 11<i>q</i>)", "(25<i>p</i> − 11<i>q</i>)<sup>2</sup>"], "steps": ["化為完全平方形式：(5<i>p</i>)<sup>2</sup> − 2(5<i>p</i>)(11<i>q</i>) + (11<i>q</i>)<sup>2</sup> / Rewrite as (5<i>p</i>)<sup>2</sup> − 2(5<i>p</i>)(11<i>q</i>) + (11<i>q</i>)<sup>2</sup>.", "驗證中間項：2(5<i>p</i>)(11<i>q</i>) = 110<i>pq</i>，符合完全平方公式 / Verify the middle term is 110<i>pq</i>.", "得出結果：(5<i>p</i> − 11<i>q</i>)<sup>2</sup> / Final answer: (5<i>p</i> − 11<i>q</i>)<sup>2</sup>"]}, {"id": "PS06", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "9<i>k</i><sup>2</sup> + 42<i>k</i> + 49", "answer": "(3<i>k</i> + 7)<sup>2</sup>", "distractors": ["(3<i>k</i> − 7)<sup>2</sup>", "(3<i>k</i> + 7)(3<i>k</i> − 7)", "(9<i>k</i> + 7)<sup>2</sup>"], "steps": ["化為完全平方形式：(3<i>k</i>)<sup>2</sup> + 2(3<i>k</i>)(7) + 7<sup>2</sup> / Rewrite as (3<i>k</i>)<sup>2</sup> + 2(3<i>k</i>)(7) + 7<sup>2</sup>.", "運用完全平方恆等式 <i>a</i><sup>2</sup> + 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> + <i>b</i>)<sup>2</sup> / Apply the perfect square identity.", "得出結果：(3<i>k</i> + 7)<sup>2</sup> / Final answer: (3<i>k</i> + 7)<sup>2</sup>"]}, {"id": "PS07", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "25 − 40<i>x</i> + 16<i>x</i><sup>2</sup>", "answer": "(5 − 4<i>x</i>)<sup>2</sup>", "distractors": ["(5 + 4<i>x</i>)<sup>2</sup>", "(5 + 4<i>x</i>)(5 − 4<i>x</i>)", "(25 − 4<i>x</i>)<sup>2</sup>"], "steps": ["化為完全平方形式：5<sup>2</sup> − 2(5)(4<i>x</i>) + (4<i>x</i>)<sup>2</sup> / Rewrite as 5<sup>2</sup> − 2(5)(4<i>x</i>) + (4<i>x</i>)<sup>2</sup>.", "運用完全平方恆等式 <i>a</i><sup>2</sup> − 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> − <i>b</i>)<sup>2</sup> / Apply <i>a</i><sup>2</sup> − 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> − <i>b</i>)<sup>2</sup>.", "得出結果：(5 − 4<i>x</i>)<sup>2</sup> / Final answer: (5 − 4<i>x</i>)<sup>2</sup>"]}, {"id": "PS08", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "56<i>cd</i> + 49<i>c</i><sup>2</sup> + 16<i>d</i><sup>2</sup>", "answer": "(7<i>c</i> + 4<i>d</i>)<sup>2</sup>", "distractors": ["(7<i>c</i> − 4<i>d</i>)<sup>2</sup>", "(7<i>c</i> + 4<i>d</i>)(7<i>c</i> − 4<i>d</i>)", "(49<i>c</i> + 16<i>d</i>)<sup>2</sup>"], "steps": ["先按降冪排列各項：49<i>c</i><sup>2</sup> + 56<i>cd</i> + 16<i>d</i><sup>2</sup> / Rearrange terms in descending order: 49<i>c</i><sup>2</sup> + 56<i>cd</i> + 16<i>d</i><sup>2</sup>.", "化為 (7<i>c</i>)<sup>2</sup> + 2(7<i>c</i>)(4<i>d</i>) + (4<i>d</i>)<sup>2</sup> / Rewrite in perfect square form.", "得出結果：(7<i>c</i> + 4<i>d</i>)<sup>2</sup> / Final answer: (7<i>c</i> + 4<i>d</i>)<sup>2</sup>"]}, {"id": "PS09", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "4<i>m</i><sup>2</sup> + 81<i>n</i><sup>2</sup> − 36<i>mn</i>", "answer": "(2<i>m</i> − 9<i>n</i>)<sup>2</sup>", "distractors": ["(2<i>m</i> + 9<i>n</i>)<sup>2</sup>", "(2<i>m</i> + 9<i>n</i>)(2<i>m</i> − 9<i>n</i>)", "(4<i>m</i> − 9<i>n</i>)<sup>2</sup>"], "steps": ["重新排列各項：4<i>m</i><sup>2</sup> − 36<i>mn</i> + 81<i>n</i><sup>2</sup> / Rearrange terms as 4<i>m</i><sup>2</sup> − 36<i>mn</i> + 81<i>n</i><sup>2</sup>.", "化為 (2<i>m</i>)<sup>2</sup> − 2(2<i>m</i>)(9<i>n</i>) + (9<i>n</i>)<sup>2</sup> / Rewrite in perfect square form.", "得出結果：(2<i>m</i> − 9<i>n</i>)<sup>2</sup> / Final answer: (2<i>m</i> − 9<i>n</i>)<sup>2</sup>"]}, {"id": "PS10", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "3<i>x</i><sup>2</sup> + 18<i>x</i> + 27", "answer": "3(<i>x</i> + 3)<sup>2</sup>", "distractors": ["3(<i>x</i><sup>2</sup> + 6<i>x</i> + 9)", "3(<i>x</i> − 3)<sup>2</sup>", "3(<i>x</i> + 3)(<i>x</i> − 3)"], "steps": ["先提取公因數 3：3(<i>x</i><sup>2</sup> + 6<i>x</i> + 9) / First, take out the common factor 3: 3(<i>x</i><sup>2</sup> + 6<i>x</i> + 9).", "對括號內運用完全平方恆等式：3[<i>x</i><sup>2</sup> + 2(<i>x</i>)(3) + 3<sup>2</sup>] / Apply perfect square identity inside the bracket.", "得出結果：3(<i>x</i> + 3)<sup>2</sup> / Final answer: 3(<i>x</i> + 3)<sup>2</sup>"]}, {"id": "PS11", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "−4<i>k</i><sup>2</sup> − 28<i>k</i> − 49", "answer": "−(2<i>k</i> + 7)<sup>2</sup>", "distractors": ["−(2<i>k</i> − 7)<sup>2</sup>", "(2<i>k</i> + 7)<sup>2</sup>", "−(2<i>k</i> + 7)(2<i>k</i> − 7)"], "steps": ["先提取負號 −1：−(4<i>k</i><sup>2</sup> + 28<i>k</i> + 49) / First, take out −1: −(4<i>k</i><sup>2</sup> + 28<i>k</i> + 49).", "將括號內化為完全平方：−[(2<i>k</i>)<sup>2</sup> + 2(2<i>k</i>)(7) + 7<sup>2</sup>] / Rewrite inside as (2<i>k</i>)<sup>2</sup> + 2(2<i>k</i>)(7) + 7<sup>2</sup>.", "得出結果：−(2<i>k</i> + 7)<sup>2</sup> / Final answer: −(2<i>k</i> + 7)<sup>2</sup>"]}, {"id": "PS12", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "−100<i>t</i><sup>2</sup> + 120<i>t</i> − 36", "answer": "−4(5<i>t</i> − 3)<sup>2</sup>", "distractors": ["−4(5<i>t</i> + 3)<sup>2</sup>", "4(5<i>t</i> − 3)<sup>2</sup>", "−4(25<i>t</i><sup>2</sup> − 30<i>t</i> + 9)"], "steps": ["先提取公因數 −4：−4(25<i>t</i><sup>2</sup> − 30<i>t</i> + 9) / First, take out −4: −4(25<i>t</i><sup>2</sup> − 30<i>t</i> + 9).", "對括號內運用完全平方公式：−4[(5<i>t</i>)<sup>2</sup> − 2(5<i>t</i>)(3) + 3<sup>2</sup>] / Apply perfect square identity inside.", "得出結果：−4(5<i>t</i> − 3)<sup>2</sup> / Final answer: −4(5<i>t</i> − 3)<sup>2</sup>"]}, {"id": "PS13", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "−<i>a</i><sup>2</sup> + 12<i>ab</i> − 36<i>b</i><sup>2</sup>", "answer": "−(<i>a</i> − 6<i>b</i>)<sup>2</sup>", "distractors": ["−(<i>a</i> + 6<i>b</i>)<sup>2</sup>", "(<i>a</i> − 6<i>b</i>)<sup>2</sup>", "−(<i>a</i> + 6<i>b</i>)(<i>a</i> − 6<i>b</i>)"], "steps": ["先提取負號 −1：−(<i>a</i><sup>2</sup> − 12<i>ab</i> + 36<i>b</i><sup>2</sup>) / First, take out −1: −(<i>a</i><sup>2</sup> − 12<i>ab</i> + 36<i>b</i><sup>2</sup>).", "運用完全平方恆等式：−[<i>a</i><sup>2</sup> − 2(<i>a</i>)(6<i>b</i>) + (6<i>b</i>)<sup>2</sup>] / Apply <i>a</i><sup>2</sup> − 2<i>ab</i> + <i>b</i><sup>2</sup> ≡ (<i>a</i> − <i>b</i>)<sup>2</sup>.", "得出結果：−(<i>a</i> − 6<i>b</i>)<sup>2</sup> / Final answer: −(<i>a</i> − 6<i>b</i>)<sup>2</sup>"]}, {"id": "PS14", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "2<i>m</i><sup>2</sup> − 28<i>mn</i> + 98<i>n</i><sup>2</sup>", "answer": "2(<i>m</i> − 7<i>n</i>)<sup>2</sup>", "distractors": ["2(<i>m</i> + 7<i>n</i>)<sup>2</sup>", "2(<i>m</i><sup>2</sup> − 14<i>mn</i> + 49<i>n</i><sup>2</sup>)", "2(<i>m</i> + 7<i>n</i>)(<i>m</i> − 7<i>n</i>)"], "steps": ["先提取公因數 2：2(<i>m</i><sup>2</sup> − 14<i>mn</i> + 49<i>n</i><sup>2</sup>) / First, take out the common factor 2.", "對括號內運用完全平方恆等式：2[<i>m</i><sup>2</sup> − 2(<i>m</i>)(7<i>n</i>) + (7<i>n</i>)<sup>2</sup>] / Factorize inside using perfect square identity.", "得出結果：2(<i>m</i> − 7<i>n</i>)<sup>2</sup> / Final answer: 2(<i>m</i> − 7<i>n</i>)<sup>2</sup>"]}, {"id": "PS15", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "−112<i>x</i><sup>2</sup> − 168<i>xy</i> − 63<i>y</i><sup>2</sup>", "answer": "−7(4<i>x</i> + 3<i>y</i>)<sup>2</sup>", "distractors": ["−7(4<i>x</i> − 3<i>y</i>)<sup>2</sup>", "7(4<i>x</i> + 3<i>y</i>)<sup>2</sup>", "−7(16<i>x</i><sup>2</sup> + 24<i>xy</i> + 9<i>y</i><sup>2</sup>)"], "steps": ["先提取最大公因數 −7：−7(16<i>x</i><sup>2</sup> + 24<i>xy</i> + 9<i>y</i><sup>2</sup>) / First, take out the H.C.F. −7.", "將括號內化為完全平方：−7[(4<i>x</i>)<sup>2</sup> + 2(4<i>x</i>)(3<i>y</i>) + (3<i>y</i>)<sup>2</sup>] / Rewrite inside as (4<i>x</i>)<sup>2</sup> + 2(4<i>x</i>)(3<i>y</i>) + (3<i>y</i>)<sup>2</sup>.", "得出結果：−7(4<i>x</i> + 3<i>y</i>)<sup>2</sup> / Final answer: −7(4<i>x</i> + 3<i>y</i>)<sup>2</sup>"]}, {"id": "PS16", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "<i>x</i><sup>3</sup> − 4<i>x</i><sup>2</sup> + 4<i>x</i>", "answer": "<i>x</i>(<i>x</i> − 2)<sup>2</sup>", "distractors": ["<i>x</i>(<i>x</i> + 2)<sup>2</sup>", "<i>x</i>(<i>x</i> + 2)(<i>x</i> − 2)", "<i>x</i>(<i>x</i><sup>2</sup> − 4<i>x</i> + 4)"], "steps": ["先提取公因式 <i>x</i>：<i>x</i>(<i>x</i><sup>2</sup> − 4<i>x</i> + 4) / First, take out the common factor <i>x</i>: <i>x</i>(<i>x</i><sup>2</sup> − 4<i>x</i> + 4).", "對括號內運用完全平方恆等式：<i>x</i>[<i>x</i><sup>2</sup> − 2(<i>x</i>)(2) + 2<sup>2</sup>] / Apply perfect square identity inside.", "得出結果：<i>x</i>(<i>x</i> − 2)<sup>2</sup> / Final answer: <i>x</i>(<i>x</i> − 2)<sup>2</sup>"]}, {"id": "PS17", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "−<i>p</i><sup>3</sup> + 10<i>p</i><sup>2</sup><i>q</i> − 25<i>pq</i><sup>2</sup>", "answer": "−<i>p</i>(<i>p</i> − 5<i>q</i>)<sup>2</sup>", "distractors": ["−<i>p</i>(<i>p</i> + 5<i>q</i>)<sup>2</sup>", "<i>p</i>(<i>p</i> − 5<i>q</i>)<sup>2</sup>", "−<i>p</i>(<i>p</i> + 5<i>q</i>)(<i>p</i> − 5<i>q</i>)"], "steps": ["先提取公因式 −<i>p</i>：−<i>p</i>(<i>p</i><sup>2</sup> − 10<i>pq</i> + 25<i>q</i><sup>2</sup>) / First, take out the common factor −<i>p</i>.", "對括號內運用完全平方恆等式：−<i>p</i>[<i>p</i><sup>2</sup> − 2(<i>p</i>)(5<i>q</i>) + (5<i>q</i>)<sup>2</sup>] / Apply perfect square identity inside.", "得出結果：−<i>p</i>(<i>p</i> − 5<i>q</i>)<sup>2</sup> / Final answer: −<i>p</i>(<i>p</i> − 5<i>q</i>)<sup>2</sup>"]}, {"id": "PS18", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "12<i>y</i> + 12<i>xy</i> + 3<i>x</i><sup>2</sup><i>y</i>", "answer": "3<i>y</i>(2 + <i>x</i>)<sup>2</sup>", "distractors": ["3<i>y</i>(2 − <i>x</i>)<sup>2</sup>", "3<i>y</i>(4 + 4<i>x</i> + <i>x</i><sup>2</sup>)", "3<i>y</i>(2 + <i>x</i>)(2 − <i>x</i>)"], "steps": ["先提取公因式 3<i>y</i>：3<i>y</i>(4 + 4<i>x</i> + <i>x</i><sup>2</sup>) / First, take out the common factor 3<i>y</i>: 3<i>y</i>(4 + 4<i>x</i> + <i>x</i><sup>2</sup>).", "將括號內化為完全平方：3<i>y</i>[2<sup>2</sup> + 2(2)(<i>x</i>) + <i>x</i><sup>2</sup>] / Rewrite inside as 2<sup>2</sup> + 2(2)(<i>x</i>) + <i>x</i><sup>2</sup>.", "得出結果：3<i>y</i>(2 + <i>x</i>)<sup>2</sup> / Final answer: 3<i>y</i>(2 + <i>x</i>)<sup>2</sup>"]}, {"id": "PS19", "category": "perfect_square", "source": "Perfect Squares (Class Ex)", "expr": "18<i>m</i><sup>2</sup> + 32<i>n</i><sup>2</sup> − 48<i>mn</i>", "answer": "2(3<i>m</i> − 4<i>n</i>)<sup>2</sup>", "distractors": ["2(3<i>m</i> + 4<i>n</i>)<sup>2</sup>", "2(3<i>m</i> + 4<i>n</i>)(3<i>m</i> − 4<i>n</i>)", "2(9<i>m</i><sup>2</sup> − 24<i>mn</i> + 16<i>n</i><sup>2</sup>)"], "steps": ["先提取公因數 2 並重新排列：2(9<i>m</i><sup>2</sup> − 24<i>mn</i> + 16<i>n</i><sup>2</sup>) / Take out 2 and rearrange: 2(9<i>m</i><sup>2</sup> − 24<i>mn</i> + 16<i>n</i><sup>2</sup>).", "對括號內運用完全平方恆等式：2[(3<i>m</i>)<sup>2</sup> − 2(3<i>m</i>)(4<i>n</i>) + (4<i>n</i>)<sup>2</sup>] / Apply perfect square identity inside.", "得出結果：2(3<i>m</i> − 4<i>n</i>)<sup>2</sup> / Final answer: 2(3<i>m</i> − 4<i>n</i>)<sup>2</sup>"]}];
+
+    const CATEGORY_NAMES = {
+      common: "提取公因式 (Taking out the common factor)",
+      grouping: "併項法 (Grouping terms)",
+      diff_squares: "平方差 (Difference of two squares)",
+      perfect_square: "完全平方 (Perfect square)",
+      mixed: "綜合題 (Comprehensive Practice)"
+    };
+
+    const LETTERS = ["A", "B", "C", "D"];
+
+    // Utility: Fisher-Yates Shuffle
+    function shuffle(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    // View & Tab Management
+    function hideAllViews() {
+      ["view-home", "view-practice", "view-quiz-intro", "view-quiz-active", "view-quiz-result"].forEach(id => {
+        document.getElementById(id).classList.add("hidden");
+      });
+      document.querySelectorAll(".mode-tab").forEach(btn => btn.classList.remove("active"));
+    }
+
+    function stopQuizTimer() {
+      if (quizState.timerId) {
+        clearInterval(quizState.timerId);
+        quizState.timerId = null;
+      }
+    }
+
+    function goHome() {
+      stopQuizTimer();
+      hideAllViews();
+      document.getElementById("view-home").classList.remove("hidden");
+    }
+
+    // =========================================================================
+    // CHAPTER PRACTICE LOGIC
+    // =========================================================================
+    let practiceState = {
+      category: "common",
+      pool: [],
+      currentQ: null,
+      answered: false,
+      totalPracticed: 0,
+      totalCorrect: 0
+    };
+
+    function getCategoryQuestions(cat) {
+      if (cat === "mixed") {
+        return [...QUESTION_BANK];
+      }
+      return QUESTION_BANK.filter(q => q.category === cat);
+    }
+
+    function startPractice(category) {
+      stopQuizTimer();
+      hideAllViews();
+      document.getElementById("tab-" + category).classList.add("active");
+      document.getElementById("view-practice").classList.remove("hidden");
+
+      practiceState = {
+        category: category,
+        pool: shuffle(getCategoryQuestions(category)),
+        currentQ: null,
+        answered: false,
+        totalPracticed: 0,
+        totalCorrect: 0
+      };
+
+      document.getElementById("practice-chapter-label").textContent = CATEGORY_NAMES[category];
+      updatePracticeStats();
+      nextPracticeQuestion();
+    }
+
+    function updatePracticeStats() {
+      document.getElementById("p-total").textContent = practiceState.totalPracticed;
+      document.getElementById("p-correct").textContent = practiceState.totalCorrect;
+      const rate = practiceState.totalPracticed === 0
+        ? 0
+        : Math.round((practiceState.totalCorrect / practiceState.totalPracticed) * 100);
+      document.getElementById("p-rate").textContent = rate + "%";
+    }
+
+    function nextPracticeQuestion() {
+      if (practiceState.pool.length === 0) {
+        practiceState.pool = shuffle(getCategoryQuestions(practiceState.category));
+      }
+      const q = practiceState.pool.pop();
+      practiceState.currentQ = q;
+      practiceState.answered = false;
+
+      const qNum = practiceState.totalPracticed + 1;
+      document.getElementById("p-q-index").textContent = `第 ${qNum} 題 / Question ${qNum}`;
+      document.getElementById("p-expr").innerHTML = q.expr;
+
+      // Reset feedback & solution
+      const fb = document.getElementById("p-feedback");
+      fb.className = "feedback-banner hidden";
+      fb.innerHTML = "";
+
+      document.getElementById("p-solution").classList.add("hidden");
+      document.getElementById("p-next-btn").classList.add("hidden");
+
+      // Build shuffled options
+      const allOptions = shuffle([q.answer, ...q.distractors]);
+      const optionsContainer = document.getElementById("p-options");
+      optionsContainer.innerHTML = "";
+
+      allOptions.forEach((optHtml, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.dataset.value = optHtml;
+        btn.innerHTML = `
+          <span class="option-letter">${LETTERS[idx]}</span>
+          <span class="option-math">${optHtml}</span>
+        `;
+        btn.onclick = () => handlePracticeAnswer(btn, optHtml);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function handlePracticeAnswer(selectedBtn, chosenValue) {
+      if (practiceState.answered) return;
+      practiceState.answered = true;
+      practiceState.totalPracticed += 1;
+
+      const q = practiceState.currentQ;
+      const isCorrect = chosenValue === q.answer;
+      if (isCorrect) {
+        practiceState.totalCorrect += 1;
+      }
+      updatePracticeStats();
+
+      // Disable all buttons and highlight correct / wrong
+      const buttons = document.querySelectorAll("#p-options .option-btn");
+      buttons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.dataset.value === q.answer) {
+          btn.classList.add("correct");
+        } else if (btn === selectedBtn && !isCorrect) {
+          btn.classList.add("wrong");
+        }
+      });
+
+      // Show feedback banner
+      const fb = document.getElementById("p-feedback");
+      if (isCorrect) {
+        fb.className = "feedback-banner success";
+        fb.innerHTML = `✅ 答對了！做得好！ / Correct! Well done!`;
+      } else {
+        fb.className = "feedback-banner danger";
+        fb.innerHTML = `❌ 答錯了！正確答案是 <span style="font-family: 'Times New Roman', serif; font-size: 1.15rem; margin-left: 4px;">${q.answer}</span> / Incorrect! Please review the steps below.`;
+      }
+
+      // Immediately display detailed step-by-step solution (whether right or wrong)
+      document.getElementById("p-method-tag").textContent = CATEGORY_NAMES[q.category];
+      const stepsList = document.getElementById("p-steps");
+      stepsList.innerHTML = "";
+      q.steps.forEach((stepText, idx) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span class="step-num">${idx + 1}</span><span>${stepText}</span>`;
+        stepsList.appendChild(li);
+      });
+      document.getElementById("p-solution").classList.remove("hidden");
+      document.getElementById("p-next-btn").classList.remove("hidden");
+    }
+
+    // =========================================================================
+    // MINI QUIZ LOGIC (20 Questions, 15 Minutes, 2 Chances per Question)
+    // =========================================================================
+    const QUIZ_TOTAL_QUESTIONS = 20;
+    const QUIZ_DURATION_SECONDS = 15 * 60; // 15 minutes = 900 seconds
+
+    let quizState = {
+      questions: [],
+      currentIndex: 0,
+      attemptsLeft: 2,
+      questionResolved: false,
+      score: 0,
+      secondsRemaining: QUIZ_DURATION_SECONDS,
+      timerId: null,
+      endedByTimeout: false,
+      records: [] // { q, userAnswer, isCorrect, attemptsUsed }
+    };
+
+    function showQuizIntro() {
+      stopQuizTimer();
+      hideAllViews();
+      document.getElementById("tab-quiz").classList.add("active");
+      document.getElementById("view-quiz-intro").classList.remove("hidden");
+    }
+
+    function buildBalancedQuizQuestions() {
+      // Pick 5 random questions from each of the 4 methods = 20 questions total, then shuffle
+      const cats = ["common", "grouping", "diff_squares", "perfect_square"];
+      let selected = [];
+      cats.forEach(cat => {
+        const catPool = shuffle(QUESTION_BANK.filter(q => q.category === cat));
+        selected = selected.concat(catPool.slice(0, 5));
+      });
+      return shuffle(selected);
+    }
+
+    function startQuiz() {
+      stopQuizTimer();
+      hideAllViews();
+      document.getElementById("tab-quiz").classList.add("active");
+      document.getElementById("view-quiz-active").classList.remove("hidden");
+
+      const qs = buildBalancedQuizQuestions();
+      quizState = {
+        questions: qs,
+        currentIndex: 0,
+        attemptsLeft: 2,
+        questionResolved: false,
+        score: 0,
+        secondsRemaining: QUIZ_DURATION_SECONDS,
+        timerId: null,
+        endedByTimeout: false,
+        records: qs.map(q => ({
+          q: q,
+          userAnswer: null,
+          isCorrect: false,
+          attemptsUsed: 0
+        }))
+      };
+
+      updateTimerDisplay();
+      quizState.timerId = setInterval(() => {
+        quizState.secondsRemaining -= 1;
+        updateTimerDisplay();
+        if (quizState.secondsRemaining <= 0) {
+          handleQuizTimeout();
+        }
+      }, 1000);
+
+      renderQuizQuestion();
+    }
+
+    function formatTime(sec) {
+      const safeSec = Math.max(0, sec);
+      const mins = Math.floor(safeSec / 60);
+      const rem = safeSec % 60;
+      return String(mins).padStart(2, "0") + ":" + String(rem).padStart(2, "0");
+    }
+
+    function updateTimerDisplay() {
+      const el = document.getElementById("q-timer");
+      el.textContent = "⏳ " + formatTime(quizState.secondsRemaining);
+      el.classList.remove("warning", "danger");
+      if (quizState.secondsRemaining <= 60) {
+        el.classList.add("danger");
+      } else if (quizState.secondsRemaining <= 180) {
+        el.classList.add("warning");
+      }
+    }
+
+    function updateAttemptsBadge() {
+      const badge = document.getElementById("q-attempts-badge");
+      if (quizState.attemptsLeft === 2) {
+        badge.className = "attempts-badge";
+        badge.textContent = "❤️❤️ 剩餘機會 / Chances left: 2 / 2";
+      } else if (quizState.attemptsLeft === 1) {
+        badge.className = "attempts-badge one-left";
+        badge.textContent = "❤️ 剩餘機會 / Chances left: 1 / 2";
+      } else {
+        badge.className = "attempts-badge one-left";
+        badge.textContent = "🤍 剩餘機會 / Chances left: 0 / 2";
+      }
+    }
+
+    function renderQuizQuestion() {
+      const idx = quizState.currentIndex;
+      const q = quizState.questions[idx];
+      quizState.attemptsLeft = 2;
+      quizState.questionResolved = false;
+
+      document.getElementById("q-progress-text").textContent = `${idx + 1} / ${QUIZ_TOTAL_QUESTIONS}`;
+      document.getElementById("q-score-text").textContent = quizState.score;
+      document.getElementById("q-progress-bar").style.width = `${((idx + 1) / QUIZ_TOTAL_QUESTIONS) * 100}%`;
+      document.getElementById("q-num-label").textContent = `第 ${idx + 1} 題（共 ${QUIZ_TOTAL_QUESTIONS} 題） / Question ${idx + 1} of ${QUIZ_TOTAL_QUESTIONS}`;
+
+      updateAttemptsBadge();
+      document.getElementById("q-expr").innerHTML = q.expr;
+
+      const fb = document.getElementById("q-feedback");
+      fb.className = "feedback-banner hidden";
+      fb.innerHTML = "";
+
+      document.getElementById("q-solution").classList.add("hidden");
+      const nextBtn = document.getElementById("q-next-btn");
+      nextBtn.classList.add("hidden");
+      nextBtn.textContent = (idx === QUIZ_TOTAL_QUESTIONS - 1)
+        ? "📊 完成並結算成績 / Finish & View Results"
+        : "下一題 / Next Question →";
+
+      const allOptions = shuffle([q.answer, ...q.distractors]);
+      const optionsContainer = document.getElementById("q-options");
+      optionsContainer.innerHTML = "";
+
+      allOptions.forEach((optHtml, optIdx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.dataset.value = optHtml;
+        btn.innerHTML = `
+          <span class="option-letter">${LETTERS[optIdx]}</span>
+          <span class="option-math">${optHtml}</span>
+        `;
+        btn.onclick = () => handleQuizAnswer(btn, optHtml);
+        optionsContainer.appendChild(btn);
+      });
+    }
+
+    function revealQuizSolution(q) {
+      document.getElementById("q-method-tag").textContent = CATEGORY_NAMES[q.category];
+      const stepsList = document.getElementById("q-steps");
+      stepsList.innerHTML = "";
+      q.steps.forEach((stepText, idx) => {
+        const li = document.createElement("li");
+        li.innerHTML = `<span class="step-num">${idx + 1}</span><span>${stepText}</span>`;
+        stepsList.appendChild(li);
+      });
+      document.getElementById("q-solution").classList.remove("hidden");
+    }
+
+    function handleQuizAnswer(selectedBtn, chosenValue) {
+      if (quizState.questionResolved || quizState.secondsRemaining <= 0) return;
+
+      const idx = quizState.currentIndex;
+      const q = quizState.questions[idx];
+      const record = quizState.records[idx];
+      record.attemptsUsed += 1;
+      record.userAnswer = chosenValue;
+
+      const isCorrect = chosenValue === q.answer;
+      const fb = document.getElementById("q-feedback");
+
+      if (isCorrect) {
+        // Correct on 1st or 2nd attempt -> lock options, award point, show solution immediately
+        quizState.questionResolved = true;
+        quizState.score += 1;
+        record.isCorrect = true;
+        document.getElementById("q-score-text").textContent = quizState.score;
+
+        document.querySelectorAll("#q-options .option-btn").forEach(btn => {
+          btn.disabled = true;
+          if (btn.dataset.value === q.answer) {
+            btn.classList.add("correct");
+          }
+        });
+
+        fb.className = "feedback-banner success";
+        fb.innerHTML = record.attemptsUsed === 1
+          ? `✅ 一次答對！太棒了！ / Correct on your 1st try!`
+          : `✅ 第二次嘗試答對了！ / Correct on your 2nd try!`;
+
+        revealQuizSolution(q);
+        document.getElementById("q-next-btn").classList.remove("hidden");
+      } else {
+        // Wrong answer
+        quizState.attemptsLeft -= 1;
+        updateAttemptsBadge();
+        selectedBtn.disabled = true;
+        selectedBtn.classList.add("wrong");
+
+        if (quizState.attemptsLeft === 1) {
+          // 1st attempt wrong: DO NOT show solution yet; allow 2nd attempt
+          fb.className = "feedback-banner warning";
+          fb.innerHTML = `⚠️ 第一次作答不正確！你還有 <strong>1 次機會</strong>，請仔細檢查符號或公式再選。 / Wrong on 1st try! You have 1 chance left.`;
+        } else {
+          // 2nd attempt wrong: lock all options, reveal correct answer & detailed solution
+          quizState.questionResolved = true;
+          record.isCorrect = false;
+
+          document.querySelectorAll("#q-options .option-btn").forEach(btn => {
+            btn.disabled = true;
+            if (btn.dataset.value === q.answer) {
+              btn.classList.add("correct");
+            }
+          });
+
+          fb.className = "feedback-banner danger";
+          fb.innerHTML = `❌ 2 次機會已用完，仍未答對。正確答案是 <span style="font-family: 'Times New Roman', serif; font-size: 1.15rem; margin-left: 4px;">${q.answer}</span> / Out of chances! Review the solution below.`;
+
+          revealQuizSolution(q);
+          document.getElementById("q-next-btn").classList.remove("hidden");
+        }
+      }
+    }
+
+    function nextQuizQuestion() {
+      if (quizState.currentIndex < QUIZ_TOTAL_QUESTIONS - 1) {
+        quizState.currentIndex += 1;
+        renderQuizQuestion();
+      } else {
+        finishQuiz(false);
+      }
+    }
+
+    function handleQuizTimeout() {
+      stopQuizTimer();
+      // Lock any active buttons immediately
+      document.querySelectorAll("#q-options .option-btn").forEach(btn => {
+        btn.disabled = true;
+      });
+      finishQuiz(true);
+    }
+
+    function finishQuiz(endedByTimeout) {
+      stopQuizTimer();
+      quizState.endedByTimeout = endedByTimeout;
+
+      hideAllViews();
+      document.getElementById("tab-quiz").classList.add("active");
+      document.getElementById("view-quiz-result").classList.remove("hidden");
+
+      const endReasonEl = document.getElementById("r-end-reason");
+      if (endedByTimeout) {
+        endReasonEl.textContent = "⏰ 15 分鐘時間已完結，系統已自動停止作答並結算成績！ / Time's up! Quiz ended automatically.";
+        endReasonEl.style.color = "var(--danger)";
+      } else {
+        endReasonEl.textContent = "🎉 恭喜完成全部 20 題小測驗！ / Quiz Completed!";
+        endReasonEl.style.color = "var(--quiz-dark)";
+      }
+
+      const score = quizState.score;
+      const pct = Math.round((score / QUIZ_TOTAL_QUESTIONS) * 100);
+      const timeUsed = QUIZ_DURATION_SECONDS - Math.max(0, quizState.secondsRemaining);
+
+      document.getElementById("r-score").textContent = `${score} / ${QUIZ_TOTAL_QUESTIONS}`;
+      document.getElementById("r-percent").textContent = `得分率：${pct}% · 用時：${formatTime(timeUsed)}`;
+
+      let comment = "";
+      if (pct >= 90) {
+        comment = "老師評語：表現極之出色！你已完全掌握中二級四種因式分解技巧！ / Outstanding mastery of all four factorization methods!";
+      } else if (pct >= 75) {
+        comment = "老師評語：成績優良！留意個別正負號變化，你會更上一層樓！ / Great job! Watch out for small sign details to reach perfection.";
+      } else if (pct >= 50) {
+        comment = "老師評語：已掌握基本概念，建議針對答錯的章節多做分項練習！ / Good effort! Review the missed methods in chapter practice.";
+      } else {
+        comment = "老師評語：別氣餒！先回到各個章節逐一熟習提取公因式與恆等式公式，再來挑戰！ / Keep practicing each chapter step-by-step and try again!";
+      }
+      document.getElementById("r-comment").textContent = comment;
+
+      // Category breakdown
+      const catOrder = ["common", "grouping", "diff_squares", "perfect_square"];
+      const breakdownEl = document.getElementById("r-breakdown");
+      breakdownEl.innerHTML = "";
+      catOrder.forEach(cat => {
+        const items = quizState.records.filter(r => r.q.category === cat);
+        const catCorrect = items.filter(r => r.isCorrect).length;
+        const div = document.createElement("div");
+        div.className = "breakdown-card";
+        div.innerHTML = `
+          <div class="b-title">${CATEGORY_NAMES[cat]}</div>
+          <div class="b-val">${catCorrect} / ${items.length} 題答對</div>
+        `;
+        breakdownEl.appendChild(div);
+      });
+
+      // Full 20-question review list
+      const reviewEl = document.getElementById("r-review-list");
+      reviewEl.innerHTML = "";
+      quizState.records.forEach((rec, idx) => {
+        const div = document.createElement("div");
+        let statusClass = "r-unanswered";
+        let statusText = "未作答 / Unanswered";
+        if (rec.isCorrect) {
+          statusClass = "r-correct";
+          statusText = `✅ 答對（第 ${rec.attemptsUsed} 次嘗試） / Correct`;
+        } else if (rec.attemptsUsed > 0) {
+          statusClass = "r-wrong";
+          statusText = `❌ 答錯 / Incorrect`;
+        }
+
+        div.className = `review-item ${statusClass}`;
+        div.innerHTML = `
+          <div class="review-top">
+            <strong>第 ${idx + 1} 題 · ${CATEGORY_NAMES[rec.q.category]}</strong>
+            <span class="review-status">${statusText}</span>
+          </div>
+          <div class="review-math">題目 / Expression：${rec.q.expr}</div>
+          <div class="review-math">正確答案 / Correct Answer：<strong style="color: var(--success);">${rec.q.answer}</strong></div>
+          <div class="review-steps">
+            <strong>題解步驟：</strong> ${rec.q.steps.join(" → ")}
+          </div>
+        `;
+        reviewEl.appendChild(div);
+      });
+    }
+  </script>
+</body>
+</html>
