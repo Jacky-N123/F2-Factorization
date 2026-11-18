@@ -3141,6 +3141,21 @@
       return "代數式不等價：展開後的數值與題目原式不相等，請檢查提取公因式時的除法、正負號變化或係數平方根是否正確。 / Algebraic mismatch: This expression is not algebraically equivalent to the original expression. Please check your signs, coefficients, and division.";
     }
 
+    function findUnsimplifiedOneVars(rawOrNorm) {
+      const norm = normalizeMathExpr(rawOrNorm);
+      // Detect standalone coefficient 1 before any variable (e.g. 1x, 1y, 1*a, -1b, (1y-3)),
+      // while ignoring 11x, 21y, 0.1y, or x^1y
+      const matches = norm.matchAll(/(?:^|[^0-9.^])1\*?([a-z])/gi);
+      const vars = [];
+      for (const m of matches) {
+        const v = m[1].toLowerCase();
+        if (!vars.includes(v)) {
+          vars.push(v);
+        }
+      }
+      return vars;
+    }
+
     function evaluateAllStudentSteps(question, stepEntries) {
       const exprAst = parseAlgebraAST(question.expr);
       const ansAst = parseAlgebraAST(question.answer);
@@ -3154,6 +3169,12 @@
         const entry = stepEntries[i];
         const rowNum = entry.rowNum;
         const lineText = entry.text;
+        const lineOneVars = findUnsimplifiedOneVars(lineText);
+        const lineHasOneVar = lineOneVars.length > 0;
+        const oneStr = lineOneVars.map(v => "1" + v).join("、");
+        const cleanStr = lineOneVars.join("、");
+        const onePlainEn = lineOneVars.map(v => "1" + v).join(", ");
+        const cleanPlainEn = lineOneVars.join(", ");
 
         // Support optional "LHS = RHS" format if student typed '=' in the middle
         let targetExprText = lineText;
@@ -3169,8 +3190,9 @@
                   rowNum,
                   rawText: lineText,
                   status: "err",
+                  unsimplifiedOneVars: lineOneVars,
                   badge: "❌ 等號左邊與原式不符 / LHS Mismatch",
-                  explanation: "等號左邊的代數式與題目原式不相等，請檢查抄寫是否正確。 / The left-hand side of '=' does not match the original expression."
+                  explanation: (lineHasOneVar ? `未化簡完成，需要將 ${oneStr} 寫成 ${cleanStr}；同時` : "") + "等號左邊的代數式與題目原式不相等，請檢查抄寫是否正確。 / The left-hand side of '=' does not match the original expression."
                 });
                 continue;
               }
@@ -3192,8 +3214,9 @@
             rowNum,
             rawText: lineText,
             status: "err",
+            unsimplifiedOneVars: lineOneVars,
             badge: "❌ 算式格式有誤 / Syntax Error",
-            explanation: `無法解析此代數式（${String(err.message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}），請檢查括號是否成對或算式符號是否完整。 / Could not parse expression (${String(err.message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}). Please check brackets and operators.`
+            explanation: (lineHasOneVar ? `未化簡完成，需要將 ${oneStr} 寫成 ${cleanStr}；同時` : "") + `無法解析此代數式（${String(err.message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}），請檢查括號是否成對或算式符號是否完整。 / Could not parse expression (${String(err.message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}). Please check brackets and operators.`
           });
           continue;
         }
@@ -3208,8 +3231,13 @@
             rowNum,
             rawText: lineText,
             status: "err",
-            badge: "❌ 算式有誤 / Incorrect",
-            explanation: reason
+            unsimplifiedOneVars: lineOneVars,
+            badge: lineHasOneVar
+              ? "❌ 算式有誤（且未化簡完成） / Incorrect & Not Simplified"
+              : "❌ 算式有誤 / Incorrect",
+            explanation: lineHasOneVar
+              ? `未化簡完成，需要將 ${oneStr} 寫成 ${cleanStr}（代數式中係數為 1 時應省略 1，直接寫成 ${cleanStr}）；同時${reason}`
+              : reason
           });
           continue;
         }
@@ -3222,8 +3250,13 @@
             rowNum,
             rawText: lineText,
             status: "partial",
-            badge: "⚠️ 尚未分解（僅重寫原式） / Not Yet Factorized",
-            explanation: "此算式與題目原式相同，尚未進行因式分解。 / This matches the original expression and has not been factorized yet."
+            unsimplifiedOneVars: lineOneVars,
+            badge: lineHasOneVar
+              ? "⚠️ 未化簡完成 / Not Fully Simplified"
+              : "⚠️ 尚未分解（僅重寫原式） / Not Yet Factorized",
+            explanation: lineHasOneVar
+              ? `未化簡完成，需要將 ${oneStr} 寫成 ${cleanStr}（代數式中係數為 1 時應省略 1，直接寫成 ${cleanStr}），且此算式與題目原式相同，尚未進行因式分解。 / Not fully simplified — need to write ${onePlainEn} as ${cleanPlainEn}, and this expression is not yet factorized.`
+              : "此算式與題目原式相同，尚未進行因式分解。 / This matches the original expression and has not been factorized yet."
           });
           continue;
         }
@@ -3234,11 +3267,23 @@
           stStruct.factorMultiplicity >= targetStruct.factorMultiplicity &&
           stStruct.maxBracketDegree <= targetStruct.maxBracketDegree;
 
-        if (isComplete) {
+        if (lineHasOneVar) {
+          results.push({
+            rowNum,
+            rawText: lineText,
+            status: "partial",
+            unsimplifiedOneVars: lineOneVars,
+            badge: "⚠️ 未化簡完成 / Not Fully Simplified",
+            explanation: isComplete
+              ? `未化簡完成，需要將 ${oneStr} 寫成 ${cleanStr}（代數式中係數為 1 時應省略 1，直接寫成 ${cleanStr}）。 / Not fully simplified — need to write ${onePlainEn} as ${cleanPlainEn} (omit the coefficient 1 before ${cleanPlainEn}).`
+              : `未化簡完成，需要將 ${oneStr} 寫成 ${cleanStr}（代數式中係數為 1 時應省略 1，直接寫成 ${cleanStr}），且尚未完全因式分解。 / Not fully simplified — need to write ${onePlainEn} as ${cleanPlainEn}, and factorization is not yet complete.`
+          });
+        } else if (isComplete) {
           results.push({
             rowNum,
             rawText: lineText,
             status: "ok",
+            unsimplifiedOneVars: [],
             badge: "✅ 完全正確（已徹底分解） / Completely Factorized",
             explanation: "代數變換完全正確，且已徹底因式分解至最簡形式！ / Algebraically equivalent and completely factorized!"
           });
@@ -3253,6 +3298,7 @@
             rowNum,
             rawText: lineText,
             status: "partial",
+            unsimplifiedOneVars: [],
             badge: "⚠️ 尚未完全分解 / Incomplete Factorization",
             explanation: detail
           });
@@ -3260,12 +3306,25 @@
       }
 
       const lastRes = results[results.length - 1];
-      const finalIsComplete = lastRes && lastRes.status === "ok";
+      const finalOneVars = lastRes ? (lastRes.unsimplifiedOneVars || []) : [];
+      const finalHasOneVar = finalOneVars.length > 0;
+      const finalIsComplete = Boolean(lastRes && lastRes.status === "ok" && !finalHasOneVar);
+      const allOneVars = [];
+      results.forEach(r => {
+        (r.unsimplifiedOneVars || []).forEach(v => {
+          if (!allOneVars.includes(v)) allOneVars.push(v);
+        });
+      });
+      const anyOneVar = allOneVars.length > 0;
 
       return {
         steps: results,
         anyError,
-        finalIsComplete
+        finalIsComplete,
+        finalHasOneVar,
+        finalOneVars,
+        anyOneVar,
+        allOneVars
       };
     }
 
@@ -3366,9 +3425,23 @@
       } else if (evalResult.finalIsComplete && evalResult.anyError) {
         verdictEl.className = "final-verdict-box v-warning";
         verdictEl.innerHTML = `<span>⚠️</span><div><strong>最終答案正確，但中間步驟曾出現錯誤！</strong>請留意上方標示紅色的步驟，按「重新作答」修改原有步驟後再提交。<br><span style="font-weight: 500; font-size: 0.92rem;">Final answer is correct, but an earlier step had an error. Click "Retry" to edit your existing steps.</span></div>`;
+      } else if (!evalResult.anyError && evalResult.finalHasOneVar) {
+        const fOneHtml = evalResult.finalOneVars.map(v => `1<i>${v}</i>`).join("、");
+        const fCleanHtml = evalResult.finalOneVars.map(v => `<i>${v}</i>`).join("、");
+        const fOnePlain = evalResult.finalOneVars.map(v => `1${v}`).join(", ");
+        const fCleanPlain = evalResult.finalOneVars.join(", ");
+        verdictEl.className = "final-verdict-box v-warning";
+        verdictEl.innerHTML = `<span>⚠️</span><div><strong>未化簡完成，需要將 ${fOneHtml} 寫成 ${fCleanHtml}！</strong>請按「重新作答」將 ${fOneHtml} 修改為 ${fCleanHtml} 後再提交。<br><span style="font-weight: 500; font-size: 0.92rem;">Not fully simplified — need to write ${fOnePlain} as ${fCleanPlain}! Click "Retry" to change ${fOnePlain} to ${fCleanPlain} and submit again.</span></div>`;
       } else if (!evalResult.anyError) {
         verdictEl.className = "final-verdict-box v-warning";
         verdictEl.innerHTML = `<span>⏳</span><div><strong>算式變換正確，但尚未完全因式分解！</strong>請按「重新作答」保留現有步驟並繼續分解至最簡。<br><span style="font-weight: 500; font-size: 0.92rem;">Valid expression, but factorization is incomplete. Click "Retry" to continue factorizing your existing work.</span></div>`;
+      } else if (evalResult.anyOneVar) {
+        const aOneHtml = evalResult.allOneVars.map(v => `1<i>${v}</i>`).join("、");
+        const aCleanHtml = evalResult.allOneVars.map(v => `<i>${v}</i>`).join("、");
+        const aOnePlain = evalResult.allOneVars.map(v => `1${v}`).join(", ");
+        const aCleanPlain = evalResult.allOneVars.join(", ");
+        verdictEl.className = "final-verdict-box v-danger";
+        verdictEl.innerHTML = `<span>❌</span><div><strong>步驟或答案不正確，且未化簡完成，需要將 ${aOneHtml} 寫成 ${aCleanHtml}！</strong>請查看上方診斷說明，按「重新作答」修改原有作答後再提交。<br><span style="font-weight: 500; font-size: 0.92rem;">Step or answer is incorrect, and not fully simplified — need to write ${aOnePlain} as ${aCleanPlain}! Click "Retry" to edit your answer.</span></div>`;
       } else {
         verdictEl.className = "final-verdict-box v-danger";
         verdictEl.innerHTML = `<span>❌</span><div><strong>步驟或答案不正確！</strong>請查看上方診斷說明，按「重新作答」修改原有作答後再提交。<br><span style="font-weight: 500; font-size: 0.92rem;">Step or answer is incorrect! Review the error diagnosis above and click "Retry" to edit your existing answer.</span></div>`;
