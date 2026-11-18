@@ -32,6 +32,10 @@
       --radius: 14px;
     }
 
+    button, .chapter-card, .mode-tab, .option-btn, .tk-btn {
+      touch-action: manipulation;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -456,7 +460,8 @@
     .math-display i,
     .option-math i,
     .solution-box i,
-    .review-math i {
+    .review-math i,
+    .scanned-step-math i {
       font-style: italic;
       font-family: "Times New Roman", "Cambria Math", Georgia, serif;
     }
@@ -464,7 +469,8 @@
     .math-display sup,
     .option-math sup,
     .solution-box sup,
-    .review-math sup {
+    .review-math sup,
+    .scanned-step-math sup {
       font-size: 0.68em;
       line-height: 0;
       position: relative;
@@ -738,6 +744,33 @@
       background: #e2e8f0;
     }
 
+    .btn-skip {
+      background: #fffbeb;
+      color: #b45309;
+      border: 1.5px solid #fcd34d;
+      border-radius: 10px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.94rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .btn-skip:hover {
+      background: #fef3c7;
+      border-color: #f59e0b;
+      transform: translateY(-1px);
+    }
+
+    .step-text-input:disabled {
+      background: #f8fafc;
+      color: #334155;
+      cursor: not-allowed;
+    }
+
     /* Quiz Intro Box */
     .quiz-intro {
       max-width: 680px;
@@ -922,6 +955,561 @@
       font-size: 0.84rem;
     }
 
+    /* Hands-On Solve ("動手做一做") Tab & Card */
+    .mode-tab.write-tab {
+      border-color: #99f6e4;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent-light) 100%);
+    }
+
+    .mode-tab.write-tab:hover,
+    .mode-tab.write-tab.active {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      box-shadow: 0 2px 12px rgba(15, 118, 110, 0.18);
+    }
+
+    .write-tab .tab-badge {
+      color: var(--accent);
+    }
+
+    .chapter-card.write-card {
+      border-color: #99f6e4;
+      background: linear-gradient(135deg, #ffffff 0%, var(--accent-light) 100%);
+    }
+
+    .chapter-card.write-card:hover {
+      border-color: var(--accent);
+      box-shadow: 0 6px 18px rgba(15, 118, 110, 0.16);
+    }
+
+    .write-card .chapter-num {
+      background: #ccfbf1;
+      color: var(--accent);
+    }
+
+    .write-card .chapter-footer {
+      color: var(--accent);
+    }
+
+    .write-mode .chapter-pill {
+      background: var(--accent-light);
+      color: var(--accent);
+      border: 1px solid #99f6e4;
+    }
+
+    .write-mode .prompt-bilingual {
+      border-left-color: var(--accent);
+    }
+
+    /* Step-by-Step Input Panel ("動手做一做") */
+    .steps-editor-wrapper {
+      border: 2px solid #cbd5e1;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #ffffff;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+    }
+
+    .steps-toolbar {
+      background: #f8fafc;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 0.75rem 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.65rem;
+    }
+
+    .steps-toolbar-title {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .steps-toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .row-ctrl-btn {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 0.42rem 0.85rem;
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .row-ctrl-btn.insert-btn {
+      border-color: #5eead4;
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .row-ctrl-btn.insert-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #ffffff;
+    }
+
+    .row-ctrl-btn.delete-btn {
+      border-color: #fecaca;
+      background: #fef2f2;
+      color: var(--danger);
+    }
+
+    .row-ctrl-btn.delete-btn:hover:not(:disabled) {
+      background: var(--danger);
+      border-color: var(--danger);
+      color: #ffffff;
+    }
+
+    .row-ctrl-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .step-rows-list {
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+      background: #ffffff;
+    }
+
+    .step-input-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.35rem 0.45rem;
+      border-radius: 10px;
+      border: 1.5px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .step-input-row.active-row {
+      background: #f0fdfa;
+      border-color: #99f6e4;
+    }
+
+    .step-row-badge {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: #ccfbf1;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      min-width: 82px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .step-input-row.active-row .step-row-badge {
+      background: var(--accent);
+      color: #ffffff;
+    }
+
+    .step-eq-sign {
+      font-family: "Times New Roman", "Cambria Math", Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .step-text-input {
+      flex: 1;
+      min-width: 0;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 9px;
+      padding: 0.58rem 0.85rem;
+      font-family: "Times New Roman", "Cambria Math", Georgia, serif;
+      font-size: 1.22rem;
+      color: var(--text);
+      background: #ffffff;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .step-text-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.16);
+    }
+
+    .row-mini-del {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+      background: #f8fafc;
+      color: #64748b;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all 0.15s;
+    }
+
+    .row-mini-del:hover:not(:disabled) {
+      background: var(--danger-bg);
+      border-color: var(--danger-border);
+      color: var(--danger);
+    }
+
+    .row-mini-del:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* Touch Math Keyboard */
+    .touch-keyboard-hint {
+      background: #f8fafc;
+      border-top: 1px dashed #cbd5e1;
+      padding: 0.65rem 1rem;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .touch-keyboard-panel {
+      background: #f1f5f9;
+      border-top: 2px solid #99f6e4;
+      padding: 0.85rem 1rem 1rem;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .tk-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .tk-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .tk-active-indicator {
+      background: #ccfbf1;
+      color: var(--accent);
+      padding: 0.15rem 0.55rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .tk-hide-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 0.24rem 0.6rem;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .tk-hide-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .tk-section {
+      margin-bottom: 0.6rem;
+    }
+
+    .tk-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .tk-section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 0.35rem;
+    }
+
+    .tk-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.42rem;
+    }
+
+    .tk-btn {
+      min-width: 46px;
+      height: 44px;
+      padding: 0 0.75rem;
+      border-radius: 9px;
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      color: var(--text);
+      font-family: "Times New Roman", "Cambria Math", Georgia, serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.1;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06);
+      transition: all 0.12s ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .tk-btn:hover {
+      border-color: var(--accent);
+      background: var(--accent-light);
+      transform: translateY(-1px);
+    }
+
+    .tk-btn:active {
+      transform: translateY(0);
+      background: #ccfbf1;
+    }
+
+    .tk-btn.op-key {
+      background: #eff6ff;
+      border-color: #93c5fd;
+      color: var(--primary-dark);
+      min-width: 54px;
+    }
+
+    .tk-btn.op-key:hover {
+      background: #dbeafe;
+      border-color: var(--primary);
+    }
+
+    .tk-btn.power-key {
+      background: #f5f3ff;
+      border-color: #c4b5fd;
+      color: var(--quiz-dark);
+      min-width: 62px;
+    }
+
+    .tk-btn.power-key:hover {
+      background: #ede9fe;
+      border-color: var(--quiz);
+    }
+
+    .tk-btn .key-sub {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang HK", "Microsoft JhengHei", sans-serif;
+      font-size: 0.64rem;
+      font-weight: 600;
+      opacity: 0.8;
+      margin-top: 1px;
+    }
+
+    .tk-btn.var-key {
+      font-style: italic;
+      background: #f0fdfa;
+      border-color: #99f6e4;
+      color: var(--accent);
+    }
+
+    .tk-btn.action-key {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang HK", "Microsoft JhengHei", sans-serif;
+      font-size: 0.84rem;
+      background: #fef2f2;
+      border-color: #fecaca;
+      color: var(--danger);
+      padding: 0 0.85rem;
+    }
+
+    .tk-btn.action-key:hover {
+      background: var(--danger-bg);
+      border-color: var(--danger);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #ffffff;
+      border: none;
+      border-radius: 10px;
+      padding: 0.82rem 1.6rem;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      box-shadow: 0 3px 10px rgba(15, 118, 110, 0.22);
+    }
+
+    .btn-accent:hover {
+      background: #115e59;
+      transform: translateY(-1px);
+    }
+
+    /* Grading Report Panel */
+    .scan-report-box {
+      background: #ffffff;
+      border: 2px solid #99f6e4;
+      border-radius: 14px;
+      padding: 1.3rem 1.4rem;
+      margin-bottom: 1.25rem;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .scan-report-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .scan-report-title {
+      font-size: 1.08rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .scanned-step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .scanned-step-card {
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 0.85rem 1rem;
+      background: #f8fafc;
+    }
+
+    .scanned-step-card.step-ok {
+      border-left: 5px solid var(--success);
+      background: #f0fdf4;
+    }
+
+    .scanned-step-card.step-partial {
+      border-left: 5px solid var(--warning);
+      background: #fffbeb;
+    }
+
+    .scanned-step-card.step-err {
+      border-left: 5px solid var(--danger);
+      background: #fef2f2;
+    }
+
+    .scanned-step-top {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .scanned-step-label {
+      font-size: 0.86rem;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+
+    .scanned-step-badge {
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+    }
+
+    .step-ok .scanned-step-badge {
+      background: var(--success-bg);
+      color: var(--success);
+    }
+
+    .step-partial .scanned-step-badge {
+      background: var(--warning-bg);
+      color: var(--warning);
+    }
+
+    .step-err .scanned-step-badge {
+      background: var(--danger-bg);
+      color: var(--danger);
+    }
+
+    .scanned-step-expr-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      margin: 0.25rem 0;
+    }
+
+    .scanned-step-math {
+      font-family: "Times New Roman", "Cambria Math", Georgia, serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .scanned-step-explain {
+      font-size: 0.91rem;
+      color: var(--text);
+      margin-top: 0.35rem;
+      line-height: 1.55;
+    }
+
+    .final-verdict-box {
+      padding: 0.95rem 1.15rem;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.98rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+    }
+
+    .final-verdict-box.v-success {
+      background: var(--success-bg);
+      border: 1.5px solid var(--success-border);
+      color: var(--success);
+    }
+
+    .final-verdict-box.v-warning {
+      background: var(--warning-bg);
+      border: 1.5px solid var(--warning-border);
+      color: var(--warning);
+    }
+
+    .final-verdict-box.v-danger {
+      background: var(--danger-bg);
+      border: 1.5px solid var(--danger-border);
+      color: var(--danger);
+    }
+
     .hidden {
       display: none !important;
     }
@@ -939,7 +1527,7 @@
   </header>
 
   <main>
-    <!-- 5 Chapters + Mini Quiz Navigation Bar -->
+    <!-- 5 Chapters + Hands-On Solve + Mini Quiz Navigation Bar -->
     <nav class="mode-bar" aria-label="章節與測驗選擇">
       <button class="mode-tab" id="tab-common" onclick="startPractice('common')">
         <span class="tab-badge">章節 1 / Ch. 1</span>
@@ -966,6 +1554,11 @@
         <span class="tab-title-zh">綜合題</span>
         <span class="tab-title-en">Mixed / Comprehensive</span>
       </button>
+      <button class="mode-tab write-tab" id="tab-write" onclick="startWriteMode()">
+        <span class="tab-badge">逐步作答 / Step-by-Step</span>
+        <span class="tab-title-zh">✍️ 動手做一做</span>
+        <span class="tab-title-en">Hands-On Solve (Mixed)</span>
+      </button>
       <button class="mode-tab quiz-tab" id="tab-quiz" onclick="showQuizIntro()">
         <span class="tab-badge">限時挑戰 / Timed Test</span>
         <span class="tab-title-zh">⏱️ 小測驗 (20題)</span>
@@ -977,7 +1570,7 @@
     <section id="view-home" class="card">
       <div class="welcome-banner">
         <h2>歡迎來到中二級「因式分解」自主學習平台！</h2>
-        <p>Welcome to F.2 Factorization Self-Learning Platform! 請選擇以下五個練習章節鞏固基礎，或挑戰 15 分鐘「小測驗」檢視學習成果。</p>
+        <p>Welcome to F.2 Factorization Self-Learning Platform! 請選擇以下五個練習章節鞏固基礎，或進入「動手做一做」逐步輸入步驟作答，亦可挑戰 15 分鐘「小測驗」檢視學習成果。</p>
       </div>
 
       <div class="chapter-grid">
@@ -1046,6 +1639,19 @@
           </div>
         </div>
 
+        <div class="chapter-card write-card" onclick="startWriteMode()">
+          <div>
+            <span class="chapter-num">逐步作答 · Step-by-Step Practice</span>
+            <h3>✍️ 動手做一做</h3>
+            <div class="en-sub">Hands-On Solve · Comprehensive Problems</div>
+            <p class="desc">挑戰「綜合題」，預設提供 4 行輸入欄（可自由插入或刪除行數）及數學觸控鍵盤，逐步輸入答案並即時批改！</p>
+          </div>
+          <div class="chapter-footer">
+            <span>逐行批改算式與錯處分析</span>
+            <span>開始動手 →</span>
+          </div>
+        </div>
+
         <div class="chapter-card quiz-card" onclick="showQuizIntro()">
           <div>
             <span class="chapter-num">小測驗 · Mini Quiz</span>
@@ -1096,6 +1702,7 @@
 
       <div class="action-row">
         <button class="btn-secondary" onclick="goHome()">更換章節 / Change Chapter</button>
+        <button class="btn-skip" id="p-skip-btn" onclick="skipPracticeQuestion()">⏭️ 跳過題目 / Skip Question</button>
         <button class="btn-primary hidden" id="p-next-btn" onclick="nextPracticeQuestion()">下一題 / Next Question →</button>
       </div>
     </section>
@@ -1168,6 +1775,7 @@
       </div>
 
       <div class="action-row">
+        <button class="btn-skip" id="q-skip-btn" onclick="skipQuizQuestion()">⏭️ 跳過題目 / Skip Question</button>
         <button class="btn-quiz hidden" id="q-next-btn" onclick="nextQuizQuestion()">下一題 / Next Question →</button>
       </div>
     </section>
@@ -1197,6 +1805,113 @@
 
       <div class="review-list" id="r-review-list"></div>
     </section>
+
+    <!-- VIEW 6: HANDS-ON STEP-BY-STEP SOLVE SCREEN ("動手做一做") -->
+    <section id="view-write" class="card write-mode hidden">
+      <div class="status-header">
+        <div class="chapter-pill">✍️ 動手做一做 · 綜合題 (Hands-On Solve · Comprehensive)</div>
+        <div class="stats-group">
+          <div class="stat-chip">已練習 / Practiced: <span id="w-total">0</span></div>
+          <div class="stat-chip">答對 / Correct: <span id="w-correct">0</span></div>
+        </div>
+      </div>
+
+      <div class="question-meta">
+        <span class="q-number" id="w-q-index">第 1 題（綜合題） / Question 1 (Comprehensive)</span>
+        <span style="font-size: 0.84rem; color: var(--accent); font-weight: 600;">💡 提示：點擊輸入欄即可開啟數學觸控鍵盤，逐步輸入步驟與答案</span>
+      </div>
+
+      <div class="prompt-bilingual">
+        <div class="prompt-zh">因式分解下列代數式。</div>
+        <div class="prompt-en">Factorize the following expression.</div>
+      </div>
+
+      <div class="math-display" id="w-expr"></div>
+
+      <!-- Step-by-Step Input Container (Default 4 Rows + Insert/Delete Controls + Touch Keyboard) -->
+      <div class="steps-editor-wrapper">
+        <div class="steps-toolbar">
+          <div class="steps-toolbar-title">
+            <span>📝 步驟輸入欄 / Step Inputs</span>
+            <span style="font-size: 0.8rem; font-weight: 600; color: var(--text-muted);" id="step-count-label">(共 4 行)</span>
+          </div>
+          <div class="steps-toolbar-actions">
+            <button type="button" class="row-ctrl-btn insert-btn" id="btn-insert-row" onclick="insertStepRow()">➕ 插入輸入欄</button>
+            <button type="button" class="row-ctrl-btn delete-btn" id="btn-delete-row" onclick="deleteStepRow()">➖ 刪除輸入欄</button>
+          </div>
+        </div>
+
+        <div class="step-rows-list" id="step-rows-container"></div>
+
+        <!-- Hint shown before clicking an input field -->
+        <div class="touch-keyboard-hint" id="tk-hint">
+          👆 點擊上方任何一個輸入欄，即可開啟<strong>數學觸控鍵盤</strong>輸入算式 / Tap any input field above to open the Math Touch Keyboard
+        </div>
+
+        <!-- Touch Math Keyboard (Revealed when an input field is clicked/focused) -->
+        <div class="touch-keyboard-panel hidden" id="math-touch-keyboard">
+          <div class="tk-header">
+            <div class="tk-title">
+              <span>⌨️ 數學觸控鍵盤 / Math Touch Keyboard</span>
+              <span class="tk-active-indicator" id="tk-active-label">正在輸入：第 1 步</span>
+            </div>
+            <button type="button" class="tk-hide-btn" onmousedown="event.preventDefault()" onclick="hideTouchKeyboard()">收起鍵盤 ▾</button>
+          </div>
+
+          <!-- Required Operators, Parentheses, Equals, Powers -->
+          <div class="tk-section">
+            <div class="tk-section-label">常用運算與指數按鍵 / Operators, Brackets, Equals &amp; Powers</div>
+            <div class="tk-grid" id="tk-operators-grid"></div>
+          </div>
+
+          <!-- Dynamic Variables for Current Question -->
+          <div class="tk-section">
+            <div class="tk-section-label">本題變數 / Variables</div>
+            <div class="tk-grid" id="tk-vars-grid"></div>
+          </div>
+
+          <!-- Numbers & Editing -->
+          <div class="tk-section">
+            <div class="tk-section-label">數字與編輯 / Numbers &amp; Edit</div>
+            <div class="tk-grid" id="tk-digits-grid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty Input Warning Banner -->
+      <div id="w-feedback" class="feedback-banner hidden"></div>
+
+      <!-- Step-by-Step Grading Report Panel -->
+      <div id="w-scan-report" class="scan-report-box hidden">
+        <div class="scan-report-header">
+          <span class="scan-report-title">📋 逐行批改與錯處分析 / Step-by-Step Diagnosis</span>
+          <span class="method-tag" id="w-detected-count">已批改算式</span>
+        </div>
+
+        <div class="scanned-step-list" id="w-scanned-steps"></div>
+
+        <div class="final-verdict-box" id="w-final-verdict"></div>
+      </div>
+
+      <!-- Official Step-by-Step Solution Box -->
+      <div id="w-solution" class="solution-box hidden">
+        <div class="solution-header">
+          <span class="solution-title">📝 正確做法與詳細步驟 / Correct Step-by-Step Solution</span>
+          <span class="method-tag" id="w-method-tag"></span>
+        </div>
+        <ol class="solution-steps" id="w-steps"></ol>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-row">
+        <button class="btn-secondary" onclick="goHome()">返回主頁 / Home</button>
+        <button class="btn-skip" id="w-skip-btn" onclick="skipWriteQuestion()">⏭️ 跳過題目 / Skip Question</button>
+        <button class="btn-secondary hidden" id="w-retry-btn" onclick="retryCurrentWriteQuestion()">🔄 重新作答 / Retry</button>
+        <button class="btn-accent" id="w-submit-btn" onclick="submitWhiteboardAnswer()">🔍 提交答案 / Submit Answer</button>
+        <button class="btn-primary hidden" id="w-next-btn" onclick="nextWriteQuestion()">下一題 / Next Question →</button>
+      </div>
+    </section>
+
   </main>
 
   <footer>
@@ -1231,7 +1946,7 @@
 
     // View & Tab Management
     function hideAllViews() {
-      ["view-home", "view-practice", "view-quiz-intro", "view-quiz-active", "view-quiz-result"].forEach(id => {
+      ["view-home", "view-practice", "view-quiz-intro", "view-quiz-active", "view-quiz-result", "view-write"].forEach(id => {
         document.getElementById(id).classList.add("hidden");
       });
       document.querySelectorAll(".mode-tab").forEach(btn => btn.classList.remove("active"));
@@ -1310,15 +2025,14 @@
       document.getElementById("p-q-index").textContent = `第 ${qNum} 題 / Question ${qNum}`;
       document.getElementById("p-expr").innerHTML = q.expr;
 
-      // Reset feedback & solution
       const fb = document.getElementById("p-feedback");
       fb.className = "feedback-banner hidden";
       fb.innerHTML = "";
 
       document.getElementById("p-solution").classList.add("hidden");
       document.getElementById("p-next-btn").classList.add("hidden");
+      document.getElementById("p-skip-btn").classList.remove("hidden");
 
-      // Build shuffled options
       const allOptions = shuffle([q.answer, ...q.distractors]);
       const optionsContainer = document.getElementById("p-options");
       optionsContainer.innerHTML = "";
@@ -1348,7 +2062,6 @@
       }
       updatePracticeStats();
 
-      // Disable all buttons and highlight correct / wrong
       const buttons = document.querySelectorAll("#p-options .option-btn");
       buttons.forEach(btn => {
         btn.disabled = true;
@@ -1359,7 +2072,6 @@
         }
       });
 
-      // Show feedback banner
       const fb = document.getElementById("p-feedback");
       if (isCorrect) {
         fb.className = "feedback-banner success";
@@ -1369,7 +2081,6 @@
         fb.innerHTML = `❌ 答錯了！正確答案是 <span style="font-family: 'Times New Roman', serif; font-size: 1.15rem; margin-left: 4px;">${q.answer}</span> / Incorrect! Please review the steps below.`;
       }
 
-      // Immediately display detailed step-by-step solution (whether right or wrong)
       document.getElementById("p-method-tag").textContent = CATEGORY_NAMES[q.category];
       const stepsList = document.getElementById("p-steps");
       stepsList.innerHTML = "";
@@ -1379,14 +2090,19 @@
         stepsList.appendChild(li);
       });
       document.getElementById("p-solution").classList.remove("hidden");
+      document.getElementById("p-skip-btn").classList.add("hidden");
       document.getElementById("p-next-btn").classList.remove("hidden");
+    }
+
+    function skipPracticeQuestion() {
+      nextPracticeQuestion();
     }
 
     // =========================================================================
     // MINI QUIZ LOGIC (20 Questions, 15 Minutes, 2 Chances per Question)
     // =========================================================================
     const QUIZ_TOTAL_QUESTIONS = 20;
-    const QUIZ_DURATION_SECONDS = 15 * 60; // 15 minutes = 900 seconds
+    const QUIZ_DURATION_SECONDS = 15 * 60;
 
     let quizState = {
       questions: [],
@@ -1397,7 +2113,7 @@
       secondsRemaining: QUIZ_DURATION_SECONDS,
       timerId: null,
       endedByTimeout: false,
-      records: [] // { q, userAnswer, isCorrect, attemptsUsed }
+      records: []
     };
 
     function showQuizIntro() {
@@ -1408,7 +2124,6 @@
     }
 
     function buildBalancedQuizQuestions() {
-      // Pick 5 random questions from each of the 4 methods = 20 questions total, then shuffle
       const cats = ["common", "grouping", "diff_squares", "perfect_square"];
       let selected = [];
       cats.forEach(cat => {
@@ -1505,6 +2220,7 @@
       fb.innerHTML = "";
 
       document.getElementById("q-solution").classList.add("hidden");
+      document.getElementById("q-skip-btn").classList.remove("hidden");
       const nextBtn = document.getElementById("q-next-btn");
       nextBtn.classList.add("hidden");
       nextBtn.textContent = (idx === QUIZ_TOTAL_QUESTIONS - 1)
@@ -1553,7 +2269,6 @@
       const fb = document.getElementById("q-feedback");
 
       if (isCorrect) {
-        // Correct on 1st or 2nd attempt -> lock options, award point, show solution immediately
         quizState.questionResolved = true;
         quizState.score += 1;
         record.isCorrect = true;
@@ -1572,20 +2287,18 @@
           : `✅ 第二次嘗試答對了！ / Correct on your 2nd try!`;
 
         revealQuizSolution(q);
+        document.getElementById("q-skip-btn").classList.add("hidden");
         document.getElementById("q-next-btn").classList.remove("hidden");
       } else {
-        // Wrong answer
         quizState.attemptsLeft -= 1;
         updateAttemptsBadge();
         selectedBtn.disabled = true;
         selectedBtn.classList.add("wrong");
 
         if (quizState.attemptsLeft === 1) {
-          // 1st attempt wrong: DO NOT show solution yet; allow 2nd attempt
           fb.className = "feedback-banner warning";
           fb.innerHTML = `⚠️ 第一次作答不正確！你還有 <strong>1 次機會</strong>，請仔細檢查符號或公式再選。 / Wrong on 1st try! You have 1 chance left.`;
         } else {
-          // 2nd attempt wrong: lock all options, reveal correct answer & detailed solution
           quizState.questionResolved = true;
           record.isCorrect = false;
 
@@ -1600,9 +2313,15 @@
           fb.innerHTML = `❌ 2 次機會已用完，仍未答對。正確答案是 <span style="font-family: 'Times New Roman', serif; font-size: 1.15rem; margin-left: 4px;">${q.answer}</span> / Out of chances! Review the solution below.`;
 
           revealQuizSolution(q);
+          document.getElementById("q-skip-btn").classList.add("hidden");
           document.getElementById("q-next-btn").classList.remove("hidden");
         }
       }
+    }
+
+    function skipQuizQuestion() {
+      if (quizState.questionResolved || quizState.secondsRemaining <= 0) return;
+      nextQuizQuestion();
     }
 
     function nextQuizQuestion() {
@@ -1616,7 +2335,6 @@
 
     function handleQuizTimeout() {
       stopQuizTimer();
-      // Lock any active buttons immediately
       document.querySelectorAll("#q-options .option-btn").forEach(btn => {
         btn.disabled = true;
       });
@@ -1659,7 +2377,6 @@
       }
       document.getElementById("r-comment").textContent = comment;
 
-      // Category breakdown
       const catOrder = ["common", "grouping", "diff_squares", "perfect_square"];
       const breakdownEl = document.getElementById("r-breakdown");
       breakdownEl.innerHTML = "";
@@ -1675,7 +2392,6 @@
         breakdownEl.appendChild(div);
       });
 
-      // Full 20-question review list
       const reviewEl = document.getElementById("r-review-list");
       reviewEl.innerHTML = "";
       quizState.records.forEach((rec, idx) => {
@@ -1704,6 +2420,982 @@
         `;
         reviewEl.appendChild(div);
       });
+    }
+
+    // =========================================================================
+    // HANDS-ON STEP-BY-STEP SOLVE MODE ("動手做一做")
+    // =========================================================================
+    const DEFAULT_STEP_ROWS = 4;
+
+    let writeState = {
+      pool: [],
+      currentQ: null,
+      submitted: false,
+      questionAttempted: false,
+      questionSolved: false,
+      totalPracticed: 0,
+      totalCorrect: 0,
+      stepValues: ["", "", "", ""],
+      activeRowIndex: -1,
+      lastErrorRowIndex: -1
+    };
+
+    function stripHtmlToPlain(htmlStr) {
+      return htmlStr
+        .replace(/<sup>(.*?)<\/sup>/gi, "^$1")
+        .replace(/<[^>]+>/g, "")
+        .replace(/−/g, "-")
+        .replace(/×/g, "*")
+        .trim();
+    }
+
+    function startWriteMode() {
+      stopQuizTimer();
+      hideAllViews();
+      document.getElementById("tab-write").classList.add("active");
+      document.getElementById("view-write").classList.remove("hidden");
+
+      writeState.pool = shuffle([...QUESTION_BANK]);
+      writeState.totalPracticed = 0;
+      writeState.totalCorrect = 0;
+      updateWriteStats();
+
+      nextWriteQuestion();
+    }
+
+    function updateWriteStats() {
+      document.getElementById("w-total").textContent = writeState.totalPracticed;
+      document.getElementById("w-correct").textContent = writeState.totalCorrect;
+    }
+
+    function resetStepRowsToDefault() {
+      writeState.stepValues = Array(DEFAULT_STEP_ROWS).fill("");
+      writeState.activeRowIndex = -1;
+      renderStepRows();
+      hideTouchKeyboard();
+    }
+
+    function syncStepValuesFromDOM() {
+      const inputs = document.querySelectorAll("#step-rows-container .step-text-input");
+      if (inputs.length > 0) {
+        writeState.stepValues = Array.from(inputs).map(inp => inp.value);
+      }
+    }
+
+    function renderStepRows(focusIndex = -1) {
+      const container = document.getElementById("step-rows-container");
+      container.innerHTML = "";
+      const total = writeState.stepValues.length;
+
+      document.getElementById("step-count-label").textContent = `(共 ${total} 行)`;
+      document.getElementById("btn-delete-row").disabled = total <= 1;
+
+      writeState.stepValues.forEach((val, idx) => {
+        const rowDiv = document.createElement("div");
+        rowDiv.className = "step-input-row" + (idx === writeState.activeRowIndex ? " active-row" : "");
+        rowDiv.dataset.index = idx;
+
+        const badge = document.createElement("span");
+        badge.className = "step-row-badge";
+        badge.textContent = `第 ${idx + 1} 步`;
+
+        const eqSpan = document.createElement("span");
+        eqSpan.className = "step-eq-sign";
+        eqSpan.textContent = "=";
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.className = "step-text-input";
+        input.id = `step-input-${idx}`;
+        input.value = val;
+        input.autocomplete = "off";
+        input.autocapitalize = "off";
+        input.spellcheck = false;
+        input.placeholder = idx === 0
+          ? "點擊此欄輸入第 1 步算式（可使用下方觸控鍵盤）"
+          : `輸入第 ${idx + 1} 步算式（選填）`;
+
+        input.addEventListener("input", () => {
+          writeState.stepValues[idx] = input.value;
+        });
+
+        const activateThisRow = () => {
+          setActiveStepRow(idx);
+          showTouchKeyboard();
+        };
+
+        input.addEventListener("focus", activateThisRow);
+        input.addEventListener("click", activateThisRow);
+
+        const delBtn = document.createElement("button");
+        delBtn.type = "button";
+        delBtn.className = "row-mini-del";
+        delBtn.title = `刪除此輸入欄 / Delete Step ${idx + 1}`;
+        delBtn.textContent = "✕";
+        delBtn.disabled = total <= 1;
+        delBtn.onmousedown = (e) => e.preventDefault();
+        delBtn.onclick = () => deleteStepRowAt(idx);
+
+        rowDiv.appendChild(badge);
+        rowDiv.appendChild(eqSpan);
+        rowDiv.appendChild(input);
+        rowDiv.appendChild(delBtn);
+        container.appendChild(rowDiv);
+      });
+
+      if (focusIndex >= 0 && focusIndex < total) {
+        setActiveStepRow(focusIndex);
+        const targetInput = document.getElementById(`step-input-${focusIndex}`);
+        if (targetInput && !targetInput.disabled) {
+          targetInput.focus();
+          const len = targetInput.value.length;
+          targetInput.setSelectionRange(len, len);
+        }
+      }
+    }
+
+    function setActiveStepRow(idx) {
+      writeState.activeRowIndex = idx;
+      document.querySelectorAll("#step-rows-container .step-input-row").forEach((row, i) => {
+        row.classList.toggle("active-row", i === idx);
+      });
+      const indicator = document.getElementById("tk-active-label");
+      if (indicator && idx >= 0) {
+        indicator.textContent = `正在輸入：第 ${idx + 1} 步 / Step ${idx + 1}`;
+      }
+    }
+
+    function insertStepRow() {
+      syncStepValuesFromDOM();
+      // Insert after currently active row, or at the end if no row is active yet
+      const insertPos = (writeState.activeRowIndex >= 0 && writeState.activeRowIndex < writeState.stepValues.length)
+        ? writeState.activeRowIndex + 1
+        : writeState.stepValues.length;
+      writeState.stepValues.splice(insertPos, 0, "");
+      writeState.activeRowIndex = insertPos;
+      renderStepRows(insertPos);
+      showTouchKeyboard();
+    }
+
+    function deleteStepRowAt(idx) {
+      syncStepValuesFromDOM();
+      if (writeState.stepValues.length <= 1) return;
+      writeState.stepValues.splice(idx, 1);
+      const nextFocus = Math.min(idx, writeState.stepValues.length - 1);
+      writeState.activeRowIndex = nextFocus;
+      renderStepRows(nextFocus);
+    }
+
+    function deleteStepRow() {
+      syncStepValuesFromDOM();
+      if (writeState.stepValues.length <= 1) return;
+      const targetIdx = (writeState.activeRowIndex >= 0 && writeState.activeRowIndex < writeState.stepValues.length)
+        ? writeState.activeRowIndex
+        : writeState.stepValues.length - 1;
+      deleteStepRowAt(targetIdx);
+    }
+
+    function showTouchKeyboard() {
+      document.getElementById("tk-hint").classList.add("hidden");
+      document.getElementById("math-touch-keyboard").classList.remove("hidden");
+    }
+
+    function hideTouchKeyboard() {
+      document.getElementById("math-touch-keyboard").classList.add("hidden");
+      document.getElementById("tk-hint").classList.remove("hidden");
+    }
+
+    function insertTextAtCursor(insertStr) {
+      let idx = writeState.activeRowIndex;
+      if (idx < 0 || idx >= writeState.stepValues.length) {
+        idx = 0;
+        setActiveStepRow(0);
+      }
+      const input = document.getElementById(`step-input-${idx}`);
+      if (!input) return;
+
+      const start = input.selectionStart !== null ? input.selectionStart : input.value.length;
+      const end = input.selectionEnd !== null ? input.selectionEnd : input.value.length;
+      const before = input.value.slice(0, start);
+      const after = input.value.slice(end);
+      input.value = before + insertStr + after;
+      writeState.stepValues[idx] = input.value;
+
+      input.focus();
+      const newPos = start + insertStr.length;
+      input.setSelectionRange(newPos, newPos);
+    }
+
+    function backspaceAtCursor() {
+      let idx = writeState.activeRowIndex;
+      if (idx < 0 || idx >= writeState.stepValues.length) idx = 0;
+      const input = document.getElementById(`step-input-${idx}`);
+      if (!input) return;
+
+      const start = input.selectionStart !== null ? input.selectionStart : input.value.length;
+      const end = input.selectionEnd !== null ? input.selectionEnd : input.value.length;
+      if (start !== end) {
+        input.value = input.value.slice(0, start) + input.value.slice(end);
+        input.focus();
+        input.setSelectionRange(start, start);
+      } else if (start > 0) {
+        input.value = input.value.slice(0, start - 1) + input.value.slice(end);
+        input.focus();
+        input.setSelectionRange(start - 1, start - 1);
+      } else {
+        input.focus();
+      }
+      writeState.stepValues[idx] = input.value;
+    }
+
+    function clearActiveStepRow() {
+      let idx = writeState.activeRowIndex;
+      if (idx < 0 || idx >= writeState.stepValues.length) idx = 0;
+      const input = document.getElementById(`step-input-${idx}`);
+      if (!input) return;
+      input.value = "";
+      writeState.stepValues[idx] = "";
+      input.focus();
+    }
+
+    function buildTouchKeyboard(q) {
+      const opGrid = document.getElementById("tk-operators-grid");
+      const varGrid = document.getElementById("tk-vars-grid");
+      const digGrid = document.getElementById("tk-digits-grid");
+      opGrid.innerHTML = "";
+      varGrid.innerHTML = "";
+      digGrid.innerHTML = "";
+
+      // 1. Required Operators, Parentheses, Equals, Square (^2), Cube (^3)
+      const operatorKeys = [
+        { label: "+", sub: "加", val: "+", cls: "op-key" },
+        { label: "−", sub: "減", val: "-", cls: "op-key" },
+        { label: "×", sub: "乘", val: "×", cls: "op-key" },
+        { label: "÷", sub: "除", val: "÷", cls: "op-key" },
+        { label: "(", sub: "左括號", val: "(", cls: "op-key" },
+        { label: ")", sub: "右括號", val: ")", cls: "op-key" },
+        { label: "=", sub: "等於", val: "=", cls: "op-key" },
+        { label: "□²", sub: "2次方", val: "²", cls: "power-key" },
+        { label: "□³", sub: "3次方", val: "³", cls: "power-key" }
+      ];
+
+      operatorKeys.forEach(item => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = `tk-btn ${item.cls}`;
+        btn.innerHTML = `<span>${item.label}</span><span class="key-sub">${item.sub}</span>`;
+        btn.onmousedown = (e) => e.preventDefault();
+        btn.onclick = () => insertTextAtCursor(item.val);
+        opGrid.appendChild(btn);
+      });
+
+      // 2. Variables present in this question (fallback to common variables if needed)
+      const cleanStr = stripHtmlToPlain(q.expr + " " + q.answer);
+      let vars = Array.from(new Set(cleanStr.match(/[a-z]/g) || [])).sort();
+      if (vars.length === 0) vars = ["x", "y", "a", "b"];
+
+      vars.forEach(v => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tk-btn var-key";
+        btn.textContent = v;
+        btn.onmousedown = (e) => e.preventDefault();
+        btn.onclick = () => insertTextAtCursor(v);
+        varGrid.appendChild(btn);
+      });
+
+      // 3. Digits 0-9 + Backspace + Clear Row
+      ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"].forEach(d => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "tk-btn";
+        btn.textContent = d;
+        btn.onmousedown = (e) => e.preventDefault();
+        btn.onclick = () => insertTextAtCursor(d);
+        digGrid.appendChild(btn);
+      });
+
+      const bkBtn = document.createElement("button");
+      bkBtn.type = "button";
+      bkBtn.className = "tk-btn action-key";
+      bkBtn.textContent = "⌫ 退格";
+      bkBtn.onmousedown = (e) => e.preventDefault();
+      bkBtn.onclick = () => backspaceAtCursor();
+      digGrid.appendChild(bkBtn);
+
+      const clrBtn = document.createElement("button");
+      clrBtn.type = "button";
+      clrBtn.className = "tk-btn action-key";
+      clrBtn.textContent = "清空此行";
+      clrBtn.onmousedown = (e) => e.preventDefault();
+      clrBtn.onclick = () => clearActiveStepRow();
+      digGrid.appendChild(clrBtn);
+    }
+
+    function setStepInputsLocked(locked) {
+      document.querySelectorAll("#step-rows-container .step-text-input").forEach(inp => {
+        inp.disabled = locked;
+      });
+      document.getElementById("btn-insert-row").disabled = locked;
+      const total = writeState.stepValues.length;
+      document.getElementById("btn-delete-row").disabled = locked || total <= 1;
+      document.querySelectorAll("#step-rows-container .row-mini-del").forEach(btn => {
+        btn.disabled = locked || total <= 1;
+      });
+    }
+
+    function skipWriteQuestion() {
+      nextWriteQuestion();
+    }
+
+    function nextWriteQuestion() {
+      if (writeState.pool.length === 0) {
+        writeState.pool = shuffle([...QUESTION_BANK]);
+      }
+      const q = writeState.pool.pop();
+      writeState.currentQ = q;
+      writeState.submitted = false;
+      writeState.questionAttempted = false;
+      writeState.questionSolved = false;
+      writeState.lastErrorRowIndex = -1;
+
+      const qNum = writeState.totalPracticed + 1;
+      document.getElementById("w-q-index").textContent = `第 ${qNum} 題（綜合題） / Question ${qNum} (Comprehensive)`;
+      document.getElementById("w-expr").innerHTML = q.expr;
+
+      buildTouchKeyboard(q);
+      resetStepRowsToDefault();
+      setStepInputsLocked(false);
+
+      const fb = document.getElementById("w-feedback");
+      fb.className = "feedback-banner hidden";
+      fb.innerHTML = "";
+
+      document.getElementById("w-scan-report").classList.add("hidden");
+      document.getElementById("w-solution").classList.add("hidden");
+      document.getElementById("w-skip-btn").classList.remove("hidden");
+      document.getElementById("w-submit-btn").classList.remove("hidden");
+      document.getElementById("w-next-btn").classList.add("hidden");
+      document.getElementById("w-retry-btn").classList.add("hidden");
+    }
+
+    function retryCurrentWriteQuestion() {
+      writeState.submitted = false;
+      // Preserve student's existing stepValues without deleting their work
+      const focusIdx = (writeState.lastErrorRowIndex >= 0 && writeState.lastErrorRowIndex < writeState.stepValues.length)
+        ? writeState.lastErrorRowIndex
+        : 0;
+      renderStepRows(focusIdx);
+      setStepInputsLocked(false);
+      showTouchKeyboard();
+
+      const targetInput = document.getElementById(`step-input-${focusIdx}`);
+      if (targetInput) {
+        targetInput.focus();
+        const len = targetInput.value.length;
+        targetInput.setSelectionRange(len, len);
+      }
+
+      document.getElementById("w-feedback").className = "feedback-banner hidden";
+      document.getElementById("w-scan-report").classList.add("hidden");
+      document.getElementById("w-solution").classList.add("hidden");
+      document.getElementById("w-skip-btn").classList.remove("hidden");
+      document.getElementById("w-submit-btn").classList.remove("hidden");
+      document.getElementById("w-next-btn").classList.add("hidden");
+      document.getElementById("w-retry-btn").classList.add("hidden");
+    }
+
+    // -------------------------------------------------------------------------
+    // Safe Recursive-Descent Algebraic Parser & Numerical Equivalence Checker
+    // -------------------------------------------------------------------------
+    function normalizeMathExpr(raw) {
+      let s = String(raw || "")
+        .replace(/<sup>(.*?)<\/sup>/gi, "^$1")
+        .replace(/<[^>]+>/g, "")
+        .replace(/²/g, "^2")
+        .replace(/³/g, "^3")
+        .replace(/−|–|—/g, "-")
+        .replace(/×|·/g, "*")
+        .replace(/÷/g, "/")
+        .replace(/\[/g, "(")
+        .replace(/\]/g, ")")
+        .replace(/｛|\{/g, "(")
+        .replace(/｝|\}/g, ")")
+        .replace(/\s+/g, "");
+
+      s = s.replace(/^=+/, "");
+      return s;
+    }
+
+    function tokenizeAlgebra(expr) {
+      const tokens = [];
+      let i = 0;
+      while (i < expr.length) {
+        const ch = expr[i];
+        if (/[0-9.]/.test(ch)) {
+          let num = "";
+          while (i < expr.length && /[0-9.]/.test(expr[i])) {
+            num += expr[i++];
+          }
+          tokens.push({ type: "NUM", value: parseFloat(num) });
+        } else if (/[a-zA-Z]/.test(ch)) {
+          tokens.push({ type: "VAR", value: ch.toLowerCase() });
+          i++;
+        } else if ("+-*/^()".includes(ch)) {
+          tokens.push({ type: "OP", value: ch });
+          i++;
+        } else {
+          throw new Error("Unexpected character: " + ch);
+        }
+      }
+
+      const expanded = [];
+      for (let k = 0; k < tokens.length; k++) {
+        const cur = tokens[k];
+        expanded.push(cur);
+        if (k + 1 < tokens.length) {
+          const nxt = tokens[k + 1];
+          const curCanMul = cur.type === "NUM" || cur.type === "VAR" || (cur.type === "OP" && cur.value === ")");
+          const nxtCanMul = nxt.type === "NUM" || nxt.type === "VAR" || (nxt.type === "OP" && nxt.value === "(");
+          if (curCanMul && nxtCanMul) {
+            expanded.push({ type: "OP", value: "*" });
+          }
+        }
+      }
+      return expanded;
+    }
+
+    function parseAlgebraAST(exprStr) {
+      const norm = normalizeMathExpr(exprStr);
+      if (!norm) throw new Error("Empty expression");
+      const tokens = tokenizeAlgebra(norm);
+      let pos = 0;
+
+      function peek() { return tokens[pos]; }
+      function consume() { return tokens[pos++]; }
+
+      function parseAddSub() {
+        let node = parseMulDiv();
+        while (peek() && peek().type === "OP" && (peek().value === "+" || peek().value === "-")) {
+          const op = consume().value;
+          const right = parseMulDiv();
+          node = { type: "BIN", op, left: node, right };
+        }
+        return node;
+      }
+
+      function parseMulDiv() {
+        let node = parseUnary();
+        while (peek() && peek().type === "OP" && (peek().value === "*" || peek().value === "/")) {
+          const op = consume().value;
+          const right = parseUnary();
+          node = { type: "BIN", op, left: node, right };
+        }
+        return node;
+      }
+
+      function parseUnary() {
+        if (peek() && peek().type === "OP" && (peek().value === "+" || peek().value === "-")) {
+          const op = consume().value;
+          const operand = parseUnary();
+          return { type: "UNARY", op, operand };
+        }
+        return parsePow();
+      }
+
+      function parsePow() {
+        let base = parsePrimary();
+        if (peek() && peek().type === "OP" && peek().value === "^") {
+          consume();
+          const exp = parseUnary();
+          return { type: "POW", base, exp };
+        }
+        return base;
+      }
+
+      function parsePrimary() {
+        const tok = peek();
+        if (!tok) throw new Error("Unexpected end of expression");
+        if (tok.type === "NUM") {
+          consume();
+          return { type: "NUM", value: tok.value };
+        }
+        if (tok.type === "VAR") {
+          consume();
+          return { type: "VAR", name: tok.value };
+        }
+        if (tok.type === "OP" && tok.value === "(") {
+          consume();
+          const inner = parseAddSub();
+          if (!peek() || peek().type !== "OP" || peek().value !== ")") {
+            throw new Error("Missing closing parenthesis )");
+          }
+          consume();
+          return { type: "PAREN", inner };
+        }
+        throw new Error("Invalid syntax near " + tok.value);
+      }
+
+      const ast = parseAddSub();
+      if (pos < tokens.length) {
+        throw new Error("Unexpected trailing token: " + tokens[pos].value);
+      }
+      return ast;
+    }
+
+    function evalAST(node, env) {
+      switch (node.type) {
+        case "NUM": return node.value;
+        case "VAR": return env[node.name] !== undefined ? env[node.name] : 2.71828;
+        case "PAREN": return evalAST(node.inner, env);
+        case "UNARY": {
+          const v = evalAST(node.operand, env);
+          return node.op === "-" ? -v : v;
+        }
+        case "POW": {
+          const b = evalAST(node.base, env);
+          const e = evalAST(node.exp, env);
+          return Math.pow(b, e);
+        }
+        case "BIN": {
+          const l = evalAST(node.left, env);
+          const r = evalAST(node.right, env);
+          if (node.op === "+") return l + r;
+          if (node.op === "-") return l - r;
+          if (node.op === "*") return l * r;
+          if (node.op === "/") return r === 0 ? NaN : l / r;
+        }
+      }
+      return NaN;
+    }
+
+    function collectASTVars(node, set = new Set()) {
+      if (!node) return set;
+      if (node.type === "VAR") set.add(node.name);
+      if (node.left) collectASTVars(node.left, set);
+      if (node.right) collectASTVars(node.right, set);
+      if (node.operand) collectASTVars(node.operand, set);
+      if (node.base) collectASTVars(node.base, set);
+      if (node.exp) collectASTVars(node.exp, set);
+      if (node.inner) collectASTVars(node.inner, set);
+      return set;
+    }
+
+    function areASTsEquivalent(ast1, ast2) {
+      const vars = new Set([...collectASTVars(ast1), ...collectASTVars(ast2)]);
+      const varList = Array.from(vars);
+      for (let t = 1; t <= 14; t++) {
+        const env = {};
+        varList.forEach((v, idx) => {
+          const sign = ((t + idx) % 2 === 0) ? 1 : -1;
+          env[v] = sign * (1.37 + ((t * 7 + idx * 13) % 11) * 0.43);
+        });
+        const v1 = evalAST(ast1, env);
+        const v2 = evalAST(ast2, env);
+        if (!Number.isFinite(v1) || !Number.isFinite(v2)) return false;
+        const scale = Math.max(1, Math.abs(v1), Math.abs(v2));
+        if (Math.abs(v1 - v2) > 1e-5 * scale) return false;
+      }
+      return true;
+    }
+
+    function analyzeFactorStructure(ast) {
+      let core = ast;
+      while (core.type === "UNARY") {
+        core = core.operand;
+      }
+      if (core.type === "BIN" && (core.op === "+" || core.op === "-")) {
+        return { isTopProduct: false, factorMultiplicity: 0, maxBracketDegree: 99, hasUnfactoredNumericGcd: false };
+      }
+
+      const factors = [];
+      function flattenMul(n) {
+        if (n.type === "UNARY") {
+          flattenMul(n.operand);
+        } else if (n.type === "BIN" && n.op === "*") {
+          flattenMul(n.left);
+          flattenMul(n.right);
+        } else {
+          factors.push(n);
+        }
+      }
+      flattenMul(core);
+
+      let factorMultiplicity = 0;
+      let maxBracketDegree = 1;
+      let hasUnfactoredNumericGcd = false;
+
+      function estimateDegree(n) {
+        if (n.type === "NUM") return 0;
+        if (n.type === "VAR") return 1;
+        if (n.type === "PAREN") return estimateDegree(n.inner);
+        if (n.type === "UNARY") return estimateDegree(n.operand);
+        if (n.type === "POW") {
+          const baseDeg = estimateDegree(n.base);
+          const expVal = n.exp.type === "NUM" ? n.exp.value : 1;
+          return baseDeg * expVal;
+        }
+        if (n.type === "BIN") {
+          if (n.op === "*" || n.op === "/") return estimateDegree(n.left) + estimateDegree(n.right);
+          return Math.max(estimateDegree(n.left), estimateDegree(n.right));
+        }
+        return 1;
+      }
+
+      function gcd(a, b) {
+        a = Math.abs(Math.round(a));
+        b = Math.abs(Math.round(b));
+        while (b !== 0) { const t = b; b = a % b; a = t; }
+        return a;
+      }
+
+      function checkBracketGcd(innerNode) {
+        const terms = [];
+        function collectTerms(n) {
+          if (n.type === "BIN" && (n.op === "+" || n.op === "-")) {
+            collectTerms(n.left);
+            collectTerms(n.right);
+          } else {
+            terms.push(n);
+          }
+        }
+        collectTerms(innerNode);
+        if (terms.length < 2) return false;
+        const coeffs = [];
+        for (const t of terms) {
+          let c = 1;
+          function findNum(x) {
+            if (x.type === "NUM") c *= x.value;
+            else if (x.type === "UNARY") findNum(x.operand);
+            else if (x.type === "BIN" && x.op === "*") { findNum(x.left); findNum(x.right); }
+          }
+          findNum(t);
+          if (!Number.isInteger(c) || c === 0) return false;
+          coeffs.push(Math.abs(c));
+        }
+        const g = coeffs.reduce((acc, val) => gcd(acc, val));
+        return g > 1;
+      }
+
+      for (const f of factors) {
+        let base = f;
+        let mult = 1;
+        if (f.type === "POW" && f.exp.type === "NUM") {
+          base = f.base;
+          mult = f.exp.value;
+        }
+        if (base.type === "NUM") {
+          continue;
+        }
+        factorMultiplicity += mult;
+        const deg = estimateDegree(base);
+        if (deg > maxBracketDegree) maxBracketDegree = deg;
+        if (base.type === "PAREN" && checkBracketGcd(base.inner)) {
+          hasUnfactoredNumericGcd = true;
+        }
+      }
+
+      return {
+        isTopProduct: true,
+        factorMultiplicity,
+        maxBracketDegree,
+        hasUnfactoredNumericGcd
+      };
+    }
+
+    function diagnoseStepError(question, rawLine, studentAst, prevValidAst) {
+      const norm = normalizeMathExpr(rawLine);
+      const ansPlain = normalizeMathExpr(question.answer);
+      const cat = question.category;
+
+      for (const d of question.distractors) {
+        try {
+          const dAst = parseAlgebraAST(d);
+          if (areASTsEquivalent(studentAst, dAst)) {
+            if (cat === "common") {
+              return "提取公因式時出現符號或係數錯誤（例如提取負公因式後括號內忘記變號，或遺漏了常數項 1）。 / Error when taking out common factor (e.g., forgot to flip signs inside brackets after taking out a negative factor, or omitted the constant 1).";
+            }
+            if (cat === "grouping") {
+              return "併項分組時出現正負號錯誤！當把兩項放入帶負號的括號 −( ... ) 內時，第二項必須變號。 / Sign error during grouping! When enclosing terms inside a negative bracket −( ... ), remember to flip the sign of the second term.";
+            }
+            if (cat === "diff_squares") {
+              return "運用平方差公式 a² − b² ≡ (a + b)(a − b) 時出錯（常見錯誤：混淆成完全平方 (a − b)²、前後項次序顛倒，或忘記對數字係數開平方）。 / Error applying Difference of Two Squares a² − b² ≡ (a + b)(a − b) (e.g., confused with (a − b)², reversed order, or forgot to take the square root of the coefficient).";
+            }
+            if (cat === "perfect_square") {
+              return "運用完全平方公式 a² ± 2ab + b² ≡ (a ± b)² 時出錯（常見錯誤：中間項正負號與括號內符號不一致，或混淆成平方差 (a + b)(a − b)）。 / Error applying Perfect Square identity a² ± 2ab + b² ≡ (a ± b)² (e.g., wrong sign inside the bracket, or confused with (a + b)(a − b)).";
+            }
+          }
+        } catch (e) {}
+      }
+
+      if (/\^\s*2/.test(ansPlain) && /\)\s*\(/.test(norm) && !/\^\s*2/.test(norm)) {
+        return "公式混淆：本題應使用「完全平方公式」寫成 (a ± b)² 的形式，而非「平方差」的一正一負兩個括號。 / Formula confusion: This expression is a Perfect Square (a ± b)², not a Difference of Two Squares (a + b)(a − b).";
+      }
+      if (!/\^\s*2/.test(ansPlain) && /\)\s*\^\s*2/.test(norm)) {
+        return "公式混淆：本題是「平方差」a² − b² ≡ (a + b)(a − b)，展開後沒有中間項 2ab，不能寫成完全平方 (a − b)²。 / Formula confusion: This is a Difference of Two Squares (a + b)(a − b), not a Perfect Square (a − b)².";
+      }
+      if (prevValidAst && areASTsEquivalent(studentAst, prevValidAst)) {
+        return "受上一步錯誤影響：雖然此算式與上一步等價，但由於前面已出現計算錯誤，導致結果仍然不正確。 / Carry-forward error: This expression follows from an earlier error.";
+      }
+
+      return "代數式不等價：展開後的數值與題目原式不相等，請檢查提取公因式時的除法、正負號變化或係數平方根是否正確。 / Algebraic mismatch: This expression is not algebraically equivalent to the original expression. Please check your signs, coefficients, and division.";
+    }
+
+    function evaluateAllStudentSteps(question, stepEntries) {
+      const exprAst = parseAlgebraAST(question.expr);
+      const ansAst = parseAlgebraAST(question.answer);
+      const targetStruct = analyzeFactorStructure(ansAst);
+
+      const results = [];
+      let lastAst = exprAst;
+      let anyError = false;
+
+      for (let i = 0; i < stepEntries.length; i++) {
+        const entry = stepEntries[i];
+        const rowNum = entry.rowNum;
+        const lineText = entry.text;
+
+        // Support optional "LHS = RHS" format if student typed '=' in the middle
+        let targetExprText = lineText;
+        const strippedLeadingEq = lineText.trim().replace(/^=+/, "");
+        if (strippedLeadingEq.includes("=")) {
+          const eqParts = strippedLeadingEq.split("=");
+          if (eqParts.length === 2 && eqParts[0].trim() && eqParts[1].trim()) {
+            try {
+              const lhsAst = parseAlgebraAST(eqParts[0]);
+              if (!areASTsEquivalent(lhsAst, exprAst)) {
+                anyError = true;
+                results.push({
+                  rowNum,
+                  rawText: lineText,
+                  status: "err",
+                  badge: "❌ 等號左邊與原式不符 / LHS Mismatch",
+                  explanation: "等號左邊的代數式與題目原式不相等，請檢查抄寫是否正確。 / The left-hand side of '=' does not match the original expression."
+                });
+                continue;
+              }
+              targetExprText = eqParts[1].trim();
+            } catch (e) {
+              // Fall through to standard parser error
+            }
+          }
+        }
+
+        const normText = normalizeMathExpr(targetExprText);
+
+        let stAst = null;
+        try {
+          stAst = parseAlgebraAST(targetExprText);
+        } catch (err) {
+          anyError = true;
+          results.push({
+            rowNum,
+            rawText: lineText,
+            status: "err",
+            badge: "❌ 算式格式有誤 / Syntax Error",
+            explanation: `無法解析此代數式（${String(err.message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}），請檢查括號是否成對或算式符號是否完整。 / Could not parse expression (${String(err.message).replace(/</g, "&lt;").replace(/>/g, "&gt;")}). Please check brackets and operators.`
+          });
+          continue;
+        }
+
+        const isEquivToOrig = areASTsEquivalent(stAst, exprAst);
+
+        if (!isEquivToOrig) {
+          anyError = true;
+          const reason = diagnoseStepError(question, targetExprText, stAst, lastAst);
+          lastAst = stAst;
+          results.push({
+            rowNum,
+            rawText: lineText,
+            status: "err",
+            badge: "❌ 算式有誤 / Incorrect",
+            explanation: reason
+          });
+          continue;
+        }
+
+        lastAst = stAst;
+        const stStruct = analyzeFactorStructure(stAst);
+
+        if (normText === normalizeMathExpr(question.expr)) {
+          results.push({
+            rowNum,
+            rawText: lineText,
+            status: "partial",
+            badge: "⚠️ 尚未分解（僅重寫原式） / Not Yet Factorized",
+            explanation: "此算式與題目原式相同，尚未進行因式分解。 / This matches the original expression and has not been factorized yet."
+          });
+          continue;
+        }
+
+        const isComplete =
+          stStruct.isTopProduct &&
+          !stStruct.hasUnfactoredNumericGcd &&
+          stStruct.factorMultiplicity >= targetStruct.factorMultiplicity &&
+          stStruct.maxBracketDegree <= targetStruct.maxBracketDegree;
+
+        if (isComplete) {
+          results.push({
+            rowNum,
+            rawText: lineText,
+            status: "ok",
+            badge: "✅ 完全正確（已徹底分解） / Completely Factorized",
+            explanation: "代數變換完全正確，且已徹底因式分解至最簡形式！ / Algebraically equivalent and completely factorized!"
+          });
+        } else {
+          let detail = "代數變換正確（屬於有效的初步分解），但尚未完全因式分解。 / Algebraically valid intermediate step, but factorization is not yet complete.";
+          if (stStruct.hasUnfactoredNumericGcd) {
+            detail = "代數變換正確，但括號內仍含有公因數（未提取最大公因數），必須繼續提取至最簡！ / Valid step, but a common factor still remains inside the bracket—take out the H.C.F. completely!";
+          } else if (stStruct.isTopProduct && stStruct.factorMultiplicity < targetStruct.factorMultiplicity) {
+            detail = "代數變換正確，但括號內的多項式仍可運用恆等式（平方差或完全平方）繼續分解！ / Valid step, but the expression inside the bracket can still be factorized further!";
+          }
+          results.push({
+            rowNum,
+            rawText: lineText,
+            status: "partial",
+            badge: "⚠️ 尚未完全分解 / Incomplete Factorization",
+            explanation: detail
+          });
+        }
+      }
+
+      const lastRes = results[results.length - 1];
+      const finalIsComplete = lastRes && lastRes.status === "ok";
+
+      return {
+        steps: results,
+        anyError,
+        finalIsComplete
+      };
+    }
+
+    function formatSingleSideMath(raw) {
+      let s = normalizeMathExpr(raw);
+      s = s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      s = s.replace(/\*/g, " × ");
+      s = s.replace(/\//g, " ÷ ");
+      s = s.replace(/\+/g, " + ");
+      s = s.replace(/-/g, " − ");
+      s = s.replace(/([a-z])/g, "<i>$1</i>");
+      s = s.replace(/\^([0-9]+)/g, "<sup>$1</sup>");
+      s = s.replace(/\s+/g, " ").trim();
+      s = s.replace(/^−\s+/, "−").replace(/\(\s*−\s+/g, "(−");
+      return s;
+    }
+
+    function formatMathForDisplay(raw) {
+      const trimmed = String(raw || "").trim().replace(/^=+/, "");
+      if (trimmed.includes("=")) {
+        const parts = trimmed.split("=");
+        return parts.map(p => formatSingleSideMath(p)).join(" = ");
+      }
+      return "= " + formatSingleSideMath(trimmed);
+    }
+
+    // -------------------------------------------------------------------------
+    // Submit Step-by-Step Answer -> Grade & Render Diagnosis
+    // -------------------------------------------------------------------------
+    function submitWhiteboardAnswer() {
+      syncStepValuesFromDOM();
+      const q = writeState.currentQ;
+      const fb = document.getElementById("w-feedback");
+
+      const nonEmptyEntries = [];
+      writeState.stepValues.forEach((val, idx) => {
+        if (val && val.trim() !== "") {
+          nonEmptyEntries.push({ rowNum: idx + 1, text: val.trim() });
+        }
+      });
+
+      if (nonEmptyEntries.length === 0) {
+        fb.className = "feedback-banner warning";
+        fb.innerHTML = "⚠️ 請先在輸入欄輸入你的算式步驟，再按下「提交答案」。 / Please enter at least one expression before submitting.";
+        return;
+      }
+
+      fb.className = "feedback-banner hidden";
+      hideTouchKeyboard();
+
+      const evalResult = evaluateAllStudentSteps(q, nonEmptyEntries);
+      const isFullyCorrect = evalResult.finalIsComplete && !evalResult.anyError;
+
+      const firstErrStep = evalResult.steps.find(st => st.status !== "ok");
+      writeState.lastErrorRowIndex = firstErrStep ? (firstErrStep.rowNum - 1) : 0;
+
+      writeState.submitted = true;
+      if (!writeState.questionAttempted) {
+        writeState.questionAttempted = true;
+        writeState.totalPracticed += 1;
+      }
+      if (isFullyCorrect && !writeState.questionSolved) {
+        writeState.questionSolved = true;
+        writeState.totalCorrect += 1;
+      }
+      updateWriteStats();
+      setStepInputsLocked(true);
+
+      const reportBox = document.getElementById("w-scan-report");
+      reportBox.classList.remove("hidden");
+
+      document.getElementById("w-detected-count").textContent =
+        `已批改 ${nonEmptyEntries.length} 行算式 / ${nonEmptyEntries.length} Step(s) Checked`;
+
+      const stepsContainer = document.getElementById("w-scanned-steps");
+      stepsContainer.innerHTML = "";
+
+      evalResult.steps.forEach((st) => {
+        const card = document.createElement("div");
+        card.className = `scanned-step-card step-${st.status}`;
+        card.innerHTML = `
+          <div class="scanned-step-top">
+            <span class="scanned-step-label">第 ${st.rowNum} 步 / Step ${st.rowNum}</span>
+            <span class="scanned-step-badge">${st.badge}</span>
+          </div>
+          <div class="scanned-step-expr-row">
+            <div class="scanned-step-math">${formatMathForDisplay(st.rawText)}</div>
+          </div>
+          <div class="scanned-step-explain">${st.explanation}</div>
+        `;
+        stepsContainer.appendChild(card);
+      });
+
+      const verdictEl = document.getElementById("w-final-verdict");
+      if (isFullyCorrect) {
+        verdictEl.className = "final-verdict-box v-success";
+        verdictEl.innerHTML = `<span>🎉</span><div><strong>答案完全正確！</strong>你已徹底因式分解至最簡形式，表現出色！<br><span style="font-weight: 500; font-size: 0.92rem;">Answer is Correct! Completely factorized to the simplest form.</span></div>`;
+      } else if (evalResult.finalIsComplete && evalResult.anyError) {
+        verdictEl.className = "final-verdict-box v-warning";
+        verdictEl.innerHTML = `<span>⚠️</span><div><strong>最終答案正確，但中間步驟曾出現錯誤！</strong>請留意上方標示紅色的步驟，按「重新作答」修改原有步驟後再提交。<br><span style="font-weight: 500; font-size: 0.92rem;">Final answer is correct, but an earlier step had an error. Click "Retry" to edit your existing steps.</span></div>`;
+      } else if (!evalResult.anyError) {
+        verdictEl.className = "final-verdict-box v-warning";
+        verdictEl.innerHTML = `<span>⏳</span><div><strong>算式變換正確，但尚未完全因式分解！</strong>請按「重新作答」保留現有步驟並繼續分解至最簡。<br><span style="font-weight: 500; font-size: 0.92rem;">Valid expression, but factorization is incomplete. Click "Retry" to continue factorizing your existing work.</span></div>`;
+      } else {
+        verdictEl.className = "final-verdict-box v-danger";
+        verdictEl.innerHTML = `<span>❌</span><div><strong>步驟或答案不正確！</strong>請查看上方診斷說明，按「重新作答」修改原有作答後再提交。<br><span style="font-weight: 500; font-size: 0.92rem;">Step or answer is incorrect! Review the error diagnosis above and click "Retry" to edit your existing answer.</span></div>`;
+      }
+
+      document.getElementById("w-submit-btn").classList.add("hidden");
+
+      if (isFullyCorrect) {
+        document.getElementById("w-method-tag").textContent = CATEGORY_NAMES[q.category];
+        const officialSteps = document.getElementById("w-steps");
+        officialSteps.innerHTML = "";
+        q.steps.forEach((stepText, idx) => {
+          const li = document.createElement("li");
+          li.innerHTML = `<span class="step-num">${idx + 1}</span><span>${stepText}</span>`;
+          officialSteps.appendChild(li);
+        });
+        document.getElementById("w-solution").classList.remove("hidden");
+
+        document.getElementById("w-retry-btn").classList.add("hidden");
+        document.getElementById("w-skip-btn").classList.add("hidden");
+        document.getElementById("w-next-btn").classList.remove("hidden");
+      } else {
+        document.getElementById("w-solution").classList.add("hidden");
+        document.getElementById("w-next-btn").classList.add("hidden");
+        document.getElementById("w-retry-btn").classList.remove("hidden");
+        document.getElementById("w-skip-btn").classList.remove("hidden");
+      }
     }
   </script>
 </body>
